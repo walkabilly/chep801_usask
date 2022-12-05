@@ -1,2 +1,3 @@
-# chep801_usask
-Epidemiology II course in Community Health and Epidemiology at the University of Saskatchewan
+# CHEP 801.3: Epidemiology II	
+
+This course is intended to build upon the foundational knowledge gained in CHEP 800 (Epidemiology) and CHEP 805 (Biostatistics) – building upon topics of causal reasoning, study design, and modeling building. Course topics include: causation, bias, multivariable modelling, critical appraisal, study design, surveillance, and “new” techniques in epidemiology (machine learning). Methods of instruction will feature lecture, small group exercises, interactive case studies/discussion and lab sessions. Focus will be on application of epidemiological skills in order to conduct independent practice and research. 
