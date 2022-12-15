@@ -28,6 +28,12 @@ Much of this work was stolen from
 
 Coding style is important. Follow the [Hadley](http://adv-r.had.co.nz/Style.html) or [Goolge](https://google.github.io/styleguide/Rguide.xml) style guide. We also use `snake_case` in INTERACT projects. All variables and data should be all lower case with an underscore between each word. All new variables you create or data you export should follow the same convention. 
 
+##### Cheat Sheets
+
+RStudio (recently rebranded as Posit) have a bunch of super handy cheat sheets for many of their packages. These are a go to resource for anyone working in R. You can see them here
+
+[https://posit.co/blog/cheat-sheet-updates/](https://posit.co/blog/cheat-sheet-updates)
+
 ##### Packages
 
 R can do many statistical and data analyses. They are organized in so-called packages or libraries. With the standard installation, most common packages are installed. There are lots of packages. It’s probable that if you have thought about the analysis, there is a package that is able to do it already. There are two basic steps to using a package:
