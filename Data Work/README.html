@@ -11,7 +11,7 @@
 
 
 
-<title>Week 1 Data Work</title>
+<title>README</title>
 
 <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -348,205 +348,37 @@ display: none;
 
 
 
-<h1 class="title toc-ignore">Week 1 Data Work</h1>
 
 </div>
 
 
-<blockquote>
-<p><a href="http://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1006023">Remember
-that there is no geek gene</a></p>
-</blockquote>
-<p>The purpose of this document is to orient and provide guidance to
-working with modern analytic workflows. This is just the beginning and
-the space is constantly evolving. One step at a time.</p>
-<p>We are mostly using <a href="Tidyverse">https://www.tidyverse.org/</a> flavoured R in this
-course. There are different philosophies about using Base R or
-Tidyverse. Don’t go down the rabbit hole.</p>
-<div id="thanks" class="section level4">
-<h4>Thanks!</h4>
-<p>Much of this work was stolen from</p>
-<ul>
-<li><a href="https://twitter.com/JennyBryan">Jenny Bryan</a></li>
-<li><a href="https://twitter.com/AmeliaMN">Amelia McNamara</a></li>
-<li><a href="https://ismayc.github.io/rbasics-book/index.html">Chester
-Ismay and Patrick C. Kennedy</a></li>
-</ul>
-</div>
-<div id="section-1---general-r-stuff" class="section level1">
-<h1>Section 1 - General R Stuff</h1>
-<p>Coding style is important. Follow the <a href="http://adv-r.had.co.nz/Style.html">Hadley</a> or <a href="https://google.github.io/styleguide/Rguide.xml">Goolge</a> style
-guide. We also use <code>snake_case</code> in INTERACT projects. All
-variables and data should be all lower case with an underscore between
-each word. All new variables you create or data you export should follow
-the same convention.</p>
-<div id="packages" class="section level5">
-<h5>Packages</h5>
-<p>R can do many statistical and data analyses. They are organized in
-so-called packages or libraries. With the standard installation, most
-common packages are installed. There are lots of packages. It’s probable
-that if you have thought about the analysis, there is a package that is
-able to do it already. There are two basic steps to using a package:</p>
-<p><strong>Installing the package</strong>
-<code>install.packages(&quot;ggplot2&quot;)</code> <strong>Loading the
-package</strong> <code>library(ggplot2)</code></p>
-</div>
-<div id="common-errors-in-r-from-chester-ismay-and-patrick-c.-kennedy" class="section level5">
-<h5>Common Errors in R (<a href="https://ismayc.github.io/rbasics-book/index.html">from Chester
-Ismay and Patrick C. Kennedy</a>)</h5>
-<p><strong>1. Error: <code>could not find function</code></strong></p>
-<p>This error usually occurs when a package has not been loaded into R
-via library, so R does not know where to find the specified function.
-It’s a good habit to use the library functions on all of the packages
-you will be using in the top R chunk in your R Markdown file, which is
-usually given the chunk name setup.</p>
-<p><strong>2. Error: <code>object not found</code></strong></p>
-<p>This error usually occurs when your R Markdown document refers to an
-object that has not been defined in an R chunk at or before that chunk.
-You’ll frequently see this when you’ve forgotten to copy code from your
-R Console sandbox back into a chunk in R Markdown.</p>
-<p><strong>3. Misspellings</strong></p>
-<p>One of the most frustrating errors you can encounter in R is when you
-misspell the name of an object or function. R is not forgiving on this,
-and it won’t try to automatically figure out what you are referring to.
-You’ll usually be able to quite easily figure out that you made a typo
-because you’ll receive an object not found error.</p>
-<p>Remember that R is also case-sensitive, so if you called an object
-Name and then try to call it name later on without name being defined,
-you’ll receive an error.</p>
-<p><strong>4. Unmatched parenthesis</strong></p>
-<p>Another common error is forgetting or neglecting to finish a call to
-a function with a closing ). An example of this follows:</p>
-<p><code>mean(x = c(1, 5, 10, 52)</code></p>
-<pre><code>Error in parse(text = x, srcfile = src) :
- &lt;text&gt;:2:0: unexpected end of input
-1: mean(x = c(1, 5, 10, 52)
-  ^
-Calls: &lt;Anonymous&gt; ... evaluate -&gt; parse_all -&gt; parse_all.character -&gt; parse
-Execution halted
-
-Exited with status 1.</code></pre>
-<p>In this case, there needs to be one more parenthesis added at the end
-of your call to mean:</p>
-<p><code>mean(x = c(1, 5, 10, 52))</code></p>
-<p><strong>5. General guidelines</strong></p>
-<p>Try your best to not be intimidated by R errors. Oftentimes, you will
-find that you are able to understand what they mean by carefully reading
-over them. When you can’t, carefully look over your R Markdown file
-again. You might also want to clear out all of your R environment and
-start at the top by running the chunks. Remember to only include what
-you deem your reader will need to follow your analysis.</p>
-<p>Even people who have worked with R and programmed for years still use
-Google and support websites like Stack Overflow to ask for help with
-their R errors or when they aren’t sure how to do something in R. I
-think you’ll be pleasantly surprised at just how much support is
-available.</p>
-</div>
-</div>
-<div id="section-2---markdown-and-r-markdown" class="section level1">
-<h1>Section 2 - Markdown and R Markdown</h1>
-<p>Markdown is a lightweight markup language for creating formatted text
-using a plain-text editor. John Gruber and Aaron Swartz created Markdown
-in 2004 as a markup language that is appealing to human readers in its
-source code form. <a href="https://en.wikipedia.org/wiki/Markdown">Wikipedia</a> There are
-Markdown integrations for R <a href="RMarkdown">https://rmarkdown.rstudio.com/articles_intro.html</a>
-Stata <a href="Stata%20Markdown">https://www.stata.com/features/overview/markdown/</a>.
-These markdown editors work through some type of document rendering
-software like PanDoc of dyndoc.</p>
-<div id="basic-markdown" class="section level5">
-<h5>Basic Markdown</h5>
-<pre><code>headers - Place one or more hashtags at the start of a line that will be a header (or sub-header). For example, # Say Hello to markdown. A single hashtag creates a first level header. Two hashtags, ##, creates a second level header, and so on.
-
-# Level 1 Header
-## Level 2 Header
-
-italicized and bold text - Surround italicized text with asterisks, like this *without realizing it*. Surround bold text with two asterisks, like this **easy to use**.
-
-lists - Group lines into bullet points that begin with asterisks. Leave a blank line before the first bullet, like this
-
-This is a list
-
-     * item 1
-     * item 2
-     * item 3
-
-hyperlinks - Surround links with brackets, and then provide the link target in parentheses, like this [Github](www.github.com).</code></pre>
-</div>
-<div id="rendered-markdown" class="section level5">
-<h5>Rendered Markdown</h5>
-<p>headers - Place one or more hashtags at the start of a line that will
-be a header (or sub-header). For example, # Say Hello to markdown. A
-single hashtag creates a first level header. Two hashtags, ##, creates a
-second level header, and so on.</p>
-</div>
-</div>
-<div id="level-1-header" class="section level1">
-<h1>Level 1 Header</h1>
-<div id="level-2-header" class="section level2">
-<h2>Level 2 Header</h2>
-<p>italicized and bold text - Surround italicized text with asterisks,
-like this <em>without realizing it</em>. Surround bold text with two
-asterisks, like this <strong>easy to use</strong>.</p>
-<p>lists - Group lines into bullet points that begin with asterisks.
-Leave a blank line before the first bullet, like this</p>
-<p>This is a list</p>
-<pre><code> * item 1
- * item 2
- * item 3</code></pre>
-<p>hyperlinks - Surround links with brackets, and then provide the link
-target in parentheses, like this <a href="www.github.com">Github</a>.</p>
-<div id="code-chunks" class="section level5">
-<h5>Code Chunks</h5>
-<p>Code chunks are they key feature of R or Stata Markdown files. Code
-chunks tell the statistical software to run the code within the chunk
-and export the results.</p>
-<p><strong>R Studio Code Chunk</strong></p>
-<p><img src="data:image/png;base64,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" /></p>
-<p><strong>Stata Code Chunk</strong></p>
-<pre><code>~~~~
-&lt;&lt;dd_do&gt;&gt;
-webuse auto, clear
-summarize price
-&lt;&lt;/dd_do&gt;&gt;
-~~~~</code></pre>
-</div>
-<div id="read-in-data" class="section level5">
-<h5>Read in Data</h5>
-<p><strong>R</strong></p>
-<pre class="r"><code>data &lt;- read_csv(&quot;CANPTH_data_wrangling.csv&quot;)</code></pre>
-<pre><code>## Rows: 41187 Columns: 9
-## ── Column specification ────────────────────────────────────────────────────────
-## Delimiter: &quot;,&quot;
-## chr (1): ID
-## dbl (8): ADM_STUDY_ID, SDC_GENDER, SDC_INCOME, HS_GEN_HEALTH, NUT_VEG_QTY, N...
-## 
-## ℹ Use `spec()` to retrieve the full column specification for this data.
-## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-<pre class="r"><code>glimpse(data)</code></pre>
-<pre><code>## Rows: 41,187
-## Columns: 9
-## $ ID              &lt;chr&gt; &quot;SYN_58621&quot;, &quot;SYN_58622&quot;, &quot;SYN_58623&quot;, &quot;SYN_58624&quot;, &quot;S…
-## $ ADM_STUDY_ID    &lt;dbl&gt; 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, …
-## $ SDC_GENDER      &lt;dbl&gt; 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 2, …
-## $ SDC_INCOME      &lt;dbl&gt; 6, 6, 4, 3, NA, 4, 5, 3, 3, 5, 8, NA, 3, 5, 4, 4, 4, N…
-## $ HS_GEN_HEALTH   &lt;dbl&gt; 3, 4, 3, 4, 3, 5, 5, 3, 3, 4, 4, 4, 4, 5, 5, 3, 4, NA,…
-## $ NUT_VEG_QTY     &lt;dbl&gt; 3, 0, 5, 1, 2, 5, 3, 5, 8, 1, 1, 3, 2, 2, 3, 1, 4, NA,…
-## $ NUT_FRUITS_QTY  &lt;dbl&gt; 1, 0, 3, 3, 3, 5, 3, 2, 5, 0, 1, 5, 3, 1, 2, 1, 3, NA,…
-## $ PA_TOTAL_SHORT  &lt;dbl&gt; 3564.0, 0.0, NA, 594.0, NA, NA, 2118.0, 297.0, NA, 240…
-## $ DIS_ASTHMA_EVER &lt;dbl&gt; 0, 0, 2, 0, 1, 2, 0, NA, 0, 0, NA, 0, 0, 0, 0, 0, 0, 0…</code></pre>
-<p><strong>Stata</strong></p>
-<pre><code>capture log close
-log using your_log_file.log, replace
-
-clear all
-set more off
-
-import delimited using CANPTH_data_wrangling.csv
-
-log close </code></pre>
-</div>
-</div>
-</div>
+<p>CHEP 801 Data Work</p>
+<table style="width:100%;">
+<colgroup>
+<col width="30%" />
+<col width="39%" />
+<col width="30%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Week</th>
+<th>Rendered Markdown</th>
+<th>Raw Markdown</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>RStudio</td>
+<td><a href="https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/Week1_data_work.md">data_work.md</a></td>
+<td><a href="https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/Week1_data_work.md">data_work.Rmd</a></td>
+</tr>
+<tr class="even">
+<td>Week 2</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
 
 
 

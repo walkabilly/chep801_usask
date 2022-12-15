@@ -10,11 +10,11 @@ knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
 ```
 
-## INTERACT Onboarding
-
 > [Remember that there is no geek gene](http://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1006023)
 
 The purpose of this document is to orient and provide guidance to working with modern analytic workflows. This is just the beginning and the space is constantly evolving. One step at a time. 
+
+We are mostly using [https://www.tidyverse.org/](Tidyverse) flavoured R in this course. There are different philosophies about using Base R or Tidyverse. Don't go down the rabbit hole. 
 
 #### Thanks!
 
@@ -142,5 +142,29 @@ summarize price
 <</dd_do>>
 ~~~~
 ```
+
+##### Read in Data
+
+__R__
+
+```{r}
+data <- read_csv("CANPTH_data_wrangling.csv")
+glimpse(data)
+```
+
+__Stata__
+
+```{}
+capture log close
+log using your_log_file.log, replace
+
+clear all
+set more off
+
+import delimited using CANPTH_data_wrangling.csv
+
+log close 
+```
+
 
 

@@ -7,11 +7,11 @@ output:
 
 
 
-## INTERACT Onboarding
-
 > [Remember that there is no geek gene](http://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1006023)
 
 The purpose of this document is to orient and provide guidance to working with modern analytic workflows. This is just the beginning and the space is constantly evolving. One step at a time. 
+
+We are mostly using [https://www.tidyverse.org/](Tidyverse) flavoured R in this course. There are different philosophies about using Base R or Tidyverse. Don't go down the rabbit hole. 
 
 #### Thanks!
 
@@ -139,5 +139,58 @@ summarize price
 <</dd_do>>
 ~~~~
 ```
+
+##### Read in Data
+
+__R__
+
+
+```r
+data <- read_csv("CANPTH_data_wrangling.csv")
+```
+
+```
+## Rows: 41187 Columns: 9
+## ── Column specification ────────────────────────────────────────────────────────
+## Delimiter: ","
+## chr (1): ID
+## dbl (8): ADM_STUDY_ID, SDC_GENDER, SDC_INCOME, HS_GEN_HEALTH, NUT_VEG_QTY, N...
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+```
+
+```r
+glimpse(data)
+```
+
+```
+## Rows: 41,187
+## Columns: 9
+## $ ID              <chr> "SYN_58621", "SYN_58622", "SYN_58623", "SYN_58624", "S…
+## $ ADM_STUDY_ID    <dbl> 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, …
+## $ SDC_GENDER      <dbl> 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 2, …
+## $ SDC_INCOME      <dbl> 6, 6, 4, 3, NA, 4, 5, 3, 3, 5, 8, NA, 3, 5, 4, 4, 4, N…
+## $ HS_GEN_HEALTH   <dbl> 3, 4, 3, 4, 3, 5, 5, 3, 3, 4, 4, 4, 4, 5, 5, 3, 4, NA,…
+## $ NUT_VEG_QTY     <dbl> 3, 0, 5, 1, 2, 5, 3, 5, 8, 1, 1, 3, 2, 2, 3, 1, 4, NA,…
+## $ NUT_FRUITS_QTY  <dbl> 1, 0, 3, 3, 3, 5, 3, 2, 5, 0, 1, 5, 3, 1, 2, 1, 3, NA,…
+## $ PA_TOTAL_SHORT  <dbl> 3564.0, 0.0, NA, 594.0, NA, NA, 2118.0, 297.0, NA, 240…
+## $ DIS_ASTHMA_EVER <dbl> 0, 0, 2, 0, 1, 2, 0, NA, 0, 0, NA, 0, 0, 0, 0, 0, 0, 0…
+```
+
+__Stata__
+
+```{}
+capture log close
+log using your_log_file.log, replace
+
+clear all
+set more off
+
+import delimited using CANPTH_data_wrangling.csv
+
+log close 
+```
+
 
 
