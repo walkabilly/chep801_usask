@@ -1,0 +1,192 @@
+<h1><a href="#data-wrangling-chep-801" id="data-wrangling-chep-801">Data Wrangling CHEP 801</a></h1>
+<h2><a href="#preparing-the-dataset-and-log-file" id="preparing-the-dataset-and-log-file">Preparing the dataset and log file</a></h2>
+<pre><code>. capture log close
+
+. log using &quot;\\cabinet.usask.ca\work$\dlf545\My Documents\CANPTH_data_wrangling_
+&gt; log&quot;, replace
+--------------------------------------------------------------------------------
+      name:  &lt;unnamed&gt;
+       log:  \\cabinet.usask.ca\work$\dlf545\My Documents\CANPTH_data_wrangling_
+&gt; log.smcl
+  log type:  smcl
+ opened on:   6 Jan 2023, 14:02:17
+
+. 
+. clear all
+
+. set more off
+
+</code></pre>
+<h2><a href="#import-the-csv-dataset" id="import-the-csv-dataset">Import the CSV dataset</a></h2>
+<pre><code>. import delimited &quot;\\cabinet.usask.ca\work$\dlf545\My Documents\CANPTH_data_wra
+&gt; ngling.csv&quot;, numericcols(4 5 6 7 8 9) clear 
+(encoding automatically selected: ISO-8859-1)
+(9 vars, 41,187 obs)
+
+</code></pre>
+<h2><a href="#summarize-the-physical-activity-dataset" id="summarize-the-physical-activity-dataset">Summarize the physical activity dataset</a></h2>
+<pre><code>. summarize pa_total_short
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+pa_total_s~t |     34,424    2574.089    2656.189          0      19278
+
+</code></pre>
+<p>The mean of physical activity is  2574.089.</p>
+<h2><a href="#generating-new-gender-variable" id="generating-new-gender-variable">Generating new gender variable</a></h2>
+<p>In stata we can label the data without changing the variable itself. R can do this too but this is software specific and we don&rsquo;t want to much that is very software specific this effectively creates a factor variable in Stata</p>
+<pre><code>. generate gender_recode = sdc_gender
+
+. recode gender_recode (1 = 0) (2 = 1)
+(41187 changes made to gender_recode)
+
+. label define gender_recode 0 &quot;Male&quot; 1 &quot;Female&quot;
+
+. label values gender_recode gender_recode
+
+. tab gender_recode
+
+gender_reco |
+         de |      Freq.     Percent        Cum.
+------------+-----------------------------------
+       Male |     15,200       36.90       36.90
+     Female |     25,987       63.10      100.00
+------------+-----------------------------------
+      Total |     41,187      100.00
+
+</code></pre>
+<h2><a href="#generating-new-fruit-and-vegetable-consumption" id="generating-new-fruit-and-vegetable-consumption">Generating new fruit and vegetable consumption</a></h2>
+<pre><code>. generate fruit_veg_total = nut_veg_qty + nut_fruits_qty
+(2,908 missing values generated)
+
+. summarize fruit_veg_total
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+fruit_veg_~l |     38,279    4.815695    2.638913          0         55
+
+</code></pre>
+<h3><a href="#recoding-fruit-and-vegetable-consumption" id="recoding-fruit-and-vegetable-consumption">Recoding fruit and vegetable consumption</a></h3>
+<pre><code>. generate fruit_veg_cat = fruit_veg_total
+(2,908 missing values generated)
+
+. 
+. recode fruit_veg_cat (min/7 = 0) (7.1/max = 1)
+(37875 changes made to fruit_veg_cat)
+
+. label define fruit_veg_cat 0 &quot;Not Meeting Guidelines&quot; 1 &quot;Meeting Guidelines&quot;
+
+. label values fruit_veg_cat fruit_veg_cat
+
+. 
+. tab fruit_veg_total fruit_veg_cat
+
+fruit_veg_ |     fruit_veg_cat
+     total | Not Meeti  Meeting G |     Total
+-----------+----------------------+----------
+         0 |       404          0 |       404 
+         1 |     1,561          0 |     1,561 
+         2 |     5,015          0 |     5,015 
+         3 |     5,807          0 |     5,807 
+         4 |     6,720          0 |     6,720 
+         5 |     5,525          0 |     5,525 
+         6 |     4,955          0 |     4,955 
+         7 |     3,055          0 |     3,055 
+         8 |         0      2,200 |     2,200 
+         9 |         0      1,213 |     1,213 
+        10 |         0        816 |       816 
+        11 |         0        433 |       433 
+        12 |         0        226 |       226 
+        13 |         0        125 |       125 
+        14 |         0         87 |        87 
+        15 |         0         29 |        29 
+        16 |         0         45 |        45 
+        17 |         0         13 |        13 
+        18 |         0         12 |        12 
+        19 |         0          4 |         4 
+        20 |         0          7 |         7 
+        21 |         0          1 |         1 
+        22 |         0          2 |         2 
+        24 |         0          1 |         1 
+        25 |         0          1 |         1 
+        26 |         0          1 |         1 
+        27 |         0          2 |         2 
+        28 |         0          4 |         4 
+        30 |         0          2 |         2 
+        31 |         0          1 |         1 
+        32 |         0          3 |         3 
+        34 |         0          1 |         1 
+        35 |         0          1 |         1 
+        44 |         0          1 |         1 
+        45 |         0          1 |         1 
+        49 |         0          2 |         2 
+        50 |         0          1 |         1 
+        51 |         0          1 |         1 
+        55 |         0          1 |         1 
+-----------+----------------------+----------
+     Total |    33,042      5,237 |    38,279 
+
+</code></pre>
+<h2><a href="#physical-activity-data" id="physical-activity-data">Physical activity data</a></h2>
+<pre><code>. summarize pa_total_short
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+pa_total_s~t |     34,424    2574.089    2656.189          0      19278
+
+. 
+. generate pa_cat = pa_total_short
+(6,763 missing values generated)
+
+. 
+. recode pa_cat (min/599 = 0) (600/3000 = 1) (3000/max = 2)
+(30688 changes made to pa_cat)
+
+. label define pa_cat 0 &quot;Low Activity&quot; 1 &quot;Moderate Activity&quot; 2 &quot;High Activity&quot;
+
+. label values pa_cat pa_cat
+
+. 
+. tab pa_cat
+
+           pa_cat |      Freq.     Percent        Cum.
+------------------+-----------------------------------
+     Low Activity |      8,604       24.99       24.99
+Moderate Activity |     14,869       43.19       68.19
+    High Activity |     10,951       31.81      100.00
+------------------+-----------------------------------
+            Total |     34,424      100.00
+
+</code></pre>
+<h2><a href="#genderfruit-and-vegetable" id="genderfruit-and-vegetable">Gender*Fruit and vegetable</a></h2>
+<pre><code>. tab gender_recode fruit_veg_cat 
+
+gender_rec |     fruit_veg_cat
+       ode | Not Meeti  Meeting G |     Total
+-----------+----------------------+----------
+      Male |    12,829      1,233 |    14,062 
+    Female |    20,213      4,004 |    24,217 
+-----------+----------------------+----------
+     Total |    33,042      5,237 |    38,279 
+
+</code></pre>
+<p>Using Tables for Epidemiologists functions in Stata</p>
+<p><a href="https://www.stata.com/features/tables-for-epidemiologists/">https://www.stata.com/features/tables-for-epidemiologists/</a></p>
+<pre><code>. cc gender_recode fruit_veg_cat
+                                                         Proportion
+                 |   Exposed   Unexposed  |      Total      exposed
+-----------------+------------------------+------------------------
+           Cases |      4004       20213  |      24217       0.1653
+        Controls |      1233       12829  |      14062       0.0877
+-----------------+------------------------+------------------------
+           Total |      5237       33042  |      38279       0.1368
+                 |                        |
+                 |      Point estimate    |    [95% conf. interval]
+                 |------------------------+------------------------
+      Odds ratio |         2.061071       |    1.925315    2.206437 (exact)
+ Attr. frac. ex. |         .5148154       |    .4806045    .5467806 (exact)
+ Attr. frac. pop |         .0851188       |
+                 +-------------------------------------------------
+                               chi2(1) =   454.28  Pr&gt;chi2 = 0.0000
+
+</code></pre>
