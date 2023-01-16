@@ -11,7 +11,7 @@
 
 
 
-<title>Data Wrangling Assignment</title>
+<title>Epi Communication 2</title>
 
 <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -361,97 +361,52 @@ pre code {
 
 
 
-<h1 class="title toc-ignore">Data Wrangling Assignment</h1>
+<h1 class="title toc-ignore">Epi Communication 2</h1>
 
 </div>
 
 
-<pre class="r"><code>knitr::opts_chunk$set(echo = TRUE)
-library(tidyverse)
-library(pastecs)
-library(knitr)</code></pre>
-<div id="data-wrangling-and-descriptive-statistics" class="section level1">
-<h1>Data Wrangling and Descriptive Statistics</h1>
-<div id="general-instructions" class="section level2">
-<h2>General instructions</h2>
-<p>You must submit the following.</p>
-<p><strong>Stata</strong></p>
-<ul>
-<li>Stata Do File using Stata Markdown format</li>
-<li>Report in HTML or PDF from generated Stata Markdown file</li>
-</ul>
-<p><strong>R</strong></p>
-<ul>
-<li>RMarkdown file</li>
-<li>Knit report in HTML or PDF</li>
-</ul>
-</div>
-<div id="part-1---explore-the-data" class="section level2">
-<h2>Part 1 - Explore the data</h2>
+<div id="assignment" class="section level1">
+<h1>Assignment</h1>
+<p>In groups (groups will be assigned outside of Github) develop a
+30minute presentation on an epidemiological problem of interest to your
+group. The purpose of the presentation is to provide a summary of the
+epidemiological evidence of your specific topic. You should use the
+concepts learned from this course and integrate knowledge about public
+health intervention.</p>
+<p>The audience for the presentation will be people with public health
+expertise including epidemiologists, health promotion experts, and
+medical health officers.</p>
+<p>A good way to think about this is using the concepts of types of
+public health evidence. You should also cover epidemiological concepts
+learned in the course including bias, causality, confounding, and effect
+modification, related to your topic.</p>
+<div id="types-of-public-health-evidence" class="section level3">
+<h3>Types of public health evidence</h3>
 <ol style="list-style-type: decimal">
-<li>Identify the variable types for each variable in the dataset</li>
-<li>Recode and label categorical variables as necessary</li>
-<li>Add the <code>NUT_VEG_QTY</code> and the <code>NUT_FRUITS_QTY</code>
-to create one variable
+<li>Type 1 evidence
 <ul>
-<li>Create a categorical variable that represents the recommended fruit
-and vegetable consumption per day</li>
+<li>Something should be done - Research that describes risk-disease
+relations, and identifies the magnitude, severity, and preventability of
+public health problems.</li>
 </ul></li>
-<li>Create a categorical variable for the <code>PA_TOTAL_SHORT</code>
-variable the defines low, moderate, and high activity per week
+<li>Type 2 evidence
 <ul>
-<li>Low - &lt; 600 MET minutes per week</li>
-<li>Moderate - &gt;=600 to &lt;3000 MET minutes per week</li>
-<li>High - &gt;=3000 MET minutes per week</li>
+<li>This should be done - Identifies the relative effectiveness of
+specific interventions aimed at addressing a problem.</li>
 </ul></li>
-<li>Calculate the mean and standard deviation
+<li>Type 3 evidence
 <ul>
-<li>For the variables were it is appropriate</li>
-<li>Including the new variables you have created</li>
-</ul></li>
-<li>Calculate the percents and frequencies
-<ul>
-<li>For the variables were it is appropriate to do so</li>
-</ul></li>
-<li>Draw the histogram of continuous variables
-<ul>
-<li>Discuss the normality of the data</li>
-</ul></li>
-<li>Are there missing data?</li>
-<li>Are there outliers?</li>
-<li>Create a 2*2 table for fruit and vegetable consumption by gender
-<ul>
-<li>Interpret the 2*2 table result</li>
+<li>Information on the design and implementation of an intervention; the
+contextual circumstances in which the intervention was implemented; and
+information on how the intervention was received.</li>
 </ul></li>
 </ol>
-</div>
-<div id="part-2---format-and-effort" class="section level2">
-<h2>Part 2 - Format and Effort</h2>
-<div id="general-formatting" class="section level3">
-<h3>General Formatting</h3>
 <ul>
-<li>A combination sentences/paragraphs with some bullet points is
-appropriate.</li>
-<li>Include a list of references where appropriate. For this assignment,
-you do not need to worry about providing references to the scales/items
-within the dataset.</li>
+<li>Rychetnik L, Hawe P, Waters E, et al. A glossary for evidence based
+public health. Journal of Epidemiology &amp; Community Health
+2004;58:538-545. <a href="http://dx.doi.org/10.1136/jech.2003.011585" class="uri">http://dx.doi.org/10.1136/jech.2003.011585</a></li>
 </ul>
-</div>
-<div id="overall" class="section level3">
-<h3>Overall</h3>
-<ul>
-<li>Assignments will be evaluated based on the overall effort and
-thoroughness of the assignment, attention to details, and overall
-presentation of results.</li>
-</ul>
-</div>
-</div>
-<div id="data" class="section level2">
-<h2>Data</h2>
-<p>In this course we will use the CanPath Student Dataset that provides
-students the unique opportunity to gain hands-on experience working with
-CanPath data. For the purpose of this assignment we will use a
-simplified CanPath dataset with only 9 variables of interest.</p>
 </div>
 </div>
 
