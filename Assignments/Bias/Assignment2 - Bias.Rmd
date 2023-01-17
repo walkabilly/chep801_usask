@@ -10,24 +10,18 @@ output:
 ## Objective of assignment 2 
 To perform simple analysis for selection bias and information bias using the categorical variables you have already created (physical activity)  
 
-We have 7 questions (Question 1a-d and Question 2a-c) at the bottom of this script. 
+We have 9 short questions (Question 1a-d and Question 2a-e) to answer at the bottom of this script. 
 
 ## A few important notes 
-  * R is case sensitive, so variables like, `my_Variable` and `my_variable` are different. So if you type the former and later type the latter, there will me error message: `Error: object 'my_variable' not found`
-  * This file is located in .... copy and paste codes, make new -> new Rmarkdown (with HTML output) in R studio, and   
-  * Before running these codes, first install "episensr", "htmlTable", and "tableone" into your codes. copy and paste the codes below in your R studio console, install them, and remove install commen lines. If a popup window shows up to restart R, click `yes`
-`install.packages(c("htmlTable", "episensr", "tableone"))`
+  * R is case sensitive, so variables like, `my_Variable` and `my_variable` are different. So if you type the former and later type the latter, there will me an error message: `Error: object 'my_variable' not found`
+  * This file is located in https://github.com/walkabilly/chep801_usask/blob/main/Assignments/Bias/Assignment2---Bias.md. IN Rstudio, create new markdown file by selecting _file_ -> _new markdown_ (with Html output). Copy and paste R codes and run line by line to follow the steps. Alternatively, paste entire rmd https://github.com/walkabilly/chep801_usask/blob/main/Assignments/Bias/Assignment2%20-%20Bias.Rmd.     
+  * Before running these codes, first install "episensr" and "htmlTable". Copy and paste `install.packages(c("htmlTable", "episensr"))`  If a popup window shows up to restart R, click `yes`. Once these packages are installed, remove this line to prevent re-installation. 
 
-
-#### Installing episensr package  
-this is an R version of episense module in Stata for bias analysis 
-You can uncomment (remove # at the beginning of the line) below for installing the package. If already installed or after installing, you must comment out (add #) or remove the whole line, as it should only run once for installation. 
 
 ```{r setup, message=FALSE, warning=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 # load the episenr package after installation. This needs to be done every time you analyse
 library("episensr") #you can quote or unquote, but need quote when using install.package, but not when using library, don't ask me why
-library(tableone)
 library(htmlTable)
 
 # packaged used in the data work lab and assignment 1, needed to run some functions in this assignment
@@ -39,14 +33,14 @@ library("epitools")
 
 
 
-First, lets load the data 
+First, lets load the data. Make sure to specify your own path to the data. 
 ```{r, warning = FALSE}
 data <- read_csv("Data.csv")
 ```
 
 
 ### Exclusion of some cases
-Lets suppose this is for study of aging, so we limit the sample to in participants with a bit older age of > 45 in this study. ONe way to do so is to run following lines:
+Lets suppose this is a study of aging, so we limit the sample to participants with a bit older age of > 45 in this study. One way to do so is to run following lines:
 ```{r, warning = FALSE}
 # quick descriptive analysis, count and proportion of each age (from age 30 - 74) in the original sample
 prop.table(table(data$SDC_AGE_CALC))
@@ -70,7 +64,7 @@ rm(data)
 
 
 ### Exposure variable 
-Here, I copy and pasted the scripts to create a categorical variable for physical activity from the last class and assignment. However, this time, the PA (Physical Activity) variable is dichotomous, rather than 3 levels, named as `pa_dic`. We will dichotomize into 1/0 numeric value, then convert to categorical using `factor` as in the previous class (without using factor, the varaible is treated as number rather than category). 
+Here, I copied and pasted the scripts to create a categorical variable for physical activity from the last class and assignment. However, this time, the PA (Physical Activity) variable is dichotomous, rather than 3 levels, named as `pa_dic`. We will dichotomize into 1/0 numeric value, then convert to categorical using `factor` as in the previous class (without using factor, the variable will be treated as number rather than category). 
 
 ```{r}
 d <- d %>%
@@ -80,7 +74,7 @@ d <- d %>%
     )
   )
 
-# Make varaible to dichotomous from integer variable of 1/0
+# Make variable to dichotomous from integer variable of 1/0
 d$pa_dic <- as.factor(d$pa_dic)
 
 # Give label to the variable, 0: moderate/high and 1: low physical activity 
@@ -93,11 +87,11 @@ d %>% group_by(pa_dic) %>% summarize(mean = mean(PA_TOTAL_SHORT))
 
 
 ### OUtcome variable
-Lets create two outcome variable  type 2 diabetes mellitus 
-Presumably this variable is self-reported by participants, so they are not as accurate as actual diagnostic report, but people normally do not lie for these chronic disease status as they are not stigmatizing conditions nor incredibly personal condition, so we are less subject to systematic false reporting. 
+Lets create the outcome variable type 2 diabetes mellitus. 
+Presumably this variable is self-reported by participants, so they are not as accurate as actual diagnostic report, but people normally do not lie for these chronic disease status so acceptable accuracy, I hope. 
 
 
-*Definitions of diabetes variables in the data dictionary is as follows (double check with the data dictionary)*
+*Definitions of diabetes variables in the data dictionary is as follows (double check with the Excel data dictionary file)*
   -   value 1  -	Diabetes mellitus type 1,  not our interest
   -   value 2  - 	Diabetes mellitus type 2,  our outcome if interest
   -   value 3	 - Gestational diabetes only,  not our interest
@@ -109,16 +103,15 @@ First, check the diabetes variable
 # check frequency of 4 types of diabates types 
 table(d$DIS_DIAB_TYPE)
 
-# there is also another value type - missing value codded as NA, see the first 10 people, 4th person did not report anything
+# there is also another value type - missing value coded as NA, see the first 10 people, 4th person did not report anything
 head(d$DIS_DIAB_TYPE, n = 10) # showing first 10 entries 
 summary(d$DIS_DIAB_TYPE) # See exact number of whose did not report (NA's)
 
 
 # For simplicity, we will remove people who did not respond (in real research, if the proportion of people with missing data seems important , like 10% of all people, you need to perform imputation)
 
-d %>% filter(is.na(DIS_DIAB_TYPE)) %>% nrow() # FIrst, count # of people with missing diabetes record
+d %>% filter(is.na(DIS_DIAB_TYPE)) %>% nrow() # First, count # of people with missing diabetes record
 d <- d %>% filter(!is.na(DIS_DIAB_TYPE)) # then, remove these people 
-
 
 # I will also remove people with type 1 diabetes, as they occur very early age and patient usually have very different lifestyle and risk of chronic illness 
 d <- d %>% filter(DIS_DIAB_TYPE != 1) 
@@ -149,7 +142,7 @@ table(d$DIS_DIAB_TYPE, d$diabetes_dic)
 
 ### 2x2 table for risk ratio
 We will now display relative risk of diabetes among people with varying level of physical activity using the `epitable` function as in the data lab last week. 
-First , just show count using the epitable function (the option `rev="both"` just changes the order of categories. You can remove this option if you like and see what will happen to the table)
+First , just show count using the `epitable` function (the option `rev="both"` just changes the order of categories. You can remove this option if you like and see what will happen to the table)
 ```{r}
 # Make table
 table_pa_dia <- epitable(d$pa_dic, d$diabetes_dic, rev = "both") 
@@ -173,7 +166,7 @@ Incidence risk among unexposed is
 Therefore, risk ratio (RR) is      
  _*0.081/0.063*_   
 
-Now, calculate RR using the `epitab` from the data lab. 
+Now, calculate RR using `epitab` from the data lab week 2. 
 Here, the exposure of interest is **Low PA** and the outcome is **Diabetes**. 
 ```{r}
 #Create table and save 
@@ -196,12 +189,12 @@ We can also display only specific set of columns , which are specified by index 
 ```{r}
 round(table_rr_pa_dia$tab[, 1:7], 2)
 
-# Slightly more fancy display by funcation called htmlTable, with added gray bars alternating columns
+# Slightly more fancy display by function called htmlTable, with added gray bars alternating columns
 round(table_rr_pa_dia$tab[, 1:7], 2) %>% 
   addHtmlTableStyle(col.columns = c("none", "grey90")) %>% 
   htmlTable()
 ```
-If you like to subset table to simplify, just specify the index (location) of columsn or row, for example to select the outcome count (not incidences i.e., Ps) that is displyed in column 1 and 3, specify column location by `c(1,3)`. We do not use `:` as we do not specify range. 
+If you like to subset table to simplify, just specify the index (location) of columns or rows, for example to select the outcome count (not incidences i.e., Ps) that is displyed in column 1 and 3, specify column location by `c(1,3)`. We do not use `:` as we do not specify range. 
 ```{r}
 round(table_rr_pa_dia$tab[, c(1,3)], 2)
 ```
@@ -217,8 +210,8 @@ round(table_rr_pa_dia$tab[c(2,1), c(3,1)], 2)
 
 
 ### We will now perform bias analysis, starting from selection bias. 
-#### Suppose that our hypothetical cohort data (the data are acually survey) are provided by those who agreed to participate and remained in the study until the end, without withdrawal. Therefore, the RR estimates we get might suffer from bias, if selection proabilities of participation into the study and withdrawal are associated with our exposure and outcome status.
-IF there is not bias (particiapation is 100% and no withdrawal) selection probabilities of participating to the study is found to be as follows:    
+#### Suppose that our hypothetical cohort data (the data are acually survey) are provided by those who agreed to participate and remained in the study until the end, without withdrawal. Therefore, the RR estimates we get might suffer from bias, if selection probabilities of participation into the study and withdrawal are associated with our exposure and outcome status.
+IF there is no bias (participation is 100% and no withdrawal) selection probabilities of participating to the study is found to be as follows:    
   - Exposed and Outcome, P_a in the table below= 1  
   - exposed and no Outcome, P_b = 1  
   - Unexposed and Outcome, P_c = 1  
@@ -256,40 +249,98 @@ selection(matrix(c(434, 1094, 4937, 16263),
 
 
 # Question 1a
-#### Enter the providedselection probabilites provided above into the `bias_params` line in the episens command  and show the output. You need to copy and paste the `selection` function of episens I wrote above, paste below, and enter the appropriate selection probabilities. THere is not need to edit anything else in the command.  
+#### Enter the selection probabilites provided below into the `bias_params` line in the episens command  and show the output. You need to copy and paste the `selection` function of episens I wrote above, paste below, and enter the appropriate selection probabilities. THere is no need to edit anything else in the command.  
+
+  - Exposed (low PA) and Outcome (Diabetes) = 0.9
+  - Exposed and no Outcome =0.6
+  - Unexposed and Outcome = 0.8
+  - Unexposed and no Outcome = 0.8
+
 
 # Question 1b 
-#### Based on the output you generated, is there selection bias in the RR in the original data?
+#### Based on the output you generated, is there selection bias in the original RR?
 
 # Question 1c 
-#### Aoother study on the same population found out that the selection probabitlies are actually as follows: 
+#### Another study on the same population found out that the selection probabitlies are actually as follows: 
   - Exposed (low PA) and Outcome (Diabetes) = 0.9
   - Exposed and no Outcome =0.9
   - Unexposed and Outcome = 0.8
   - Unexposed and no Outcome = 0.8
   
-#### Run the `selection` command again based on these updated probabilities by filling  `bias_parms`. Again, careful with the ordering. 
+#### Run the `selection` command again (paste below) based on these updated probabilities by filling  `bias_parms`. Again, careful with the ordering of these values. 
 
 
-selection(matrix(c(434, 1094, 4937, 16263), 
-                 dimnames = list(c("Diabetes", "No Diabetes"), 
-                                 c("Low PA", "moderate/high PA"))
-                 , nrow = 2, byrow = FALSE),
-          bias_parms  = c(0.9, 0.8, 0.9, 0.8))
           
 # Question 1d
-Based on the output from Question 1c, answer if there is selection bias or not, and if not please explain why in one or two sentence.
+Based on the output from Question 1c, answer if there is selection bias or not, and if not please explain why in one or two sentences.
 
 
 # Question 2 - Information bias 
 #### We will correct missclassificaiton of the exposure, PA variable. 
-Supposed that a subsequent validation study using these data show that people inaccurately reports physical activity status 
+Suppose that a subsequent validation study using these data show that people inaccurately reports physical activity status, with the following sensitivity and specificity of exposure classification among diabetes cases and non-cases.  
+
+```{r}
+# Lines below just creates example tables 
+contingencyTable <- data.frame(Outcome_Yes = c("a", "c"), Outcome_No = c("b", "d"))
+rownames(contingencyTable) <- c("Exposure_yes", "Exposure_No")
+
+contingencyTable %>% 
+  addHtmlTableStyle(css.cell = c("width: 140;","width: 140;")) %>% 
+  htmlTable(caption = "Table cell labels") 
+
+```
+  - Se_outcome: Sensitivity of exposure classification among outcome (i.e., extent of misclassification from a to c among outcome)  = 0.95 
+  - Sp_outcome: Specificity of exposure classification among outcome (i.e., extent of misclassification from c to a among outcome)   =0.8 
+  - Se_noOutcome: Sensitivity of exposure classification among no outcome (i.e., extent of misclassification from b to d among no outcome) = 0.95   
+  - Sp_noOutcome: Specificity of exposure classification among no outcome (i.e., extent of misclassification from  d to b among no outcome) = 0.8   
+  
+  
+As a practice, we will plug in these classification metrics into the `misclassification` function in `episenser`, when there is no missclassification (i.e., all Se and Sp values are 1.0). The probabilities values entering the `bias_parms` line is *Se_outcome, Se_noOutcome, Sp_outcome, Sp_noOutcome*.   
+```{r}
+misclassification(matrix(c(434, 1094, 4937, 16263), 
+                 dimnames = list(c("Diabetes", "No Diabetes"), 
+                                 c("Low PA", "moderate/high PA")), 
+                 nrow = 2, byrow = TRUE), 
+                 type = "exposure",
+          bias_parms  = c(1.0, 1.0, 1.0, 1.0))
+```
+
+# Question 2a
+#### Now, perform bias sensitivity analysis based on the imperfect classification accuracies provided above (values of sensitivities and specificities), by updating the four values in the `bias_parms` line. Show the output below. 
+
+
+# Question 2b
+#### By comparing `Misclassification Bias Corrected Relative Risk` and `Observed Relative Risk` (the latter is the crude - uncorrected association), is there information bias? 
+
+# Question 2c
+#### Is this differential or non-differential missclassification? Please provide 1 or 2 sentence of explanation. 
+
+
+# Question 2d
+#### 
+
+  - Sensitivity of exposure classification among outcome (i.e., extent of misclassification from a to c among outcome)  = 0.9
+  - Specificity of exposure classification among outcome (i.e., extent of misclassification from c to a among outcome)   =0.9 
+  - Sensitivity of exposure classification among no outcome (i.e., extent of misclassification from b to d among no outcome) = 0.5   
+  - Specificity of exposure classification among no outcome (i.e., extent of misclassification from  d to b among no outcome) = 0.9   
+
+
+```{r}
+misclassification(matrix(c(434, 1094, 4937, 16263), 
+                 dimnames = list(c("Diabetes", "No Diabetes"), 
+                                 c("Low PA", "moderate/high PA")), 
+                 nrow = 2, byrow = TRUE), 
+                 type = "exposure",
+          bias_parms  = c(0.95, 0.95, 0.8, 0.8))
+
 
 misclassification(matrix(c(434, 1094, 4937, 16263), 
                  dimnames = list(c("Diabetes", "No Diabetes"), 
-                                 c("Low PA", "moderate/high PA"))
-                 , nrow = 2, byrow = FALSE),
-          bias_parms  = c(0.9, 0.8, 0.99, 0.99))
+                                 c("Low PA", "moderate/high PA")), 
+                 nrow = 2, byrow = TRUE), 
+                 type = "exposure",
+          bias_parms  = c(0.9, 0.5, 0.9, 0.9))
+```
 
-
-
+# Question 2e
+#### Is this differential or non-differential missclassification (results of Question 2d)? Please provide 1 or 2 sentence of explanation. 

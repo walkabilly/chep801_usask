@@ -362,43 +362,39 @@ display: none;
 <p>To perform simple analysis for selection bias and information bias
 using the categorical variables you have already created (physical
 activity)</p>
-<p>We have 7 questions (Question 1a-d and Question 2a-c) at the bottom
-of this script.</p>
+<p>We have 9 short questions (Question 1a-d and Question 2a-e) to answer
+at the bottom of this script.</p>
 </div>
 <div id="a-few-important-notes" class="section level2">
 <h2>A few important notes</h2>
 <ul>
 <li>R is case sensitive, so variables like, <code>my_Variable</code> and
 <code>my_variable</code> are different. So if you type the former and
-later type the latter, there will me error message:
+later type the latter, there will me an error message:
 <code>Error: object &#39;my_variable&#39; not found</code></li>
-<li>This file is located in …. copy and paste codes, make new -&gt; new
-Rmarkdown (with HTML output) in R studio, and<br />
+<li>This file is located in <a href="https://github.com/walkabilly/chep801_usask/blob/main/Assignments/Bias/Assignment2---Bias.md" class="uri">https://github.com/walkabilly/chep801_usask/blob/main/Assignments/Bias/Assignment2---Bias.md</a>.
+IN Rstudio, create new markdown file by selecting <em>file</em> -&gt;
+<em>new markdown</em> (with Html output). Copy and paste R codes and run
+line by line to follow the steps. Alternatively, paste entire rmd <a href="https://github.com/walkabilly/chep801_usask/blob/main/Assignments/Bias/Assignment2%20-%20Bias.Rmd" class="uri">https://github.com/walkabilly/chep801_usask/blob/main/Assignments/Bias/Assignment2%20-%20Bias.Rmd</a>.<br />
 </li>
-<li>Before running these codes, first install “episensr”, “htmlTable”,
-and “tableone” into your codes. copy and paste the codes below in your R
-studio console, install them, and remove install commen lines. If a
-popup window shows up to restart R, click <code>yes</code>
-<code>install.packages(c(&quot;htmlTable&quot;, &quot;episensr&quot;, &quot;tableone&quot;))</code></li>
+<li>Before running these codes, first install “episensr” and
+“htmlTable”. Copy and paste
+<code>install.packages(c(&quot;htmlTable&quot;, &quot;episensr&quot;))</code> If a popup
+window shows up to restart R, click <code>yes</code>. Once these
+packages are installed, remove this line to prevent
+re-installation.</li>
 </ul>
-<div id="installing-episensr-package" class="section level4">
-<h4>Installing episensr package</h4>
-<p>this is an R version of episense module in Stata for bias analysis
-You can uncomment (remove # at the beginning of the line) below for
-installing the package. If already installed or after installing, you
-must comment out (add #) or remove the whole line, as it should only run
-once for installation.</p>
 <pre class="r"><code>knitr::opts_chunk$set(echo = TRUE)
 # load the episenr package after installation. This needs to be done every time you analyse
 library(&quot;episensr&quot;) #you can quote or unquote, but need quote when using install.package, but not when using library, don&#39;t ask me why
-library(tableone)
 library(htmlTable)
 
 # packaged used in the data work lab and assignment 1, needed to run some functions in this assignment
 library(tidyverse)
 library(&quot;knitr&quot;)
 library(&quot;epitools&quot;)</code></pre>
-<p>First, lets load the data</p>
+<p>First, lets load the data. Make sure to specify your own path to the
+data.</p>
 <pre class="r"><code>data &lt;- read_csv(&quot;Data.csv&quot;)</code></pre>
 <pre><code>## Rows: 41187 Columns: 440
 ## ── Column specification ────────────────────────────────────────────────────────
@@ -409,11 +405,10 @@ library(&quot;epitools&quot;)</code></pre>
 ## 
 ## ℹ Use `spec()` to retrieve the full column specification for this data.
 ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-</div>
 <div id="exclusion-of-some-cases" class="section level3">
 <h3>Exclusion of some cases</h3>
-<p>Lets suppose this is for study of aging, so we limit the sample to in
-participants with a bit older age of &gt; 45 in this study. ONe way to
+<p>Lets suppose this is a study of aging, so we limit the sample to
+participants with a bit older age of &gt; 45 in this study. One way to
 do so is to run following lines:</p>
 <pre class="r"><code># quick descriptive analysis, count and proportion of each age (from age 30 - 74) in the original sample
 prop.table(table(data$SDC_AGE_CALC))</code></pre>
@@ -460,13 +455,13 @@ on</p>
 </div>
 <div id="exposure-variable" class="section level3">
 <h3>Exposure variable</h3>
-<p>Here, I copy and pasted the scripts to create a categorical variable
-for physical activity from the last class and assignment. However, this
-time, the PA (Physical Activity) variable is dichotomous, rather than 3
-levels, named as <code>pa_dic</code>. We will dichotomize into 1/0
-numeric value, then convert to categorical using <code>factor</code> as
-in the previous class (without using factor, the varaible is treated as
-number rather than category).</p>
+<p>Here, I copied and pasted the scripts to create a categorical
+variable for physical activity from the last class and assignment.
+However, this time, the PA (Physical Activity) variable is dichotomous,
+rather than 3 levels, named as <code>pa_dic</code>. We will dichotomize
+into 1/0 numeric value, then convert to categorical using
+<code>factor</code> as in the previous class (without using factor, the
+variable will be treated as number rather than category).</p>
 <pre class="r"><code>d &lt;- d %&gt;%
     mutate(pa_dic = case_when(
       PA_TOTAL_SHORT &lt; 600  ~ 1,
@@ -474,7 +469,7 @@ number rather than category).</p>
     )
   )
 
-# Make varaible to dichotomous from integer variable of 1/0
+# Make variable to dichotomous from integer variable of 1/0
 d$pa_dic &lt;- as.factor(d$pa_dic)
 
 # Give label to the variable, 0: moderate/high and 1: low physical activity 
@@ -491,25 +486,23 @@ d %&gt;% group_by(pa_dic) %&gt;% summarize(mean = mean(PA_TOTAL_SHORT))</code></
 </div>
 <div id="outcome-variable" class="section level3">
 <h3>OUtcome variable</h3>
-<p>Lets create two outcome variable type 2 diabetes mellitus Presumably
+<p>Lets create the outcome variable type 2 diabetes mellitus. Presumably
 this variable is self-reported by participants, so they are not as
 accurate as actual diagnostic report, but people normally do not lie for
-these chronic disease status as they are not stigmatizing conditions nor
-incredibly personal condition, so we are less subject to systematic
-false reporting.</p>
+these chronic disease status so acceptable accuracy, I hope.</p>
 <p><em>Definitions of diabetes variables in the data dictionary is as
-follows (double check with the data dictionary)</em> - value 1 -
-Diabetes mellitus type 1, not our interest - value 2 - Diabetes mellitus
-type 2, our outcome if interest - value 3 - Gestational diabetes only,
-not our interest - value 4 - -7 Not Applicable , people without any
-diabetes</p>
+follows (double check with the Excel data dictionary file)</em> - value
+1 - Diabetes mellitus type 1, not our interest - value 2 - Diabetes
+mellitus type 2, our outcome if interest - value 3 - Gestational
+diabetes only, not our interest - value 4 - -7 Not Applicable , people
+without any diabetes</p>
 <p>First, check the diabetes variable</p>
 <pre class="r"><code># check frequency of 4 types of diabates types 
 table(d$DIS_DIAB_TYPE)</code></pre>
 <pre><code>## 
 ##    -7     1     2     3 
 ## 25296   206  1855   300</code></pre>
-<pre class="r"><code># there is also another value type - missing value codded as NA, see the first 10 people, 4th person did not report anything
+<pre class="r"><code># there is also another value type - missing value coded as NA, see the first 10 people, 4th person did not report anything
 head(d$DIS_DIAB_TYPE, n = 10) # showing first 10 entries </code></pre>
 <pre><code>##  [1] -7 -7 -7 NA -7 -7 -7 -7 -7 -7</code></pre>
 <pre class="r"><code>summary(d$DIS_DIAB_TYPE) # See exact number of whose did not report (NA&#39;s)</code></pre>
@@ -517,10 +510,9 @@ head(d$DIS_DIAB_TYPE, n = 10) # showing first 10 entries </code></pre>
 ##  -7.000  -7.000  -7.000  -6.228  -7.000   3.000     982</code></pre>
 <pre class="r"><code># For simplicity, we will remove people who did not respond (in real research, if the proportion of people with missing data seems important , like 10% of all people, you need to perform imputation)
 
-d %&gt;% filter(is.na(DIS_DIAB_TYPE)) %&gt;% nrow() # FIrst, count # of people with missing diabetes record</code></pre>
+d %&gt;% filter(is.na(DIS_DIAB_TYPE)) %&gt;% nrow() # First, count # of people with missing diabetes record</code></pre>
 <pre><code>## [1] 982</code></pre>
 <pre class="r"><code>d &lt;- d %&gt;% filter(!is.na(DIS_DIAB_TYPE)) # then, remove these people 
-
 
 # I will also remove people with type 1 diabetes, as they occur very early age and patient usually have very different lifestyle and risk of chronic illness 
 d &lt;- d %&gt;% filter(DIS_DIAB_TYPE != 1) </code></pre>
@@ -557,9 +549,9 @@ table(d$DIS_DIAB_TYPE, d$diabetes_dic)</code></pre>
 <p>We will now display relative risk of diabetes among people with
 varying level of physical activity using the <code>epitable</code>
 function as in the data lab last week. First , just show count using the
-epitable function (the option <code>rev=&quot;both&quot;</code> just changes the
-order of categories. You can remove this option if you like and see what
-will happen to the table)</p>
+<code>epitable</code> function (the option <code>rev=&quot;both&quot;</code> just
+changes the order of categories. You can remove this option if you like
+and see what will happen to the table)</p>
 <pre class="r"><code># Make table
 table_pa_dia &lt;- epitable(d$pa_dic, d$diabetes_dic, rev = &quot;both&quot;) 
 # No need to know the command below, it just gives label called &quot;exposure&quot; to the table
@@ -634,7 +626,7 @@ Exposure
 <em><em>1094/(1094+16263)=0.063</em></em></p>
 <p>Therefore, risk ratio (RR) is<br />
 <em><em>0.081/0.063</em></em></p>
-<p>Now, calculate RR using the <code>epitab</code> from the data lab.
+<p>Now, calculate RR using <code>epitab</code> from the data lab week 2.
 Here, the exposure of interest is <strong>Low PA</strong> and the
 outcome is <strong>Diabetes</strong>.</p>
 <pre class="r"><code>#Create table and save 
@@ -673,7 +665,7 @@ indicates pick all columns between 1 to 7, inclusive.</p>
 ## Exposure           noDiabetes   p0 diabetes   p1 riskratio lower upper
 ##   Moderate/high PA      16263 0.94     1094 0.06      1.00    NA    NA
 ##   low PA                 4937 0.92      434 0.08      1.28  1.15  1.43</code></pre>
-<pre class="r"><code># Slightly more fancy display by funcation called htmlTable, with added gray bars alternating columns
+<pre class="r"><code># Slightly more fancy display by function called htmlTable, with added gray bars alternating columns
 round(table_rr_pa_dia$tab[, 1:7], 2) %&gt;% 
   addHtmlTableStyle(col.columns = c(&quot;none&quot;, &quot;grey90&quot;)) %&gt;% 
   htmlTable()</code></pre>
@@ -771,7 +763,7 @@ Exposure
 </tbody>
 </table>
 <p>If you like to subset table to simplify, just specify the index
-(location) of columsn or row, for example to select the outcome count
+(location) of columns or rows, for example to select the outcome count
 (not incidences i.e., Ps) that is displyed in column 1 and 3, specify
 column location by <code>c(1,3)</code>. We do not use <code>:</code> as
 we do not specify range.</p>
@@ -797,14 +789,14 @@ index</p>
 <div id="we-will-now-perform-bias-analysis-starting-from-selection-bias." class="section level3">
 <h3>We will now perform bias analysis, starting from selection
 bias.</h3>
-<div id="suppose-that-our-hypothetical-cohort-data-the-data-are-acually-survey-are-provided-by-those-who-agreed-to-participate-and-remained-in-the-study-until-the-end-without-withdrawal.-therefore-the-rr-estimates-we-get-might-suffer-from-bias-if-selection-proabilities-of-participation-into-the-study-and-withdrawal-are-associated-with-our-exposure-and-outcome-status." class="section level4">
+<div id="suppose-that-our-hypothetical-cohort-data-the-data-are-acually-survey-are-provided-by-those-who-agreed-to-participate-and-remained-in-the-study-until-the-end-without-withdrawal.-therefore-the-rr-estimates-we-get-might-suffer-from-bias-if-selection-probabilities-of-participation-into-the-study-and-withdrawal-are-associated-with-our-exposure-and-outcome-status." class="section level4">
 <h4>Suppose that our hypothetical cohort data (the data are acually
 survey) are provided by those who agreed to participate and remained in
 the study until the end, without withdrawal. Therefore, the RR estimates
-we get might suffer from bias, if selection proabilities of
+we get might suffer from bias, if selection probabilities of
 participation into the study and withdrawal are associated with our
 exposure and outcome status.</h4>
-<p>IF there is not bias (particiapation is 100% and no withdrawal)
+<p>IF there is no bias (participation is 100% and no withdrawal)
 selection probabilities of participating to the study is found to be as
 follows:<br />
 - Exposed and Outcome, P_a in the table below= 1<br />
@@ -952,26 +944,32 @@ below, values between 0 and 1.</h4>
 </div>
 <div id="question-1a" class="section level1">
 <h1>Question 1a</h1>
-<div id="enter-the-providedselection-probabilites-provided-above-into-the-bias_params-line-in-the-episens-command-and-show-the-output.-you-need-to-copy-and-paste-the-selection-function-of-episens-i-wrote-above-paste-below-and-enter-the-appropriate-selection-probabilities.-there-is-not-need-to-edit-anything-else-in-the-command." class="section level4">
-<h4>Enter the providedselection probabilites provided above into the
+<div id="enter-the-selection-probabilites-provided-below-into-the-bias_params-line-in-the-episens-command-and-show-the-output.-you-need-to-copy-and-paste-the-selection-function-of-episens-i-wrote-above-paste-below-and-enter-the-appropriate-selection-probabilities.-there-is-no-need-to-edit-anything-else-in-the-command." class="section level4">
+<h4>Enter the selection probabilites provided below into the
 <code>bias_params</code> line in the episens command and show the
 output. You need to copy and paste the <code>selection</code> function
 of episens I wrote above, paste below, and enter the appropriate
-selection probabilities. THere is not need to edit anything else in the
+selection probabilities. THere is no need to edit anything else in the
 command.</h4>
+<ul>
+<li>Exposed (low PA) and Outcome (Diabetes) = 0.9</li>
+<li>Exposed and no Outcome =0.6</li>
+<li>Unexposed and Outcome = 0.8</li>
+<li>Unexposed and no Outcome = 0.8</li>
+</ul>
 </div>
 </div>
 <div id="question-1b" class="section level1">
 <h1>Question 1b</h1>
-<div id="based-on-the-output-you-generated-is-there-selection-bias-in-the-rr-in-the-original-data" class="section level4">
-<h4>Based on the output you generated, is there selection bias in the RR
-in the original data?</h4>
+<div id="based-on-the-output-you-generated-is-there-selection-bias-in-the-original-rr" class="section level4">
+<h4>Based on the output you generated, is there selection bias in the
+original RR?</h4>
 </div>
 </div>
 <div id="question-1c" class="section level1">
 <h1>Question 1c</h1>
-<div id="aoother-study-on-the-same-population-found-out-that-the-selection-probabitlies-are-actually-as-follows" class="section level4">
-<h4>Aoother study on the same population found out that the selection
+<div id="another-study-on-the-same-population-found-out-that-the-selection-probabitlies-are-actually-as-follows" class="section level4">
+<h4>Another study on the same population found out that the selection
 probabitlies are actually as follows:</h4>
 <ul>
 <li>Exposed (low PA) and Outcome (Diabetes) = 0.9</li>
@@ -980,30 +978,207 @@ probabitlies are actually as follows:</h4>
 <li>Unexposed and no Outcome = 0.8</li>
 </ul>
 </div>
-<div id="run-the-selection-command-again-based-on-these-updated-probabilities-by-filling-bias_parms.-again-careful-with-the-ordering." class="section level4">
-<h4>Run the <code>selection</code> command again based on these updated
-probabilities by filling <code>bias_parms</code>. Again, careful with
-the ordering.</h4>
-<p>selection(matrix(c(434, 1094, 4937, 16263), dimnames =
-list(c(“Diabetes”, “No Diabetes”), c(“Low PA”, “moderate/high PA”)) ,
-nrow = 2, byrow = FALSE), bias_parms = c(0.9, 0.8, 0.9, 0.8))</p>
+<div id="run-the-selection-command-again-paste-below-based-on-these-updated-probabilities-by-filling-bias_parms.-again-careful-with-the-ordering-of-these-values." class="section level4">
+<h4>Run the <code>selection</code> command again (paste below) based on
+these updated probabilities by filling <code>bias_parms</code>. Again,
+careful with the ordering of these values.</h4>
 </div>
 </div>
 <div id="question-1d" class="section level1">
 <h1>Question 1d</h1>
 <p>Based on the output from Question 1c, answer if there is selection
-bias or not, and if not please explain why in one or two sentence.</p>
+bias or not, and if not please explain why in one or two sentences.</p>
 </div>
 <div id="question-2---information-bias" class="section level1">
 <h1>Question 2 - Information bias</h1>
 <div id="we-will-correct-missclassificaiton-of-the-exposure-pa-variable." class="section level4">
 <h4>We will correct missclassificaiton of the exposure, PA
 variable.</h4>
-<p>Supposed that a subsequent validation study using these data show
-that people inaccurately reports physical activity status</p>
-<p>misclassification(matrix(c(434, 1094, 4937, 16263), dimnames =
-list(c(“Diabetes”, “No Diabetes”), c(“Low PA”, “moderate/high PA”)) ,
-nrow = 2, byrow = FALSE), bias_parms = c(0.9, 0.8, 0.99, 0.99))</p>
+<p>Suppose that a subsequent validation study using these data show that
+people inaccurately reports physical activity status, with the following
+sensitivity and specificity of exposure classification among diabetes
+cases and non-cases.</p>
+<pre class="r"><code># Lines below just creates example tables 
+contingencyTable &lt;- data.frame(Outcome_Yes = c(&quot;a&quot;, &quot;c&quot;), Outcome_No = c(&quot;b&quot;, &quot;d&quot;))
+rownames(contingencyTable) &lt;- c(&quot;Exposure_yes&quot;, &quot;Exposure_No&quot;)
+
+contingencyTable %&gt;% 
+  addHtmlTableStyle(css.cell = c(&quot;width: 140;&quot;,&quot;width: 140;&quot;)) %&gt;% 
+  htmlTable(caption = &quot;Table cell labels&quot;) </code></pre>
+<table class="gmisc_table" style="border-collapse: collapse; margin-top: 1em; margin-bottom: 1em;">
+<thead>
+<tr>
+<td colspan="3" style="text-align: left;">
+Table cell labels
+</td>
+</tr>
+<tr>
+<th style="border-bottom: 1px solid grey; border-top: 2px solid grey;">
+</th>
+<th style="font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">
+Outcome_Yes
+</th>
+<th style="font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">
+Outcome_No
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">
+Exposure_yes
+</td>
+<td style="width: 140; text-align: center;">
+a
+</td>
+<td style="width: 140; text-align: center;">
+b
+</td>
+</tr>
+<tr>
+<td style="border-bottom: 2px solid grey; text-align: left;">
+Exposure_No
+</td>
+<td style="width: 140; border-bottom: 2px solid grey; text-align: center;">
+c
+</td>
+<td style="width: 140; border-bottom: 2px solid grey; text-align: center;">
+d
+</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>Se_outcome: Sensitivity of exposure classification among outcome
+(i.e., extent of misclassification from a to c among outcome) =
+0.95</li>
+<li>Sp_outcome: Specificity of exposure classification among outcome
+(i.e., extent of misclassification from c to a among outcome) =0.8</li>
+<li>Se_noOutcome: Sensitivity of exposure classification among no
+outcome (i.e., extent of misclassification from b to d among no outcome)
+= 0.95<br />
+</li>
+<li>Sp_noOutcome: Specificity of exposure classification among no
+outcome (i.e., extent of misclassification from d to b among no outcome)
+= 0.8</li>
+</ul>
+<p>As a practice, we will plug in these classification metrics into the
+<code>misclassification</code> function in <code>episenser</code>, when
+there is no missclassification (i.e., all Se and Sp values are 1.0). The
+probabilities values entering the <code>bias_parms</code> line is
+<em>Se_outcome, Se_noOutcome, Sp_outcome, Sp_noOutcome</em>.</p>
+<pre class="r"><code>misclassification(matrix(c(434, 1094, 4937, 16263), 
+                 dimnames = list(c(&quot;Diabetes&quot;, &quot;No Diabetes&quot;), 
+                                 c(&quot;Low PA&quot;, &quot;moderate/high PA&quot;)), 
+                 nrow = 2, byrow = TRUE), 
+                 type = &quot;exposure&quot;,
+          bias_parms  = c(1.0, 1.0, 1.0, 1.0))</code></pre>
+<pre><code>## --Observed data-- 
+##          Outcome: Diabetes 
+##        Comparing: Low PA vs. moderate/high PA 
+## 
+##             Low PA moderate/high PA
+## Diabetes       434             1094
+## No Diabetes   4937            16263
+## 
+##                                      2.5%    97.5%
+## Observed Relative Risk: 1.282011 1.152043 1.426642
+##    Observed Odds Ratio: 1.306802 1.164072 1.467033
+## ---
+##                                                              2.5%    97.5%
+## Misclassification Bias Corrected Relative Risk: 1.282011                  
+##    Misclassification Bias Corrected Odds Ratio: 1.306802 1.164072 1.467033</code></pre>
+</div>
+</div>
+<div id="question-2a" class="section level1">
+<h1>Question 2a</h1>
+<div id="now-perform-bias-sensitivity-analysis-based-on-the-imperfect-classification-accuracies-provided-above-values-of-sensitivities-and-specificities-by-updating-the-four-values-in-the-bias_parms-line.-show-the-output-below." class="section level4">
+<h4>Now, perform bias sensitivity analysis based on the imperfect
+classification accuracies provided above (values of sensitivities and
+specificities), by updating the four values in the
+<code>bias_parms</code> line. Show the output below.</h4>
+</div>
+</div>
+<div id="question-2b" class="section level1">
+<h1>Question 2b</h1>
+<div id="by-comparing-misclassification-bias-corrected-relative-risk-and-observed-relative-risk-the-latter-is-the-crude---uncorrected-association-is-there-information-bias" class="section level4">
+<h4>By comparing
+<code>Misclassification Bias Corrected Relative Risk</code> and
+<code>Observed Relative Risk</code> (the latter is the crude -
+uncorrected association), is there information bias?</h4>
+</div>
+</div>
+<div id="question-2c" class="section level1">
+<h1>Question 2c</h1>
+<div id="is-this-differential-or-non-differential-missclassification-please-provide-1-or-2-sentence-of-explanation." class="section level4">
+<h4>Is this differential or non-differential missclassification? Please
+provide 1 or 2 sentence of explanation.</h4>
+</div>
+</div>
+<div id="question-2d" class="section level1">
+<h1>Question 2d</h1>
+<div id="section" class="section level4">
+<h4></h4>
+<ul>
+<li>Sensitivity of exposure classification among outcome (i.e., extent
+of misclassification from a to c among outcome) = 0.9</li>
+<li>Specificity of exposure classification among outcome (i.e., extent
+of misclassification from c to a among outcome) =0.9</li>
+<li>Sensitivity of exposure classification among no outcome (i.e.,
+extent of misclassification from b to d among no outcome) = 0.5<br />
+</li>
+<li>Specificity of exposure classification among no outcome (i.e.,
+extent of misclassification from d to b among no outcome) = 0.9</li>
+</ul>
+<pre class="r"><code>misclassification(matrix(c(434, 1094, 4937, 16263), 
+                 dimnames = list(c(&quot;Diabetes&quot;, &quot;No Diabetes&quot;), 
+                                 c(&quot;Low PA&quot;, &quot;moderate/high PA&quot;)), 
+                 nrow = 2, byrow = TRUE), 
+                 type = &quot;exposure&quot;,
+          bias_parms  = c(0.95, 0.95, 0.8, 0.8))</code></pre>
+<pre><code>## --Observed data-- 
+##          Outcome: Diabetes 
+##        Comparing: Low PA vs. moderate/high PA 
+## 
+##             Low PA moderate/high PA
+## Diabetes       434             1094
+## No Diabetes   4937            16263
+## 
+##                                      2.5%    97.5%
+## Observed Relative Risk: 1.282011 1.152043 1.426642
+##    Observed Odds Ratio: 1.306802 1.164072 1.467033
+## ---
+##                                                              2.5%    97.5%
+## Misclassification Bias Corrected Relative Risk: 2.479650                  
+##    Misclassification Bias Corrected Odds Ratio: 2.752228 1.933726 3.917183</code></pre>
+<pre class="r"><code>misclassification(matrix(c(434, 1094, 4937, 16263), 
+                 dimnames = list(c(&quot;Diabetes&quot;, &quot;No Diabetes&quot;), 
+                                 c(&quot;Low PA&quot;, &quot;moderate/high PA&quot;)), 
+                 nrow = 2, byrow = TRUE), 
+                 type = &quot;exposure&quot;,
+          bias_parms  = c(0.9, 0.5, 0.9, 0.9))</code></pre>
+<pre><code>## --Observed data-- 
+##          Outcome: Diabetes 
+##        Comparing: Low PA vs. moderate/high PA 
+## 
+##             Low PA moderate/high PA
+## Diabetes       434             1094
+## No Diabetes   4937            16263
+## 
+##                                      2.5%    97.5%
+## Observed Relative Risk: 1.282011 1.152043 1.426642
+##    Observed Odds Ratio: 1.306802 1.164072 1.467033
+## ---
+##                                                                2.5%     97.5%
+## Misclassification Bias Corrected Relative Risk: 0.6195971                    
+##    Misclassification Bias Corrected Odds Ratio: 0.6006108 0.5057162 0.7133117</code></pre>
+</div>
+</div>
+<div id="question-2e" class="section level1">
+<h1>Question 2e</h1>
+<div id="is-this-differential-or-non-differential-missclassification-results-of-question-2d-please-provide-1-or-2-sentence-of-explanation." class="section level4">
+<h4>Is this differential or non-differential missclassification (results
+of Question 2d)? Please provide 1 or 2 sentence of explanation.</h4>
 </div>
 </div>
 
