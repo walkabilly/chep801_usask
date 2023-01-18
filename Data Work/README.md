@@ -7,4 +7,4 @@ Week          | R Markdown | Stata Markdown
 ------------- | ----------------- | -------------
 RStudio       | [Week_1_data_work_R.md](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/Week1_data_work.md)      | 
 Data Wrangling  | [Week_2_data_work_R.md](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/Week2_data_work_R.md)   | [Week_2_data_work_Stata.do](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/Week2_data_work_Stata.do)
-Data Visualization  | [Week_3_data_work_R.md](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/Week3_data_work_R.md)   | [Coming Soon]()
+Data Visualization  | [Week_3_data_work_R.md](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/Week3_data_work_R.md)   | [Week_3_data_work_Stata.do](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/Week3_data_work_Stata.do)
