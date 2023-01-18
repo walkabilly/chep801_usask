@@ -12,7 +12,7 @@ We have 9 short questions (Question 1a-d and Question 2a-e) in the `Bias Assignm
 
 ## A few important notes 
   * R is case sensitive, so variables like, `my_Variable` and `my_variable` are different. So if you type the former and later type the latter, there will me an error message: `Error: object 'my_variable' not found`
-  * This file is located in https://github.com/walkabilly/chep801_usask/blob/main/Assignments/Bias/Assignment2---Bias.md. IN Rstudio, create new markdown file by selecting _file_ -> _new markdown_ (with Html output). Copy and paste R codes and run line by line to follow the steps. Alternatively, paste entire rmd https://github.com/walkabilly/chep801_usask/blob/main/Assignments/Bias/Assignment2%20-%20Bias.Rmd.     
+  * This file is located in [https://github.com/walkabilly/chep801_usask/blob/main/Assignments/Bias/Bias-Assignment.md](https://github.com/walkabilly/chep801_usask/blob/main/Assignments/Bias/Bias-Assignment.md). IN Rstudio, create new markdown file by selecting _file_ -> _new markdown_ (with Html output). Copy and paste R codes and run line by line to follow the steps. Alternatively, paste entire rmd [https://github.com/walkabilly/chep801_usask/blob/main/Assignments/Bias/Bias%20Assignment.Rmd](https://github.com/walkabilly/chep801_usask/blob/main/Assignments/Bias/Bias%20Assignment.Rmd).     
   * Before running these codes, first install "episensr" and "htmlTable". Copy and paste `install.packages(c("htmlTable", "episensr"))`  If a popup window shows up to restart R, click `yes`. Once these packages are installed, remove this line to prevent re-installation. 
 
 
