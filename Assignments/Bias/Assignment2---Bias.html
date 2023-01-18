@@ -957,6 +957,7 @@ command.</h4>
 <li>Unexposed and Outcome = 0.8</li>
 <li>Unexposed and no Outcome = 0.8</li>
 </ul>
+<pre class="r"><code>#Enter your answer here </code></pre>
 </div>
 </div>
 <div id="question-1b" class="section level1">
@@ -964,6 +965,7 @@ command.</h4>
 <div id="based-on-the-output-you-generated-is-there-selection-bias-in-the-original-rr" class="section level4">
 <h4>Based on the output you generated, is there selection bias in the
 original RR?</h4>
+<pre class="r"><code>#Enter your answer here </code></pre>
 </div>
 </div>
 <div id="question-1c" class="section level1">
@@ -977,6 +979,7 @@ probabitlies are actually as follows:</h4>
 <li>Unexposed and Outcome = 0.8</li>
 <li>Unexposed and no Outcome = 0.8</li>
 </ul>
+<pre class="r"><code>#Enter your answer here </code></pre>
 </div>
 <div id="run-the-selection-command-again-paste-below-based-on-these-updated-probabilities-by-filling-bias_parms.-again-careful-with-the-ordering-of-these-values." class="section level4">
 <h4>Run the <code>selection</code> command again (paste below) based on
@@ -988,6 +991,7 @@ careful with the ordering of these values.</h4>
 <h1>Question 1d</h1>
 <p>Based on the output from Question 1c, answer if there is selection
 bias or not, and if not please explain why in one or two sentences.</p>
+<pre class="r"><code>#Enter your answer here </code></pre>
 </div>
 <div id="question-2---information-bias" class="section level1">
 <h1>Question 2 - Information bias</h1>
@@ -1097,15 +1101,17 @@ probabilities values entering the <code>bias_parms</code> line is
 classification accuracies provided above (values of sensitivities and
 specificities), by updating the four values in the
 <code>bias_parms</code> line. Show the output below.</h4>
+<pre class="r"><code>#Enter your answer here </code></pre>
 </div>
 </div>
 <div id="question-2b" class="section level1">
 <h1>Question 2b</h1>
-<div id="by-comparing-misclassification-bias-corrected-relative-risk-and-observed-relative-risk-the-latter-is-the-crude---uncorrected-association-is-there-information-bias" class="section level4">
-<h4>By comparing
+<div id="comparing-misclassification-bias-corrected-relative-risk-and-observed-relative-risk-the-latter-is-the-crude---uncorrected-association.-is-there-information-bias" class="section level4">
+<h4>Comparing
 <code>Misclassification Bias Corrected Relative Risk</code> and
 <code>Observed Relative Risk</code> (the latter is the crude -
-uncorrected association), is there information bias?</h4>
+uncorrected association). Is there information bias?</h4>
+<pre class="r"><code>#Enter your answer here </code></pre>
 </div>
 </div>
 <div id="question-2c" class="section level1">
@@ -1113,6 +1119,7 @@ uncorrected association), is there information bias?</h4>
 <div id="is-this-differential-or-non-differential-missclassification-please-provide-1-or-2-sentence-of-explanation." class="section level4">
 <h4>Is this differential or non-differential missclassification? Please
 provide 1 or 2 sentence of explanation.</h4>
+<pre class="r"><code>#Enter your answer here </code></pre>
 </div>
 </div>
 <div id="question-2d" class="section level1">
@@ -1130,48 +1137,7 @@ extent of misclassification from b to d among no outcome) = 0.5<br />
 <li>Specificity of exposure classification among no outcome (i.e.,
 extent of misclassification from d to b among no outcome) = 0.9</li>
 </ul>
-<pre class="r"><code>misclassification(matrix(c(434, 1094, 4937, 16263), 
-                 dimnames = list(c(&quot;Diabetes&quot;, &quot;No Diabetes&quot;), 
-                                 c(&quot;Low PA&quot;, &quot;moderate/high PA&quot;)), 
-                 nrow = 2, byrow = TRUE), 
-                 type = &quot;exposure&quot;,
-          bias_parms  = c(0.95, 0.95, 0.8, 0.8))</code></pre>
-<pre><code>## --Observed data-- 
-##          Outcome: Diabetes 
-##        Comparing: Low PA vs. moderate/high PA 
-## 
-##             Low PA moderate/high PA
-## Diabetes       434             1094
-## No Diabetes   4937            16263
-## 
-##                                      2.5%    97.5%
-## Observed Relative Risk: 1.282011 1.152043 1.426642
-##    Observed Odds Ratio: 1.306802 1.164072 1.467033
-## ---
-##                                                              2.5%    97.5%
-## Misclassification Bias Corrected Relative Risk: 2.479650                  
-##    Misclassification Bias Corrected Odds Ratio: 2.752228 1.933726 3.917183</code></pre>
-<pre class="r"><code>misclassification(matrix(c(434, 1094, 4937, 16263), 
-                 dimnames = list(c(&quot;Diabetes&quot;, &quot;No Diabetes&quot;), 
-                                 c(&quot;Low PA&quot;, &quot;moderate/high PA&quot;)), 
-                 nrow = 2, byrow = TRUE), 
-                 type = &quot;exposure&quot;,
-          bias_parms  = c(0.9, 0.5, 0.9, 0.9))</code></pre>
-<pre><code>## --Observed data-- 
-##          Outcome: Diabetes 
-##        Comparing: Low PA vs. moderate/high PA 
-## 
-##             Low PA moderate/high PA
-## Diabetes       434             1094
-## No Diabetes   4937            16263
-## 
-##                                      2.5%    97.5%
-## Observed Relative Risk: 1.282011 1.152043 1.426642
-##    Observed Odds Ratio: 1.306802 1.164072 1.467033
-## ---
-##                                                                2.5%     97.5%
-## Misclassification Bias Corrected Relative Risk: 0.6195971                    
-##    Misclassification Bias Corrected Odds Ratio: 0.6006108 0.5057162 0.7133117</code></pre>
+<pre class="r"><code>#Enter your answer here </code></pre>
 </div>
 </div>
 <div id="question-2e" class="section level1">
@@ -1179,6 +1145,7 @@ extent of misclassification from d to b among no outcome) = 0.9</li>
 <div id="is-this-differential-or-non-differential-missclassification-results-of-question-2d-please-provide-1-or-2-sentence-of-explanation." class="section level4">
 <h4>Is this differential or non-differential missclassification (results
 of Question 2d)? Please provide 1 or 2 sentence of explanation.</h4>
+<pre class="r"><code>#Enter your answer here </code></pre>
 </div>
 </div>
 

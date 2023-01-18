@@ -586,9 +586,17 @@ selection(matrix(c(434, 1094, 4937, 16263),
   - Unexposed and Outcome = 0.8
   - Unexposed and no Outcome = 0.8
 
+```r
+#Enter your answer here 
+```
+
 
 # Question 1b 
 #### Based on the output you generated, is there selection bias in the original RR?
+
+```r
+#Enter your answer here 
+```
 
 # Question 1c 
 #### Another study on the same population found out that the selection probabitlies are actually as follows: 
@@ -596,13 +604,21 @@ selection(matrix(c(434, 1094, 4937, 16263),
   - Exposed and no Outcome =0.9
   - Unexposed and Outcome = 0.8
   - Unexposed and no Outcome = 0.8
-  
+
+```r
+#Enter your answer here 
+```
+
 #### Run the `selection` command again (paste below) based on these updated probabilities by filling  `bias_parms`. Again, careful with the ordering of these values. 
 
 
           
 # Question 1d
 Based on the output from Question 1c, answer if there is selection bias or not, and if not please explain why in one or two sentences.
+
+```r
+#Enter your answer here 
+```
 
 
 # Question 2 - Information bias 
@@ -680,12 +696,24 @@ misclassification(matrix(c(434, 1094, 4937, 16263),
 # Question 2a
 #### Now, perform bias sensitivity analysis based on the imperfect classification accuracies provided above (values of sensitivities and specificities), by updating the four values in the `bias_parms` line. Show the output below. 
 
+```r
+#Enter your answer here 
+```
+
 
 # Question 2b
-#### By comparing `Misclassification Bias Corrected Relative Risk` and `Observed Relative Risk` (the latter is the crude - uncorrected association), is there information bias? 
+#### Comparing `Misclassification Bias Corrected Relative Risk` and `Observed Relative Risk` (the latter is the crude - uncorrected association). Is there information bias? 
+
+```r
+#Enter your answer here 
+```
 
 # Question 2c
 #### Is this differential or non-differential missclassification? Please provide 1 or 2 sentence of explanation. 
+
+```r
+#Enter your answer here 
+```
 
 
 # Question 2d
@@ -699,58 +727,12 @@ misclassification(matrix(c(434, 1094, 4937, 16263),
 
 
 ```r
-misclassification(matrix(c(434, 1094, 4937, 16263), 
-                 dimnames = list(c("Diabetes", "No Diabetes"), 
-                                 c("Low PA", "moderate/high PA")), 
-                 nrow = 2, byrow = TRUE), 
-                 type = "exposure",
-          bias_parms  = c(0.95, 0.95, 0.8, 0.8))
-```
-
-```
-## --Observed data-- 
-##          Outcome: Diabetes 
-##        Comparing: Low PA vs. moderate/high PA 
-## 
-##             Low PA moderate/high PA
-## Diabetes       434             1094
-## No Diabetes   4937            16263
-## 
-##                                      2.5%    97.5%
-## Observed Relative Risk: 1.282011 1.152043 1.426642
-##    Observed Odds Ratio: 1.306802 1.164072 1.467033
-## ---
-##                                                              2.5%    97.5%
-## Misclassification Bias Corrected Relative Risk: 2.479650                  
-##    Misclassification Bias Corrected Odds Ratio: 2.752228 1.933726 3.917183
-```
-
-```r
-misclassification(matrix(c(434, 1094, 4937, 16263), 
-                 dimnames = list(c("Diabetes", "No Diabetes"), 
-                                 c("Low PA", "moderate/high PA")), 
-                 nrow = 2, byrow = TRUE), 
-                 type = "exposure",
-          bias_parms  = c(0.9, 0.5, 0.9, 0.9))
-```
-
-```
-## --Observed data-- 
-##          Outcome: Diabetes 
-##        Comparing: Low PA vs. moderate/high PA 
-## 
-##             Low PA moderate/high PA
-## Diabetes       434             1094
-## No Diabetes   4937            16263
-## 
-##                                      2.5%    97.5%
-## Observed Relative Risk: 1.282011 1.152043 1.426642
-##    Observed Odds Ratio: 1.306802 1.164072 1.467033
-## ---
-##                                                                2.5%     97.5%
-## Misclassification Bias Corrected Relative Risk: 0.6195971                    
-##    Misclassification Bias Corrected Odds Ratio: 0.6006108 0.5057162 0.7133117
+#Enter your answer here 
 ```
 
 # Question 2e
 #### Is this differential or non-differential missclassification (results of Question 2d)? Please provide 1 or 2 sentence of explanation. 
+
+```r
+#Enter your answer here 
+```
