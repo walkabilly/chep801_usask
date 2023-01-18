@@ -33,7 +33,7 @@ plot(bmi_histo)
 ```
 
 ```
-## Warning: Removed 6763 rows containing non-finite values (stat_bin).
+## Warning: Removed 6763 rows containing non-finite values (`stat_bin()`).
 ```
 
 ![](Week3_data_work_R_files/figure-html/unnamed-chunk-1-1.png)<!-- -->
@@ -48,7 +48,7 @@ plot(bmi_histo_bin_100)
 ```
 
 ```
-## Warning: Removed 6763 rows containing non-finite values (stat_bin).
+## Warning: Removed 6763 rows containing non-finite values (`stat_bin()`).
 ```
 
 ![](Week3_data_work_R_files/figure-html/unnamed-chunk-2-1.png)<!-- -->
@@ -131,7 +131,7 @@ plot(boxplot)
 ```
 
 ```
-## Warning: Removed 6763 rows containing non-finite values (stat_boxplot).
+## Warning: Removed 6763 rows containing non-finite values (`stat_boxplot()`).
 ```
 
 ![](Week3_data_work_R_files/figure-html/unnamed-chunk-5-1.png)<!-- -->
@@ -148,7 +148,7 @@ plot(scatter_plot)
 ```
 
 ```
-## Warning: Removed 6763 rows containing missing values (geom_point).
+## Warning: Removed 6763 rows containing missing values (`geom_point()`).
 ```
 
 ![](Week3_data_work_R_files/figure-html/unnamed-chunk-6-1.png)<!-- -->
@@ -169,23 +169,23 @@ plot(scatter_plot_line)
 ```
 
 ```
-## `geom_smooth()` using method = 'gam' and formula 'y ~ s(x, bs = "cs")'
+## `geom_smooth()` using method = 'gam' and formula = 'y ~ s(x, bs = "cs")'
 ```
 
 ```
-## Warning: Removed 6763 rows containing non-finite values (stat_smooth).
+## Warning: Removed 6763 rows containing non-finite values (`stat_smooth()`).
 ```
 
 ```
-## `geom_smooth()` using formula 'y ~ x'
+## `geom_smooth()` using formula = 'y ~ x'
 ```
 
 ```
-## Warning: Removed 6763 rows containing non-finite values (stat_smooth).
+## Warning: Removed 6763 rows containing non-finite values (`stat_smooth()`).
 ```
 
 ```
-## Warning: Removed 6763 rows containing missing values (geom_point).
+## Warning: Removed 6763 rows containing missing values (`geom_point()`).
 ```
 
 ![](Week3_data_work_R_files/figure-html/unnamed-chunk-7-1.png)<!-- -->
@@ -198,28 +198,28 @@ scatter_plot_variables <- ggplot(data, aes(x = SDC_AGE_CALC, y = PA_TOTAL_SHORT)
                   geom_point() + 
                   geom_smooth(colour = "red") + 
                   geom_smooth(method = "lm", colour = "#088da5") +
-                  labs(x = "Physical Activity", y = "Age")
+                  labs(x = "Age", y = "Physical Activity")
 plot(scatter_plot_variables)
 ```
 
 ```
-## `geom_smooth()` using method = 'gam' and formula 'y ~ s(x, bs = "cs")'
+## `geom_smooth()` using method = 'gam' and formula = 'y ~ s(x, bs = "cs")'
 ```
 
 ```
-## Warning: Removed 6763 rows containing non-finite values (stat_smooth).
+## Warning: Removed 6763 rows containing non-finite values (`stat_smooth()`).
 ```
 
 ```
-## `geom_smooth()` using formula 'y ~ x'
+## `geom_smooth()` using formula = 'y ~ x'
 ```
 
 ```
-## Warning: Removed 6763 rows containing non-finite values (stat_smooth).
+## Warning: Removed 6763 rows containing non-finite values (`stat_smooth()`).
 ```
 
 ```
-## Warning: Removed 6763 rows containing missing values (geom_point).
+## Warning: Removed 6763 rows containing missing values (`geom_point()`).
 ```
 
 ![](Week3_data_work_R_files/figure-html/unnamed-chunk-8-1.png)<!-- -->
@@ -234,28 +234,28 @@ scatter_plot_alpha <- ggplot(data, aes(x = SDC_AGE_CALC, y = PA_TOTAL_SHORT)) +
                   geom_point(alpha = 0.2) + 
                   geom_smooth(colour = "red") + 
                   geom_smooth(method = "lm", colour = "#088da5") +
-                  labs(x = "Physical Activity", y = "Age")
+                  labs(x = "Age", y = "Physical Activity")
 plot(scatter_plot_alpha)
 ```
 
 ```
-## `geom_smooth()` using method = 'gam' and formula 'y ~ s(x, bs = "cs")'
+## `geom_smooth()` using method = 'gam' and formula = 'y ~ s(x, bs = "cs")'
 ```
 
 ```
-## Warning: Removed 6763 rows containing non-finite values (stat_smooth).
+## Warning: Removed 6763 rows containing non-finite values (`stat_smooth()`).
 ```
 
 ```
-## `geom_smooth()` using formula 'y ~ x'
+## `geom_smooth()` using formula = 'y ~ x'
 ```
 
 ```
-## Warning: Removed 6763 rows containing non-finite values (stat_smooth).
+## Warning: Removed 6763 rows containing non-finite values (`stat_smooth()`).
 ```
 
 ```
-## Warning: Removed 6763 rows containing missing values (geom_point).
+## Warning: Removed 6763 rows containing missing values (`geom_point()`).
 ```
 
 ![](Week3_data_work_R_files/figure-html/unnamed-chunk-9-1.png)<!-- -->
@@ -280,12 +280,12 @@ Colouring by gender
 ```r
 scatter_plot_gender <- ggplot(data, aes(x = SDC_AGE_CALC, y = PA_TOTAL_SHORT, colour = gender_recode)) + 
                   geom_point(alpha = 0.2) + 
-                  labs(x = "Physical Activity", y = "Age", fill = "Gender") 
+                  labs(x = "Age", y = "Physical Activity", fill = "Gender") 
 plot(scatter_plot_gender)
 ```
 
 ```
-## Warning: Removed 6763 rows containing missing values (geom_point).
+## Warning: Removed 6763 rows containing missing values (`geom_point()`).
 ```
 
 ![](Week3_data_work_R_files/figure-html/unnamed-chunk-11-1.png)<!-- -->
@@ -295,13 +295,13 @@ Faceting by gender
 ```r
 scatter_plot_gender <- ggplot(data, aes(x = SDC_AGE_CALC, y = PA_TOTAL_SHORT)) + 
                   geom_point(alpha = 0.2) + 
-                  labs(x = "Physical Activity", y = "Age") +
+                  labs(x = "Age", y = "Physical Activity") +
                   facet_wrap(~ gender_recode)
 plot(scatter_plot_gender)
 ```
 
 ```
-## Warning: Removed 6763 rows containing missing values (geom_point).
+## Warning: Removed 6763 rows containing missing values (`geom_point()`).
 ```
 
 ![](Week3_data_work_R_files/figure-html/unnamed-chunk-12-1.png)<!-- -->
@@ -321,13 +321,13 @@ There are two themes I use regularly; *classic* and *bw*. Classic provides a cle
 ```r
 scatter_plot_bw <- ggplot(data, aes(x = SDC_AGE_CALC, y = PA_TOTAL_SHORT, colour = gender_recode)) + 
                   geom_point(alpha = 0.2) + 
-                  labs(x = "Physical Activity", y = "Age", colour = "Gender") +
+                  labs(x = "Age", y = "Physical Activity", colour = "Gender") +
                   theme_bw()
 plot(scatter_plot_bw)
 ```
 
 ```
-## Warning: Removed 6763 rows containing missing values (geom_point).
+## Warning: Removed 6763 rows containing missing values (`geom_point()`).
 ```
 
 ![](Week3_data_work_R_files/figure-html/unnamed-chunk-13-1.png)<!-- -->
@@ -338,13 +338,13 @@ plot(scatter_plot_bw)
 ```r
 scatter_plot_classic <- ggplot(data, aes(x = SDC_AGE_CALC, y = PA_TOTAL_SHORT, colour = gender_recode)) + 
                   geom_point(alpha = 0.2) + 
-                  labs(x = "Physical Activity", y = "Age", colour = "Gender") +
+                  labs(x = "Age", y = "Physical Activity", colour = "Gender") +
                   theme_classic()
 plot(scatter_plot_classic)
 ```
 
 ```
-## Warning: Removed 6763 rows containing missing values (geom_point).
+## Warning: Removed 6763 rows containing missing values (`geom_point()`).
 ```
 
 ![](Week3_data_work_R_files/figure-html/unnamed-chunk-14-1.png)<!-- -->
@@ -358,12 +358,12 @@ There are lots of default colours in R. The basic functions are *scale_colour* a
 scatter_plot_gender_brewer <- ggplot(data, aes(x = SDC_AGE_CALC, y = PA_TOTAL_SHORT, colour = gender_recode)) + 
                   geom_point(alpha = 0.2) + 
                   scale_colour_manual(values = c("#E69F00", "#56B4E9")) +
-                  labs(x = "Physical Activity", y = "Age", colour = "Gender") 
+                  labs(x = "Age", y = "Physical Activity", colour = "Gender") 
 plot(scatter_plot_gender_brewer)
 ```
 
 ```
-## Warning: Removed 6763 rows containing missing values (geom_point).
+## Warning: Removed 6763 rows containing missing values (`geom_point()`).
 ```
 
 ![](Week3_data_work_R_files/figure-html/unnamed-chunk-15-1.png)<!-- -->
