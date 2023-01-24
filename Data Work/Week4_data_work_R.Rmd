@@ -13,6 +13,7 @@ library(finalfit)
 library(knitr)
 library(jtools)
 library(lindia)
+library(emmeans)
 library(gtsummary)
 data <- read_csv("Data.csv")
 ```
@@ -244,6 +245,8 @@ model_final <- glm(diabetes_t2 ~ bmi_overweight +
 summary(model_final)
 
 multi_table <- tbl_regression(model_final, exponentiate = TRUE)
+
+plot_model(model_final, type="est")
 ```
 
 ```{r}
@@ -277,7 +280,7 @@ We wanted to run the interaction term but we have a very small cell size in Blac
 
 A nice way to visual results from logistic regression is with a predicted probability plot. 
 
-In the saved model result `model_final` we have a bunch of nice information we can use to visualize our model. We will go through a few things. Here we can use the package `jtools` to get plots of categories of the predictor variables.
+In the saved model result `model_final` we have a bunch of nice information we can use to visualize our model. We will go through a few things. Here we can use the package `jtools` to get plots of categories of the predictor variables. Here are using this tutorial [https://rdrr.io/cran/jtools/man/effect_plot.html](https://rdrr.io/cran/jtools/man/effect_plot.html)
 
 **Plot of Black predicted probabilities of diabetes
 
@@ -286,8 +289,20 @@ effect_plot(model_final, pred = black, interval = TRUE) ## Black
 effect_plot(model_final, pred = pa_cat, interval = TRUE) ## Physical Activity 
 ```
 
+Our plots show us that there is likely a different between the three levels of PA but we don't a statistical test to examine that difference. They look different visually but the confidence intervals overlap. 
 
+We can use marginal means to test the difference between the groups within a variable after we have done a regression analysis. Here we have the difference between the means of physical activity levels using the models, meaning over the levels of the other covariates in our model. Here we are using this tutorial [https://cran.r-project.org/web/packages/emmeans/vignettes/comparisons.html](https://cran.r-project.org/web/packages/emmeans/vignettes/comparisons.html)
 
+```{r}
+pa_cat_emm <- emmeans(model_final, "pa_cat")
+pairs(pa_cat_emm)
+```
+
+From the regression result we know there is a difference between low activity and high activity, and no difference between low activity and moderate activity. What we don't know is if there is a difference between moderate activity and high activity. Here we can see that there is a difference between moderate and high activity. 
+
+```{r}
+plot(pa_cat_emm, comparisons = TRUE)
+```
 
 
 
