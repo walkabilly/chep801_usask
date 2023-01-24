@@ -1,0 +1,308 @@
+---
+title: "Week 4 Data Work"
+output:
+      html_document:
+        keep_md: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(sjPlot)
+library(finalfit)
+library(knitr)
+library(jtools)
+library(lindia)
+library(emmeans)
+library(gtsummary)
+data <- read_csv("Data.csv")
+```
+
+### 1. Logistic Regression
+
+A logistic regression is a type of regression where the outcome variable is a 0 or 1 variable. That is the outcome can only have 2 possible values. The logistic in logistic regression refers to the fact that we are using a logistic function to fit a model for the 2 possible values (more on this later). More generally, logistic regression in a form of classification problem where we want to try and predict which group a unit (in our case usually a person) belongs to using variables about that unit. In logistic regression the outcome must be 0 or 1 but we can include both continous and categorical predictors in the model.
+
+#### Variable selection
+
+For this data work we are not going to worry about variable selection. Variable selection should be based on subject area knowledge about the study design and research question. Ideally, variable selection is done with the help of a DAG. 
+
+### 2. Research question and data
+
+Our research question is:  
+
+- **What factors are associated with ever having been diagnosed with type 2 diabetes?**
+
+We have created a DAG and identified that the following factors are associated with type 2 diabetes:   
+
+- `No varaible in data` = Have prediabetes
+- `PM_BMI_SR` = Are overweight
+- `SDC_AGE_CALC` = Are 45 years or older
+- `No varaible in data` = Have a parent, brother, or sister with type 2 diabetes
+- `PA_LEVEL_LONG` = Are physically active less than 3 times a week
+- `diabetes == "Gestational"` = Have ever had gestational diabetes (diabetes during pregnancy) or given birth to a baby who weighed over 9 pounds
+- `SDC_EB_ABORIGINAL` + `SDC_EB_LATIN` + `SDC_EB_BLACK` = Are an African American, Hispanic or Latino, American Indian, or Alaska Native person
+- `DIS_LIVER_FATTY_EVER` = Have non-alcoholic fatty liver disease
+
+Let's simplify the dataset so we are not working with so many variables. 
+
+```{r}
+data_working <- select(data, "DIS_DIAB_TYPE", "PM_BMI_SR", "SDC_AGE_CALC", "PA_LEVEL_SHORT", "SDC_EB_ABORIGINAL", "SDC_EB_LATIN", "SDC_EB_BLACK", "DIS_LIVER_FATTY_EVER")
+
+rm(data) ### Remove the old data from working memory
+```
+
+#### Outcome variable
+
+Let's look at the outcome variable, recode, and drop observations that are not relevant. We know that the GLM function needs a 0/1 variable and we want to recode that way now so we don't need to change it after. We also know we want to keep our gestational diabetes variable because we need it later. 
+
+```{r}
+table(data_working$DIS_DIAB_TYPE)
+
+data_working <- data_working %>%
+	mutate(diabetes_t2 = case_when(
+    DIS_DIAB_TYPE == 2 ~ 1,
+    DIS_DIAB_TYPE == -7 ~ 0, 
+		TRUE ~ NA_real_
+	))
+
+data_working$diabetes_t2 <- as.factor(data_working$diabetes_t2)
+
+table(data_working$diabetes_t2, data_working$DIS_DIAB_TYPE)
+
+data_working <- data_working %>%
+	mutate(diabetes_gestat = case_when(
+    DIS_DIAB_TYPE == 3 ~ 1,
+    DIS_DIAB_TYPE == -7 ~ 0, 
+		TRUE ~ NA_real_
+	))
+
+data_working$diabetes_gestat <- as.factor(data_working$diabetes_gestat)
+
+
+data_working <- filter(data_working, diabetes_t2 == 0 | diabetes_t2 == 1 | diabetes_gestat == 1)
+```
+
+For logistic regression in the case of a cross-section study we want the outcome to be ~10% of the total sample. Here we have `2160/36807*100 = 5.86%`. 
+
+#### Preparing predictor variables
+
+**BMI overweight**
+
+```{r}
+glimpse(data_working$PM_BMI_SR)
+
+summary(data_working$PM_BMI_SR) ### Lots of NAs! 
+
+data_working <- data_working %>%
+	mutate(bmi_overweight = case_when(
+	  PM_BMI_SR >= 25.00 ~ "Overweight",
+		PM_BMI_SR < 25.00 ~ "Not Overweight"
+	))
+
+table(data_working$bmi_overweight)
+```
+
+**Age**
+
+```{r}
+glimpse(data_working$SDC_AGE_CALC)
+
+summary(data_working$SDC_AGE_CALC) ### Lots of NAs! 
+
+data_working <- data_working %>%
+	mutate(age_45 = case_when(
+	  SDC_AGE_CALC >= 45.00 ~ "Over 45",
+		SDC_AGE_CALC < 45.00 ~ "Under 45"
+	))
+
+table(data_working$age_45)
+```
+
+**Physical Activity**
+
+```{r}
+glimpse(data_working$PA_LEVEL_SHORT)
+
+table(data_working$PA_LEVEL_SHORT)
+
+data_working <- data_working %>%
+	mutate(pa_cat = case_when(
+		PA_LEVEL_SHORT == 1 ~ "1_Low Activity",
+		PA_LEVEL_SHORT == 2 ~ "2_Moderate Activity",
+		PA_LEVEL_SHORT == 3 ~ "3_High Activity"
+	))
+
+table(data_working$pa_cat, data_working$PA_LEVEL_SHORT)
+```
+
+**Racialized**
+
+```{r}
+table(data_working$SDC_EB_ABORIGINAL)
+table(data_working$SDC_EB_LATIN)
+table(data_working$SDC_EB_BLACK)
+
+### Latinx
+
+data_working <- data_working %>%
+	mutate(latinx = case_when(
+		SDC_EB_LATIN == 1 ~ "Yes",
+		SDC_EB_LATIN == 0 ~ "No"
+	))
+
+table(data_working$SDC_EB_LATIN, data_working$latinx)
+
+### Indigenous
+
+data_working <- data_working %>%
+	mutate(indigenous = case_when(
+		SDC_EB_ABORIGINAL == 1 ~ "Yes",
+		SDC_EB_ABORIGINAL == 0 ~ "No"
+	))
+
+table(data_working$SDC_EB_ABORIGINAL, data_working$indigenous)
+
+### Black
+
+data_working <- data_working %>%
+	mutate(black = case_when(
+		SDC_EB_BLACK == 1 ~ "Yes",
+		SDC_EB_BLACK == 0 ~ "No"
+	))
+
+table(data_working$SDC_EB_BLACK, data_working$black)
+```
+
+**Fatty liver disease**
+
+```{r}
+table(data_working$DIS_LIVER_FATTY_EVER)
+
+data_working <- data_working %>%
+	mutate(fatty_liver = case_when(
+		DIS_LIVER_FATTY_EVER == 1 ~ "Yes",
+		DIS_LIVER_FATTY_EVER == 2 ~ "Yes"
+	))
+
+data_working <- data_working %>%
+	mutate(fatty_liver = case_when(
+		DIS_LIVER_FATTY_EVER == 1 ~ "Yes",
+		DIS_LIVER_FATTY_EVER == 2 ~ "Yes"
+	))
+
+data_working <- data_working %>% 
+                  mutate(fatty_liver = replace_na(fatty_liver, "No"))
+
+table(data_working$fatty_liver)
+```
+
+#### 3. Preliminary analysis
+
+We want to start by doing bivariable regression on the outcome and each variable. This can a be a bit of a process if we have lots of variables. Here we are using the `glm` (General Linear Model) function. 
+
+```{r}
+table(data_working$diabetes_t2, data_working$bmi_overweight)
+
+model_weight <- glm(diabetes_t2 ~ bmi_overweight, data = data_working, family = "binomial")
+summary(model_weight)
+
+exp(cbind(coef(model_weight), confint(model_weight))) ## Old school way
+
+tbl_regression(model_weight)  ##Newer way
+```
+
+There are advantages and disadvantages to different was to display models. The `summary` method is good because we all of relevant output from the models. On the downside it's very ugly and hard to make nice tables with. The `tbl_regression` way is nice because we get nice output but we can miss things that might be relevant to our models. By default using the summary we don't get Odds Ratios and confidence intervals. I've shown two ways to get these results. 
+
+We always want to look at all of the bivariate associations for each independent variable. We can do this quickly with the final fit package. For now ignore the multivariable model results. We just want to look at the bivariable. 
+
+```{r}
+univ_table <- data_working %>%
+  select(diabetes_t2, bmi_overweight, age_45, pa_cat, latinx, indigenous, black, fatty_liver) %>%
+  tbl_uvregression(
+    method = glm,
+    y = diabetes_t2,
+    method.args = list(family = binomial),
+    exponentiate = TRUE)
+
+univ_table
+```
+
+#### Model diagnostics
+
+We are not going to get into model selection at this point in the course (more on that later). For now, we want to get as much info as we can about our models. We will work on visualizing the results of the logistic regression, estimating marginal means, and saving predicted values. 
+
+Let's run our final model with all variables. We are going to assume here that we have a solid DAG for this study design and model. 
+
+```{r}
+model_final <- glm(diabetes_t2 ~ bmi_overweight + 
+                                  age_45 + 
+                                  pa_cat + 
+                                  latinx + 
+                                  indigenous + 
+                                  black + 
+                                  fatty_liver, 
+                    data = data_working, family = "binomial")
+summary(model_final)
+
+multi_table <- tbl_regression(model_final, exponentiate = TRUE)
+
+plot_model(model_final, type="est")
+```
+
+```{r}
+tbl_univ_multi <- tbl_merge(list(univ_table, multi_table))
+tbl_univ_multi
+```
+
+When we visually compare the ORs for `Black` and `Fatty Liver` we see that there is probably something of note happening here. We might suspect confounding based on the change in the OR (old way of doign things) but we need to make our DAG is indicating the potential for confounding. 
+
+Let's check if there is a interaction between those variables 
+
+```{r}
+model_interaction <- glm(diabetes_t2 ~ bmi_overweight + 
+                                  age_45 + 
+                                  pa_cat + 
+                                  latinx + 
+                                  indigenous + 
+                                  black * 
+                                  fatty_liver, 
+                    data = data_working, family = "binomial")
+summary(model_interaction)
+
+interaction_table <- tbl_regression(model_interaction, exponentiate = TRUE)
+
+table(data_working$black, data_working$fatty_liver)
+```
+
+We wanted to run the interaction term but we have a very small cell size in Black=yes and Fatty liver=yes so our model is not happy. The estimate of -10 is a big red flag. The OR would be `r exp(-10)` a implausibly small OR. So no interaction I guess. 
+
+#### Plotting results
+
+A nice way to visual results from logistic regression is with a predicted probability plot. 
+
+In the saved model result `model_final` we have a bunch of nice information we can use to visualize our model. We will go through a few things. Here we can use the package `jtools` to get plots of categories of the predictor variables. Here are using this tutorial [https://rdrr.io/cran/jtools/man/effect_plot.html](https://rdrr.io/cran/jtools/man/effect_plot.html)
+
+**Plot of Black predicted probabilities of diabetes
+
+```{r}
+effect_plot(model_final, pred = black, interval = TRUE) ## Black 
+effect_plot(model_final, pred = pa_cat, interval = TRUE) ## Physical Activity 
+```
+
+Our plots show us that there is likely a different between the three levels of PA but we don't a statistical test to examine that difference. They look different visually but the confidence intervals overlap. 
+
+We can use marginal means to test the difference between the groups within a variable after we have done a regression analysis. Here we have the difference between the means of physical activity levels using the models, meaning over the levels of the other covariates in our model. Here we are using this tutorial [https://cran.r-project.org/web/packages/emmeans/vignettes/comparisons.html](https://cran.r-project.org/web/packages/emmeans/vignettes/comparisons.html)
+
+```{r}
+pa_cat_emm <- emmeans(model_final, "pa_cat")
+pairs(pa_cat_emm)
+```
+
+From the regression result we know there is a difference between low activity and high activity, and no difference between low activity and moderate activity. What we don't know is if there is a difference between moderate activity and high activity. Here we can see that there is a difference between moderate and high activity. 
+
+```{r}
+plot(pa_cat_emm, comparisons = TRUE)
+```
+
+
+

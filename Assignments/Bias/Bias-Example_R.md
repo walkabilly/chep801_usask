@@ -1,7 +1,5 @@
 ---
 title: "Assignment2_bias"
-author: "HM"
-date: "2023-01-14"
 output:
       html_document:
         keep_md: true
@@ -10,11 +8,11 @@ output:
 ## Objective of assignment 2 
 To perform simple analysis for selection bias and information bias using the categorical variables you have already created (physical activity)  
 
-We have 9 short questions (Question 1a-d and Question 2a-e) to answer at the bottom of this script. 
+We have 9 short questions (Question 1a-d and Question 2a-e) in the `Bias Assignment File`.
 
 ## A few important notes 
   * R is case sensitive, so variables like, `my_Variable` and `my_variable` are different. So if you type the former and later type the latter, there will me an error message: `Error: object 'my_variable' not found`
-  * This file is located in https://github.com/walkabilly/chep801_usask/blob/main/Assignments/Bias/Assignment2---Bias.md. IN Rstudio, create new markdown file by selecting _file_ -> _new markdown_ (with Html output). Copy and paste R codes and run line by line to follow the steps. Alternatively, paste entire rmd https://github.com/walkabilly/chep801_usask/blob/main/Assignments/Bias/Assignment2%20-%20Bias.Rmd.     
+  * This file is located in [https://github.com/walkabilly/chep801_usask/blob/main/Assignments/Bias/Bias-Assignment.md](https://github.com/walkabilly/chep801_usask/blob/main/Assignments/Bias/Bias-Assignment.md). IN Rstudio, create new markdown file by selecting _file_ -> _new markdown_ (with Html output). Copy and paste R codes and run line by line to follow the steps. Alternatively, paste entire rmd [https://github.com/walkabilly/chep801_usask/blob/main/Assignments/Bias/Bias%20Assignment.Rmd](https://github.com/walkabilly/chep801_usask/blob/main/Assignments/Bias/Bias%20Assignment.Rmd).     
   * Before running these codes, first install "episensr" and "htmlTable". Copy and paste `install.packages(c("htmlTable", "episensr"))`  If a popup window shows up to restart R, click `yes`. Once these packages are installed, remove this line to prevent re-installation. 
 
 
@@ -36,7 +34,7 @@ library("epitools")
 First, lets load the data. Make sure to specify your own path to the data. 
 
 ```r
-data <- read_csv("Data.csv")
+data <- read_csv("/Users/dlf545/Dropbox/Teaching/USask/CHEP 801/chep801_usask/Data.csv")
 ```
 
 ```
@@ -99,7 +97,7 @@ table(data$SDC_AGE_CALC)
 hist(data$SDC_AGE_CALC, main = "Age distribution in my data")
 ```
 
-![](Assignment2---Bias_files/figure-html/unnamed-chunk-2-1.png)<!-- -->
+![](Bias-Example_R_files/figure-html/unnamed-chunk-2-1.png)<!-- -->
 
 ```r
 # now, we create a new data called "d", which consists of those with age > 45
@@ -470,8 +468,6 @@ round(table_rr_pa_dia$tab[c(2,1), c(3,1)], 2)
 ##   Moderate/high PA     1094      16263
 ```
 
-
-
 ### We will now perform bias analysis, starting from selection bias. 
 #### Suppose that our hypothetical cohort data (the data are acually survey) are provided by those who agreed to participate and remained in the study until the end, without withdrawal. Therefore, the RR estimates we get might suffer from bias, if selection probabilities of participation into the study and withdrawal are associated with our exposure and outcome status.
 IF there is no bias (participation is 100% and no withdrawal) selection probabilities of participating to the study is found to be as follows:    
@@ -577,162 +573,3 @@ selection(matrix(c(434, 1094, 4937, 16263),
 ```
 #### You need to experiment a couple different values of the selection probabilites in `bias_parms` before working on the questions below, values between 0 and 1.  
 
-
-# Question 1a
-#### Enter the selection probabilites provided below into the `bias_params` line in the episens command  and show the output. You need to copy and paste the `selection` function of episens I wrote above, paste below, and enter the appropriate selection probabilities. THere is no need to edit anything else in the command.  
-
-  - Exposed (low PA) and Outcome (Diabetes) = 0.9
-  - Exposed and no Outcome =0.6
-  - Unexposed and Outcome = 0.8
-  - Unexposed and no Outcome = 0.8
-
-```r
-#Enter your answer here 
-```
-
-
-# Question 1b 
-#### Based on the output you generated, is there selection bias in the original RR?
-
-```r
-#Enter your answer here 
-```
-
-# Question 1c 
-#### Another study on the same population found out that the selection probabitlies are actually as follows: 
-  - Exposed (low PA) and Outcome (Diabetes) = 0.9
-  - Exposed and no Outcome =0.9
-  - Unexposed and Outcome = 0.8
-  - Unexposed and no Outcome = 0.8
-
-```r
-#Enter your answer here 
-```
-
-#### Run the `selection` command again (paste below) based on these updated probabilities by filling  `bias_parms`. Again, careful with the ordering of these values. 
-
-
-          
-# Question 1d
-Based on the output from Question 1c, answer if there is selection bias or not, and if not please explain why in one or two sentences.
-
-```r
-#Enter your answer here 
-```
-
-
-# Question 2 - Information bias 
-#### We will correct missclassificaiton of the exposure, PA variable. 
-Suppose that a subsequent validation study using these data show that people inaccurately reports physical activity status, with the following sensitivity and specificity of exposure classification among diabetes cases and non-cases.  
-
-
-```r
-# Lines below just creates example tables 
-contingencyTable <- data.frame(Outcome_Yes = c("a", "c"), Outcome_No = c("b", "d"))
-rownames(contingencyTable) <- c("Exposure_yes", "Exposure_No")
-
-contingencyTable %>% 
-  addHtmlTableStyle(css.cell = c("width: 140;","width: 140;")) %>% 
-  htmlTable(caption = "Table cell labels") 
-```
-
-<table class='gmisc_table' style='border-collapse: collapse; margin-top: 1em; margin-bottom: 1em;' >
-<thead>
-<tr><td colspan='3' style='text-align: left;'>
-Table cell labels</td></tr>
-<tr><th style='border-bottom: 1px solid grey; border-top: 2px solid grey;'></th>
-<th style='font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>Outcome_Yes</th>
-<th style='font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>Outcome_No</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style='text-align: left;'>Exposure_yes</td>
-<td style='width: 140; text-align: center;'>a</td>
-<td style='width: 140; text-align: center;'>b</td>
-</tr>
-<tr>
-<td style='border-bottom: 2px solid grey; text-align: left;'>Exposure_No</td>
-<td style='width: 140; border-bottom: 2px solid grey; text-align: center;'>c</td>
-<td style='width: 140; border-bottom: 2px solid grey; text-align: center;'>d</td>
-</tr>
-</tbody>
-</table>
-  - Se_outcome: Sensitivity of exposure classification among outcome (i.e., extent of misclassification from a to c among outcome)  = 0.95 
-  - Sp_outcome: Specificity of exposure classification among outcome (i.e., extent of misclassification from c to a among outcome)   =0.8 
-  - Se_noOutcome: Sensitivity of exposure classification among no outcome (i.e., extent of misclassification from b to d among no outcome) = 0.95   
-  - Sp_noOutcome: Specificity of exposure classification among no outcome (i.e., extent of misclassification from  d to b among no outcome) = 0.8   
-  
-  
-As a practice, we will plug in these classification metrics into the `misclassification` function in `episenser`, when there is no missclassification (i.e., all Se and Sp values are 1.0). The probabilities values entering the `bias_parms` line is *Se_outcome, Se_noOutcome, Sp_outcome, Sp_noOutcome*.   
-
-```r
-misclassification(matrix(c(434, 1094, 4937, 16263), 
-                 dimnames = list(c("Diabetes", "No Diabetes"), 
-                                 c("Low PA", "moderate/high PA")), 
-                 nrow = 2, byrow = TRUE), 
-                 type = "exposure",
-          bias_parms  = c(1.0, 1.0, 1.0, 1.0))
-```
-
-```
-## --Observed data-- 
-##          Outcome: Diabetes 
-##        Comparing: Low PA vs. moderate/high PA 
-## 
-##             Low PA moderate/high PA
-## Diabetes       434             1094
-## No Diabetes   4937            16263
-## 
-##                                      2.5%    97.5%
-## Observed Relative Risk: 1.282011 1.152043 1.426642
-##    Observed Odds Ratio: 1.306802 1.164072 1.467033
-## ---
-##                                                              2.5%    97.5%
-## Misclassification Bias Corrected Relative Risk: 1.282011                  
-##    Misclassification Bias Corrected Odds Ratio: 1.306802 1.164072 1.467033
-```
-
-# Question 2a
-#### Now, perform bias sensitivity analysis based on the imperfect classification accuracies provided above (values of sensitivities and specificities), by updating the four values in the `bias_parms` line. Show the output below. 
-
-```r
-#Enter your answer here 
-```
-
-
-# Question 2b
-#### Comparing `Misclassification Bias Corrected Relative Risk` and `Observed Relative Risk` (the latter is the crude - uncorrected association). Is there information bias? 
-
-```r
-#Enter your answer here 
-```
-
-# Question 2c
-#### Is this differential or non-differential missclassification? Please provide 1 or 2 sentence of explanation. 
-
-```r
-#Enter your answer here 
-```
-
-
-# Question 2d
-#### 
-
-  - Sensitivity of exposure classification among outcome (i.e., extent of misclassification from a to c among outcome)  = 0.9
-  - Specificity of exposure classification among outcome (i.e., extent of misclassification from c to a among outcome)   =0.9 
-  - Sensitivity of exposure classification among no outcome (i.e., extent of misclassification from b to d among no outcome) = 0.5   
-  - Specificity of exposure classification among no outcome (i.e., extent of misclassification from  d to b among no outcome) = 0.9   
-
-
-
-```r
-#Enter your answer here 
-```
-
-# Question 2e
-#### Is this differential or non-differential missclassification (results of Question 2d)? Please provide 1 or 2 sentence of explanation. 
-
-```r
-#Enter your answer here 
-```

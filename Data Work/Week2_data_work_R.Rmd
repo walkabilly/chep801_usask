@@ -46,7 +46,7 @@ data <- data %>%
     SDC_GENDER == 2 ~ "Female"
 	))
 
-data$gender_recode <- as.factor(data$gender_recode)
+data$gender_recode <- as.factor(data$gender_recode) 
 
 ### Checking our code to make sure our recode is correct
 table(data$SDC_GENDER, data$gender_recode)
@@ -74,6 +74,8 @@ data <- data %>%
     fruit_veg_tot > 7 ~ "Meeting Guidelines"
 	))
 
+table(data$fruit_veg_cat)
+
 data <- data %>%
 	mutate(fruit_veg_dic = case_when(
 		fruit_veg_tot <= 7 ~ 0,
@@ -99,12 +101,12 @@ data <- data %>%
 	mutate(pa_cat = case_when(
 		PA_TOTAL_SHORT < 600  ~ "Low Activity",
 		PA_TOTAL_SHORT >= 3000 ~ "High Activity",
-    PA_TOTAL_SHORT >= 600 ~ "Moderate Activity",
+		PA_TOTAL_SHORT >= 600 ~ "Moderate Activity"
 	))
 
 ### Flag we need to put the low and how activity first otherwise we don't get the right answer
 
-table(data$pa_cat)
+table(data$PA_TOTAL_SHORT, data$pa_cat)
 ```
 
 ### 6. Calculate the percents and frequencies 

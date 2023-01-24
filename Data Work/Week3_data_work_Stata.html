@@ -1,0 +1,149 @@
+<h1><a href="#data-viz-chep-801" id="data-viz-chep-801">Data Viz CHEP 801</a></h1>
+<h2><a href="#preparing-the-dataset-and-log-file" id="preparing-the-dataset-and-log-file">Preparing the dataset and log file</a></h2>
+<pre><code>. capture log close
+
+. log using &quot;\\cabinet.usask.ca\work$\dlf545\My Documents\CANPTH_data_wrangling_log&quot;, replace
+--------------------------------------------------------------------------------------------------------------------------
+      name:  &lt;unnamed&gt;
+       log:  \\cabinet.usask.ca\work$\dlf545\My Documents\CANPTH_data_wrangling_log.smcl
+  log type:  smcl
+ opened on:  18 Jan 2023, 10:43:12
+
+. 
+. clear all
+
+. set more off
+
+</code></pre>
+<h2><a href="#import-the-csv-dataset" id="import-the-csv-dataset">Import the CSV dataset</a></h2>
+<pre><code>. import delimited &quot;\\cabinet.usask.ca\work$\dlf545\My Documents\Data.csv&quot;, numericcols(_all) clear 
+(encoding automatically selected: ISO-8859-1)
+(440 vars, 41,187 obs)
+
+</code></pre>
+<h2><a href="#1-data-viz" id="1-data-viz">1. Data Viz</a></h2>
+<p>In general data visualization is going to be less powerful in Stata compared to R. That said, there is a lot we can with data viz in Stata. As well, there are some decent tutorials and things out there for stata graphics. Here are two good ones.</p>
+<p>UCLA Statistical Methods and Data Analytics - Stata Support -</p>
+<h2><a href="#2-histograms-and-single-variable-box-plots" id="2-histograms-and-single-variable-box-plots">2. Histograms and single variable box plots</a></h2>
+<p>Unlike ggplot2 there is no consistent command for the different plots. We are just going to have to memorize them. All good.</p>
+<p><strong>Histograms</strong></p>
+<pre><code>. histogram pa_total_short
+(bin=45, start=0, width=428.4)
+
+</code></pre>
+<p>We can visually inspect the plot and change the binwidth. Most of the time you won&rsquo;t need to do this.</p>
+<pre><code>. histogram pa_total_short, bin(100) name(histo_pa, replace)
+(bin=100, start=0, width=192.78)
+
+</code></pre>
+<p><img src="Week3_data_work_Stata_files/histo_pa.png" ></p>
+<p><strong>Single Bar Graph</strong></p>
+<p>People get stuck in Stata making bar graphs because they are used to Excel and only have the mean value for a given column then making a bar graph from that mean column. It&rsquo;s always questionnable whether you should be making a bar graph, but if you really need to you can in Stata.</p>
+<p>First lets create labels for our income variable</p>
+<pre><code>. table sdc_income
+
+-----------------------
+           |  Frequency
+-----------+-----------
+SDC_INCOME |           
+  1        |        472
+  2        |      1,985
+  3        |      5,745
+  4        |      6,831
+  5        |      6,602
+  6        |      7,600
+  7        |      3,463
+  8        |      2,555
+  Total    |     35,253
+-----------------------
+
+. generate income_recode = sdc_income
+(5,934 missing values generated)
+
+. recode income_recode (1 = 0) (2 = 1) (3 = 2) (4 = 3) (5 = 4) (6 = 5) (7 = 6) (8 = 7)
+(35253 changes made to income_recode)
+
+. label define income_recode 0 &quot;Less than $10K&quot; 1 &quot;$10K - $24,999&quot; 2 &quot;$25K - $49,999&quot; 3 &quot;$50K - $79,999&quot; 4 &quot;$75K - $99,999
+&gt; &quot; 5 &quot;$100K - $149,999&quot; 6 &quot;$150K - $199,999&quot; 7 &quot;$200K plus&quot;
+
+. label values income_recode income_recode
+
+. tab income_recode
+
+   income_recode |      Freq.     Percent        Cum.
+-----------------+-----------------------------------
+  Less than $10K |        472        1.34        1.34
+  $10K - $24,999 |      1,985        5.63        6.97
+  $25K - $49,999 |      5,745       16.30       23.27
+  $50K - $79,999 |      6,831       19.38       42.64
+  $75K - $99,999 |      6,602       18.73       61.37
+$100K - $149,999 |      7,600       21.56       82.93
+$150K - $199,999 |      3,463        9.82       92.75
+      $200K plus |      2,555        7.25      100.00
+-----------------+-----------------------------------
+           Total |     35,253      100.00
+
+</code></pre>
+<p><strong>Single Bar Graph</strong></p>
+<pre><code>. graph hbar, over(income_recode) name(bar_income, replace)
+
+</code></pre>
+<p><img src="Week3_data_work_Stata_files/bar_income.png" ></p>
+<p>Here we can use <strong>bar</strong> or <strong>hbar</strong> to define a vertial or horizontal bar plot, respectively.</p>
+<p>**Single variable boxplot</p>
+<pre><code>. graph box pa_total_short, name(box_pa, replace)
+
+</code></pre>
+<p><img src="Week3_data_work_Stata_files/box_pa.png" ></p>
+<h2><a href="#3-scatter-plots" id="3-scatter-plots">3. Scatter plots</a></h2>
+<p>Scatter plots show the relationship between two variables. There are lots of things we can do and we will build a plot sequentially. We are going to plot the relationship between age and physical activity, two continuous variables.</p>
+<pre><code>. graph twoway scatter pa_total_short sdc_age_calc, name(scatter_pa_age, replace)
+
+</code></pre>
+<p><img src="Week3_data_work_Stata_files/scatter_pa_age.png" ></p>
+<p>Let&rsquo;s add a fitted line. By default Stata uses a linear regression. This is not the same as R. I think a line is a better default but that&rsquo;s me. Here we are combining graphs sort of like we did with ggplot2. We use brackets to call two plots and overlay them.</p>
+<pre><code>. graph twoway (scatter pa_total_short sdc_age_calc) (lfit pa_total_short sdc_age_calc), name(scatter_fit, replace)
+
+</code></pre>
+<p><img src="Week3_data_work_Stata_files/scatter_fit.png" ></p>
+<p>We still have a problem with overplotting. We can use <strong>mcolour</strong> to change the opacity of the colours.</p>
+<pre><code>. graph twoway (scatter pa_total_short sdc_age_calc, mcolor(%5)) (lfit pa_total_short sdc_age_calc), name(scatter_colour, 
+&gt; replace)
+
+</code></pre>
+<p><img src="Week3_data_work_Stata_files/scatter_colour.png" ></p>
+<h2><a href="#4-group-with-stata-graphics" id="4-group-with-stata-graphics">4. Group with Stata graphics</a></h2>
+<p>We can pretty easily group by for different variables in stata graphics. Here we are going to group by using gender. First let&rsquo;s add value labels to our gender variable.</p>
+<pre><code>. generate gender_recode = sdc_gender
+
+. recode gender_recode (1 = 0) (2 = 1)
+(41187 changes made to gender_recode)
+
+. label define gender_recode 0 &quot;Male&quot; 1 &quot;Female&quot;
+
+. label values gender_recode gender_recode
+
+. tab gender_recode
+
+gender_reco |
+         de |      Freq.     Percent        Cum.
+------------+-----------------------------------
+       Male |     15,200       36.90       36.90
+     Female |     25,987       63.10      100.00
+------------+-----------------------------------
+      Total |     41,187      100.00
+
+</code></pre>
+<p>**Faceting by gender</p>
+<pre><code>. graph twoway scatter pa_total_short sdc_age_calc, by(gender_recode) mcolor(%5) name(scatter_gender_facet, replace)
+
+</code></pre>
+<p><img src="Week3_data_work_Stata_files/scatter_gender_facet.png" ></p>
+<p><strong>Colour by gender</strong></p>
+<p>There is no default way in Stata to colour by a variable in a scatter plot. There is a community develop method in a package called <em>SCC</em>. This is a community written program like an R package. There are more and more of these in Stata, which is great. We need to install this. From what I can tell</p>
+<pre><code>ssc install sepscatter
+</code></pre>
+<pre><code>. sepscatter pa_total_short sdc_age_calc, separate(gender_recode) name(scatter_gender_colour, replace)
+
+</code></pre>
+<p><img src="Week3_data_work_Stata_files/scatter_gender_colour.png" ></p>
