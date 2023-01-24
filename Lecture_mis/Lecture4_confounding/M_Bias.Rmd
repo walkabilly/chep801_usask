@@ -18,7 +18,7 @@ library(arm) # to plot coefficients
 ```
 
 
-We will create a collider variable from a binary exposure and outcome. This is not a confounder, as the causal direction is from the exposure and outcome to the collider. 
+We will create a collider variable from the binary exposure and outcome. This is not a confounder, as the causal direction is from the exposure and outcome to the collider. 
 ```{r}
   # Create a binary outcome variable 
   outcome<-rbinom(n=2000,size=1,prob=0.7)
@@ -62,7 +62,7 @@ Now, perform stratification (condition analysis on C) and investigate the associ
 
 ```
 
-Rather than stratification, we will also run regression-based adjustment to confirm the results 
+In addition to stratification, we will also run regression-based adjustment to confirm the results 
 ```{r}
 regress_eo <- glm(outcome~Exposure,data=myData,family="binomial")
 coefplot(regress_eo, main = "Not adjusted for C")
@@ -109,7 +109,7 @@ myFunc <- function(){
   )
 }
 
-# Replicated the function above, compile results (odds ratio) and display as a forestplot 
+# Replicate the function above and compile results (odds ratio) across simulations and display as a forestplot 
 d <- replicate(20, myFunc())
 d <- data.frame(t(d))
 names(d) <- c("Point", "Lower", "Upper")

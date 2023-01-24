@@ -11,7 +11,7 @@ output:
 
 
 
-We will create a collider variable from a binary exposure and outcome. This is not a confounder, as the causal direction is from the exposure and outcome to the collider. 
+We will create a collider variable from the binary exposure and outcome. This is not a confounder, as the causal direction is from the exposure and outcome to the collider. 
 
 ```r
   # Create a binary outcome variable 
@@ -20,7 +20,7 @@ We will create a collider variable from a binary exposure and outcome. This is n
 ```
 
 ```
-##  [1] 1 1 0 1 1 0 1 1 0 1 0 1 0 1 1 0 1 1 0 1 0 1 1 1 1 1 0 0 1 1 1 1 0 1 0 1 1 1
+##  [1] 0 1 1 1 1 1 1 1 0 1 1 0 1 1 1 1 1 0 1 1 0 1 1 1 1 1 1 0 1 0 0 1 1 0 1 1 1 1
 ## [39] 1 1
 ```
 
@@ -29,7 +29,7 @@ We will create a collider variable from a binary exposure and outcome. This is n
 ```
 
 ```
-## [1] 0.6915
+## [1] 0.711
 ```
 
 ```r
@@ -39,8 +39,8 @@ We will create a collider variable from a binary exposure and outcome. This is n
 ```
 
 ```
-##  [1] 1 0 0 1 0 0 0 0 1 0 0 1 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 1 0 0 0 0 1
-## [39] 1 0
+##  [1] 1 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 1 0 0 1 0 1 0 0 0 0 1 0 0 0 0 0 0 0 0 0 1
+## [39] 0 0
 ```
 
 ```r
@@ -60,8 +60,8 @@ We will create a collider variable from a binary exposure and outcome. This is n
 ```
 
 ```
-##  [1] 1 0 0 1 0 0 0 0 1 0 0 1 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 1 0 0 0 0 1
-## [39] 1 0
+##  [1] 1 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 1 0 0 1 0 1 0 0 0 0 1 0 0 0 0 0 0 0 0 0 1
+## [39] 0 0
 ```
 
 ```r
@@ -83,8 +83,8 @@ Checking associations between the three variables. We do not expect the associat
 ```
 ##          Outcome
 ## Predictor   0   1 oddsratio     lower    upper   p.value
-##         0 433 977  1.000000        NA       NA        NA
-##         1 184 406  0.977916 0.7945018 1.203672 0.8320505
+##         0 416 994  1.000000        NA       NA        NA
+##         1 162 428  1.105696 0.8927006 1.369511 0.3868597
 ```
 
 ```r
@@ -93,9 +93,9 @@ Checking associations between the three variables. We do not expect the associat
 
 ```
 ##          Outcome
-## Predictor   0    1 oddsratio   lower    upper      p.value
-##         0 342 1068  1.000000      NA       NA           NA
-##         1  46  544  3.787005 2.73716 5.239522 2.099997e-19
+## Predictor   0    1 oddsratio    lower    upper      p.value
+##         0 350 1060  1.000000       NA       NA           NA
+##         1  34  556  5.399556 3.741865 7.791624 9.953847e-27
 ```
 
 ```r
@@ -104,9 +104,9 @@ Checking associations between the three variables. We do not expect the associat
 
 ```
 ##          Outcome
-## Predictor   0    1 oddsratio    lower    upper      p.value
-##         0 261  356  1.000000       NA       NA           NA
-##         1 127 1256  7.250641 5.689212 9.240611 2.021934e-62
+## Predictor   0    1 oddsratio    lower    upper     p.value
+##         0 245  333     1.000       NA       NA          NA
+##         1 139 1283     6.791 5.339257 8.637471 5.66258e-58
 ```
 
 
@@ -124,9 +124,9 @@ Now, perform stratification (condition analysis on C) and investigate the associ
 
 ```
 ##          Outcome
-## Predictor   0   1 oddsratio     lower    upper   p.value
-##         0 227 115 1.0000000        NA       NA        NA
-##         1  34  12 0.6966752 0.3475909 1.396343 0.4027189
+## Predictor   0   1 oddsratio    lower    upper   p.value
+##         0 222 128 1.0000000       NA       NA        NA
+##         1  23  11 0.8294837 0.391544 1.757256 0.7106708
 ```
 
 ```r
@@ -136,12 +136,12 @@ Now, perform stratification (condition analysis on C) and investigate the associ
 
 ```
 ##          Outcome
-## Predictor   0   1 oddsratio     lower     upper      p.value
-##         0 206 862 1.0000000        NA        NA           NA
-##         1 150 394 0.6277185 0.4928962 0.7994188 0.0001782195
+## Predictor   0   1 oddsratio     lower     upper     p.value
+##         0 194 866 1.0000000        NA        NA          NA
+##         1 139 417 0.6720554 0.5248883 0.8604849 0.001868471
 ```
 
-Rather than stratification, we will also run regression-based adjustment to confirm the results 
+In addition to stratification, we will also run regression-based adjustment to confirm the results 
 
 ```r
 regress_eo <- glm(outcome~Exposure,data=myData,family="binomial")
@@ -196,7 +196,7 @@ myFunc <- function(){
   )
 }
 
-# Replicated the function above, compile results (odds ratio) and display as a forestplot 
+# Replicate the function above and compile results (odds ratio) across simulations and display as a forestplot 
 d <- replicate(20, myFunc())
 d <- data.frame(t(d))
 names(d) <- c("Point", "Lower", "Upper")
