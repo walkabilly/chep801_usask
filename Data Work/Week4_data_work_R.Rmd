@@ -208,7 +208,9 @@ summary(model_weight)
 
 exp(cbind(coef(model_weight), confint(model_weight))) ## Old school way
 
-tbl_regression(model_weight)  ##Newer way
+model_weight_table <- tbl_regression(model_weight, exponentiate = TRUE) 
+
+model_weight_table %>% as_kable()
 ```
 
 There are advantages and disadvantages to different was to display models. The `summary` method is good because we all of relevant output from the models. On the downside it's very ugly and hard to make nice tables with. The `tbl_regression` way is nice because we get nice output but we can miss things that might be relevant to our models. By default using the summary we don't get Odds Ratios and confidence intervals. I've shown two ways to get these results. 
@@ -222,9 +224,9 @@ univ_table <- data_working %>%
     method = glm,
     y = diabetes_t2,
     method.args = list(family = binomial),
-    exponentiate = TRUE)
+    exponentiate = TRUE) 
 
-univ_table
+univ_table %>% as_kable()
 ```
 
 #### Model diagnostics
@@ -244,14 +246,17 @@ model_final <- glm(diabetes_t2 ~ bmi_overweight +
                     data = data_working, family = "binomial")
 summary(model_final)
 
-multi_table <- tbl_regression(model_final, exponentiate = TRUE)
+multi_table <- tbl_regression(model_final, exponentiate = TRUE) 
+
+multi_table %>% as_kable()
 
 plot_model(model_final, type="est")
 ```
 
 ```{r}
-tbl_univ_multi <- tbl_merge(list(univ_table, multi_table))
-tbl_univ_multi
+tbl_univ_multi <- tbl_merge(list(univ_table, multi_table)) 
+
+tbl_univ_multi %>% as_kable()
 ```
 
 When we visually compare the ORs for `Black` and `Fatty Liver` we see that there is probably something of note happening here. We might suspect confounding based on the change in the OR (old way of doign things) but we need to make our DAG is indicating the potential for confounding. 
@@ -269,7 +274,7 @@ model_interaction <- glm(diabetes_t2 ~ bmi_overweight +
                     data = data_working, family = "binomial")
 summary(model_interaction)
 
-interaction_table <- tbl_regression(model_interaction, exponentiate = TRUE)
+interaction_table <- tbl_regression(model_interaction, exponentiate = TRUE) %>% as_kable()
 
 table(data_working$black, data_working$fatty_liver)
 ```
