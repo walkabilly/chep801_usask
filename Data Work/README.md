@@ -9,3 +9,4 @@ RStudio       | [Week_1_data_work_R.md](https://github.com/walkabilly/chep801_us
 Data Wrangling  | [Week_2_data_work_R.md](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/Week2_data_work_R.md)   | [Week_2_data_work_Stata.do](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/Week2_data_work_Stata.do)
 Data Visualization  | [Week_3_data_work_R.md](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/Week3_data_work_R.md)   | [Week_3_data_work_Stata.do](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/Week3_data_work_Stata.do)
 Logistic Regression  | [Week_4_data_work_R.md](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/Week4_data_work_R.md)   | [Coming Soon]()
+Linear Regression  | [Week_5_data_work_R.md](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/Week5_data_work_R.md)   | [Coming Soon]()
