@@ -1,0 +1,258 @@
+---
+title: "Week 5 Data Work"
+output:
+      html_document:
+        keep_md: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(sjPlot)
+library(finalfit)
+library(knitr)
+library(jtools)
+library(emmeans)
+library(lindia)
+library(gtsummary)
+data <- read_csv("Data.csv")
+```
+
+### 1. Linear Regression
+
+A linear regression is a type of regression where the outcome variable is continuous and we assume it has a normal distribution. 
+
+#### Variable selection
+
+For this data work we are not going to worry about variable selection. Variable selection should be based on subject area knowledge about the study design and research question. Ideally, variable selection is done with the help of a DAG. 
+
+### 2. Research question and data
+
+Our research question is:  
+
+- **What factors are associated with BMI?**
+
+We have created a DAG and identified that the following factors are associated with BMI. These are the same variables as the logistic regression assignment. We should be very careful when working with BMI data not to victim blame and also not to look too much at statistical significance. We have good guidelines for what is a meaningful change in BMI in terms of health benefit. 
+
+- `PM_BMI_SR` = BMI
+- `DIS_DIAB_TYPE` = Diabetes yes or no
+- `PA_TOTAL_SHORT` = Physical activity in MET Minutes per Week
+- `SDC_AGE_CALC` = Are 45 years or older
+- `diabetes == "Gestational"` = Have ever had gestational diabetes (diabetes during pregnancy) or given birth to a baby who weighed over 9 pounds
+- `SDC_EB_ABORIGINAL` + `SDC_EB_LATIN` + `SDC_EB_BLACK` = Are an African American, Hispanic or Latino, American Indian, or Alaska Native person
+- `DIS_LIVER_FATTY_EVER` = Have non-alcoholic fatty liver disease
+
+Let's simplify the dataset so we are not working with so many variables. 
+
+```{r}
+data_working <- select(data, "DIS_DIAB_TYPE", "PM_BMI_SR", "PA_LEVEL_SHORT", "SDC_AGE_CALC", "PA_TOTAL_SHORT", "SDC_EB_ABORIGINAL", "SDC_EB_LATIN", "SDC_EB_BLACK", "DIS_LIVER_FATTY_EVER")
+
+rm(data) ### Remove the old data from working memory
+```
+
+#### Outcome variable
+
+Let's look at the outcome variable, recode, and drop observations that are not relevant. We need to do a histogram and check the distribution. Then we might deal with outliers.  
+
+```{r}
+summary(data_working$PM_BMI_SR)
+
+bmi_histogram <- ggplot(data = data_working, aes(PM_BMI_SR)) +
+                  geom_histogram()
+plot(bmi_histogram)
+```
+
+Nice normal(ish) distribution here. We probably have some outliers on the low and high end with values of 8.86 and 69.40 
+
+We can recode people who are less than 10 and greater than 60 to values of 10 and 60 respectively. 
+
+```{r}
+data_working <- data_working %>%
+          mutate(bmi_recode = case_when(
+            PM_BMI_SR < 10 ~ 10, 
+            PM_BMI_SR > 60 ~ 60,
+            TRUE ~ PM_BMI_SR
+          ))
+summary(data_working$bmi_recode)
+
+bmi_recode_histogram <- ggplot(data = data_working, aes(bmi_recode)) +
+                  geom_histogram()
+plot(bmi_recode_histogram)
+```
+
+#### Preparing predictor variables
+
+**Diabetes**
+
+```{r}
+table(data_working$DIS_DIAB_TYPE)
+
+data_working <- data_working %>%
+	mutate(diabetes_t2 = case_when(
+    DIS_DIAB_TYPE == 2 ~ 1,
+    DIS_DIAB_TYPE == -7 ~ 0, 
+		TRUE ~ NA_real_
+	))
+
+data_working$diabetes_t2 <- as.factor(data_working$diabetes_t2)
+```
+
+**Age**
+
+```{r}
+glimpse(data_working$SDC_AGE_CALC)
+
+summary(data_working$SDC_AGE_CALC) ### Lots of NAs! 
+
+data_working <- data_working %>%
+	mutate(age_45 = case_when(
+	  SDC_AGE_CALC >= 45.00 ~ "Over 45",
+		SDC_AGE_CALC < 45.00 ~ "Under 45"
+	))
+
+table(data_working$age_45)
+```
+
+**Physical Activity**
+
+```{r}
+glimpse(data_working$PA_LEVEL_SHORT)
+
+table(data_working$PA_LEVEL_SHORT)
+
+data_working <- data_working %>%
+	mutate(pa_cat = case_when(
+		PA_LEVEL_SHORT == 1 ~ "1_Low Activity",
+		PA_LEVEL_SHORT == 2 ~ "2_Moderate Activity",
+		PA_LEVEL_SHORT == 3 ~ "3_High Activity"
+	))
+
+table(data_working$pa_cat, data_working$PA_LEVEL_SHORT)
+```
+
+**Racialized**
+
+```{r}
+table(data_working$SDC_EB_ABORIGINAL)
+table(data_working$SDC_EB_LATIN)
+table(data_working$SDC_EB_BLACK)
+
+### Latinx
+
+data_working <- data_working %>%
+	mutate(latinx = case_when(
+		SDC_EB_LATIN == 1 ~ "Yes",
+		SDC_EB_LATIN == 0 ~ "No"
+	))
+
+table(data_working$SDC_EB_LATIN, data_working$latinx)
+
+### Indigenous
+
+data_working <- data_working %>%
+	mutate(indigenous = case_when(
+		SDC_EB_ABORIGINAL == 1 ~ "Yes",
+		SDC_EB_ABORIGINAL == 0 ~ "No"
+	))
+
+table(data_working$SDC_EB_ABORIGINAL, data_working$indigenous)
+
+### Black
+
+data_working <- data_working %>%
+	mutate(black = case_when(
+		SDC_EB_BLACK == 1 ~ "Yes",
+		SDC_EB_BLACK == 0 ~ "No"
+	))
+
+table(data_working$SDC_EB_BLACK, data_working$black)
+```
+
+**Fatty liver disease**
+
+```{r}
+table(data_working$DIS_LIVER_FATTY_EVER)
+
+data_working <- data_working %>%
+	mutate(fatty_liver = case_when(
+		DIS_LIVER_FATTY_EVER == 1 ~ "Yes",
+		DIS_LIVER_FATTY_EVER == 2 ~ "Yes"
+	))
+
+data_working <- data_working %>%
+	mutate(fatty_liver = case_when(
+		DIS_LIVER_FATTY_EVER == 1 ~ "Yes",
+		DIS_LIVER_FATTY_EVER == 2 ~ "Yes"
+	))
+
+data_working <- data_working %>% 
+                  mutate(fatty_liver = replace_na(fatty_liver, "No"))
+
+table(data_working$fatty_liver)
+```
+
+#### 3. Preliminary analysis
+
+We want to start by doing bivariable regression on the outcome and each variable. This can a be a bit of a process if we have lots of variables. Here we are using the `glm` (General Linear Model) function. 
+
+```{r}
+model_t2_diab <- glm(bmi_recode ~ diabetes_t2, data = data_working, family = "gaussian")
+summary(model_t2_diab)
+
+cbind(coef(model_t2_diab), confint(model_t2_diab)) ## Old school way
+
+model_t2_diab_table <- tbl_regression(model_t2_diab) 
+
+model_t2_diab_table %>% as_kable()
+```
+
+There are advantages and disadvantages to different was to display models. The `summary` method is good because we all of relevant output from the models. On the downside it's very ugly and hard to make nice tables with. The `tbl_regression` way is nice because we get nice output but we can miss things that might be relevant to our models. 
+
+We always want to look at all of the bivariate associations for each independent variable. We can do this quickly with the final fit package. For now ignore the multivariable model results. We just want to look at the bivariable. 
+
+```{r}
+univ_table <- data_working %>%
+  select(bmi_recode, diabetes_t2, age_45, pa_cat, latinx, indigenous, black, fatty_liver) %>%
+  tbl_uvregression(
+    method = glm,
+    y = bmi_recode,
+    method.args = list(family = gaussian)) 
+
+univ_table %>% as_kable()
+```
+
+#### Final Model
+
+Let's run our final model with all variables. We are going to assume here that we have a solid DAG for this study design and model. 
+
+```{r}
+model_final <- glm(bmi_recode ~  diabetes_t2 +
+                                  age_45 + 
+                                  pa_cat + 
+                                  latinx + 
+                                  indigenous + 
+                                  black + 
+                                  fatty_liver, 
+                    data = data_working, family = "gaussian")
+summary(model_final)
+
+multi_table <- tbl_regression(model_final) 
+
+multi_table %>% as_kable()
+
+plot_model(model_final, type="est")
+```
+
+```{r}
+tbl_univ_multi <- tbl_merge(list(univ_table, multi_table))
+
+tbl_univ_multi %>% as_kable()
+```
+
+For linear regression models there are a number of assumptions we want to check. These are typically easy visualized using plots. We can produce the plots for the relevant visualizations using `plot` from base R. 
+
+```{r}
+plot(model_final)
+```
+
+
