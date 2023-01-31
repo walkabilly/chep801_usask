@@ -33,16 +33,27 @@ You must submit the following.
 
 You are interested in examining the association between the occurrence of major depression at any point during the life of the participant `DIS_DEP_EVER` and physical activity `PA_TOTAL_SHORT`. It is well known that there are many factors associated with depression [https://doi.org/10.1176/appi.ajp.2020.19111158](https://doi.org/10.1176/appi.ajp.2020.19111158). There also been attempts to develop data driven DAGs for depression as it is such an outcome with a very complicated causal web [https://doi.org/10.3389/fpsyt.2022.809745](https://doi.org/10.3389/fpsyt.2022.809745).
 
-Your task in this analysis is to determine which variables should be included in a regression model examining the association between depression and physical activity. We previously learned two approaches for determining which variables should be included in a model
+Your task in this analysis is to determine which variables should be included in a regression model examining the association between depression and physical activity. 
 
-1. A DAG/theory based approach
-2. A data driven/model fit approach
+1. Identify the primary outcome of interest and the main predictor(s) of interest
 
-This assignment requires you to do the following
+2. Draw a causal diagram for your full causal model
 
-1. Present a model building approach based on the DAG/theory based approach
-2. Present a model building approach based on the data driven/model fit approach
-3. Compare the results between your DAG/theory approach and your data driven/model fit approach
+3. Assess potential confounding variables on the relationship between the outcome and exposure of interest using two approaches we learned in class:  
+
+    * A DAG/theory based approach
+    * A data driven/model fit approach  
+    
+4. Conduct cross-tabulations of the outcome variable with categorical predictors.
+
+    * Are you concerned about any of the cell sizes?  
+
+5. Identify and fit the best model evaluating the association between your exposure and outcome of interest. Describe why you included/excluded predictors and how you compared between models to arrive at your final model.  
+
+    * Insert your model output below. 
+    * Interpret each of the coefficients and odds ratios.   
+
+6. Evaluate the model and indicate if there are any issues with the reliability of the model, and if the model meets the assumptions of logistic regression. Use regression diagnostics. 
 
 ## Part 2 - Format and Effort 
 
