@@ -546,15 +546,15 @@ plot_model(model_final, type="est")
 ```
 
 ```
-## Profiled confidence intervals may take longer time to compute.
-##   Use `ci_method="wald"` for faster computation of CIs.
+## Profiled confidence intervals may take longer time to compute. Use
+##   'ci_method="wald"' for faster computation of CIs.
 ```
 
 ![](Week4_data_work_R_files/figure-html/unnamed-chunk-10-1.png)<!-- -->
 
 
 ```r
-tbl_univ_multi <- tbl_merge(list(univ_table, multi_table)) 
+tbl_univ_multi <- tbl_merge(list(univ_table, multi_table))
 
 tbl_univ_multi %>% as_kable()
 ```

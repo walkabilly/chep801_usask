@@ -12,6 +12,7 @@ library(sjPlot)
 library(finalfit)
 library(knitr)
 library(jtools)
+library(marginaleffects)
 library(lindia)
 library(emmeans)
 library(gtsummary)
@@ -254,7 +255,7 @@ plot_model(model_final, type="est")
 ```
 
 ```{r}
-tbl_univ_multi <- tbl_merge(list(univ_table, multi_table)) 
+tbl_univ_multi <- tbl_merge(list(univ_table, multi_table))
 
 tbl_univ_multi %>% as_kable()
 ```
