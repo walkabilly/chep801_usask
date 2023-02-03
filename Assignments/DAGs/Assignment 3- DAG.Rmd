@@ -1,0 +1,87 @@
+---
+title: "Assignment 3 - DAG"
+author: "H"
+date: "2023-02-02"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(dagitty)
+library(ggdag)
+```
+
+# Assignment 3- Directed Acyclic Graph (DAG)
+
+### The assignment consists Question 1a-e and Question 2 a-d. You are free to work in group  for question 2.   
+
+### You might like to explore the use of the online DAG software to answer Question 2. 
+
+http://www.dagitty.net/dags.html
+
+
+#### Question 1a-d   
+
+
+First, select a peer-reviewed research paper that fits to your interest. The paper should be:   
+
+*   Etiologic study (not descriptive, not prediction) using one exposure variable. and,    
+*   Observational study (not randomized trial) and should not be an ecological study. 
+
+
+TO answer the questions below, you do not need to perform literature search to define causal association (direction of arrows) in your DAG. All information should come from the paper you picked and your substantive knowledge or common sense.    
+  
+  
+**Question 1a**   Describe the research question provided by the authors in one sentence.   
+**Question 1b**   State the exposure and outcome variable of interest and confounder(s) in this paper.   
+**Question 1c**  Draw a DAG describing the study question of interest. Include the exposure, outcome, and one or two confounders.   
+**Question 1d**   Come up with an additional variable that represent a collider (the common effect of the exposure and outcome). Update your DAG adding your collider, and explain why it is the common effect of the exposure and outcome to the best of your knowledge.   
+  
+  
+  \newpage   
+  
+  
+#### Question 2 a-d  
+In the daggity software, copy and paste the following code (staring from `dag{` to `}`) that will generate a DAG, with a focus on association between `Neighbourhood safety` (exposure)  and `Cardiovascular Disease` (outcome).  You need to paste into the `MOdel_code` section (right hand side, the third pane). You will see the DAG with 8 variables (nodes), as in the .pdf image file in the github page.  
+
+`https://github.com/walkabilly/chep801_usask/tree/main/Assignments/DAGs`. 
+
+
+`
+dag {
+"Cardiovascular Disease" [outcome,pos="1.005,0.352"]
+"hsv-1 infection" [pos="-0.840,-0.379"]
+"Neighbourhood safety" [exposure,pos="-1.603,0.355"]
+"Perceived Neighbourhood Safety" [pos="-0.632,0.088"]
+"Recent Immigration" [pos="-1.385,-0.927"]
+Excercise [pos="0.045,0.099"]
+Income [pos="0.023,-0.530"]
+Occupation [pos="0.954,-1.059"]
+"hsv-1 infection" -> "Cardiovascular Disease"
+"hsv-1 infection" -> "Neighbourhood safety"
+"Neighbourhood safety" -> "Cardiovascular Disease"
+"Neighbourhood safety" -> "Perceived Neighbourhood Safety"
+"Perceived Neighbourhood Safety" -> Excercise
+"Recent Immigration" -> "Neighbourhood safety"
+"Recent Immigration" -> Income
+Excercise -> "Cardiovascular Disease"
+Income -> "Cardiovascular Disease"
+Income -> "Neighbourhood safety"
+Occupation -> "Cardiovascular Disease"
+Occupation -> Income
+}
+`
+
+
+*How to answer questions*   
+You will need to specify paths to answer the questions below. You can use the first letter of each variable to describe a path. For example, the path between the exposure (**N**eighborhood safety) and the outcome (**C**ardiovascular disease), can be specified as  `{N -> C}`.  
+  
+  
+**Question 2a** List all directed (causal) paths between N and C.       
+**Question 2b** List all non-directed (non-causal) paths between N and C, both blocked and unblocked paths.    
+**Question 2c** Find a collider variable.   
+**Question 2d** List all variables that you need to adjust to block all non-causal paths, so that you can identify causal path(s).  
+
+
+
+  
