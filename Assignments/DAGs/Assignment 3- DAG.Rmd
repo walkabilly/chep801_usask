@@ -13,7 +13,7 @@ library(ggdag)
 
 # Assignment 3- Directed Acyclic Graph (DAG)
 
-### The assignment consists Question 1a-e and Question 2 a-d. You are free to work in group  for question 2.   
+### The assignment consists Question 1a-d and Question 2 a-d. You are free to work in group  for question 2.   
 
 ### You might like to explore the use of the online DAG software to answer Question 2. 
 
