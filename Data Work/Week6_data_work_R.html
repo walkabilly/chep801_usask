@@ -357,18 +357,22 @@ display: none;
 
 <div id="simulating-counterfactual-outcomes-with-1-confounder-variable" class="section level3">
 <h3>Simulating counterfactual outcomes with 1 confounder variable</h3>
+</div>
+<div id="eveyone-needs-to-run-these-codes-and-share-results-to-reach-correct-conclusion-collectively-as-we-all-get-slightly-varying-results." class="section level3">
+<h3>Eveyone needs to run these codes and share results to reach correct
+conclusion collectively, as we all get slightly varying results.</h3>
 <p>We only need two libraries today</p>
-<p>Today, we will generate varaibles whose names follow the lecture
-material, specifically:</p>
+<p>We will generate variables whose name follows the lecture material,
+specifically:</p>
 <p><em>A</em>: Binary exposure<br />
 <em>L</em>: Binary confounder<br />
 <em>Y</em>: Binary outcome (observed outcome)</p>
 <p>Note that the confounder variable is first generated, from which the
-exposure and the outcome were generated. Thus, the variable L is a
-common cause, rather than common effect (collider).</p>
-<div id="be-sure-to-check-the-positivity-assumption-is-met-in-your-data-everyone-has-differing-data" class="section level5">
-<h5>Be sure to check the positivity assumption is met in your data
-(everyone has differing data)</h5>
+exposure and the outcome are generated. Thus, the variable L is a common
+cause, rather than common effect (collider).</p>
+<div id="be-sure-to-check-to-see-if-the-positivity-assumption-is-met-in-your-data." class="section level4">
+<h4>Be sure to check to see if the positivity assumption is met in your
+data.</h4>
 <pre class="r"><code># Set see to get same results within the same computer 
 set.seed(1)
 
@@ -400,7 +404,7 @@ epitools::epitab(A, L, method = &quot;oddsratio&quot;)$tab</code></pre>
 ## A     0   1
 ##   0 160 184
 ##   1 110  46</code></pre>
-<p>If there is no zero-cell across A and L, proceeed to next step,
+<p>If there is no zero-cell across A and L, proceed to the next step,
 creating <em>Y</em>.</p>
 <pre class="r"><code># Create a third variable (fake confounder) from the outcome and exposure  
 theta = -1 + 0.3*A + -0.4*L  # Generate logit of outcome
@@ -410,7 +414,7 @@ Y= rbinom(N,1,prob) # Generate the binary values from the probabilities of the o
 head(Y, 40) # display values </code></pre>
 <pre><code>##  [1] 0 0 0 1 0 0 0 0 1 0 1 0 0 1 0 1 1 0 0 0 0 1 0 1 0 1 0 0 0 0 0 0 0 1 0 0 0 0
 ## [39] 1 0</code></pre>
-<p>We need to create a data frame with the three varaibles before
+<p>We need to create a data frame with the three variables before
 running the model</p>
 <pre class="r"><code>myData &lt;- data.frame(Y, A, L)
 table(myData$Y)</code></pre>
@@ -436,9 +440,8 @@ table(myData$Y)</code></pre>
 ## Predictor   0        p0  1        p1 oddsratio     lower    upper      p.value
 ##         0 183 0.4945946 87 0.6692308 1.0000000        NA       NA           NA
 ##         1 187 0.5054054 43 0.3307692 0.4836806 0.3183224 0.734937 0.0007061134</code></pre>
-</div>
 <div id="run-the-regression-to-capture-the-association-between-y-and-a-and-y-and-l" class="section level5">
-<h5>run the regression to capture the association between Y and A, and Y
+<h5>Run the regression to capture the association between Y and A, and Y
 and L</h5>
 <pre class="r"><code>regressResult &lt;- glm(data=myData, Y~L + A,  family=&quot;binomial&quot;)
 
@@ -493,6 +496,7 @@ Report these values to combine with colleague’s results.</p>
 <pre><code>## [1] 1.399434</code></pre>
 <pre class="r"><code>mean(pred_Ya_1) - mean(pred_Ya_0)</code></pre>
 <pre><code>## [1] 0.06620223</code></pre>
+</div>
 </div>
 </div>
 

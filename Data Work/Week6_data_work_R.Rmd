@@ -6,8 +6,8 @@ output:
         keep_md: true
 ---
 
-### Simulating counterfactual outcomes with 1 confounder variable 
-
+### Simulating counterfactual outcomes with 1 confounder variable   
+### Eveyone needs to run these codes and share results to reach correct conclusion collectively, as we all get slightly varying results. 
 
 
 We only need two libraries today 
@@ -19,16 +19,16 @@ library(ggplot2)
 ```
 
 
-Today, we will generate varaibles whose names follow the lecture material, specifically:    
+We will generate variables whose name follows the lecture material, specifically:    
   
   *A*: Binary exposure    
   *L*: Binary confounder   
   *Y*: Binary outcome (observed outcome)    
 
   
-Note that the confounder variable is first generated, from which the exposure and the outcome were generated. Thus, the variable L is a common cause, rather than common effect (collider).  
+Note that the confounder variable is first generated, from which the exposure and the outcome are generated. Thus, the variable L is a common cause, rather than common effect (collider).  
 
-##### Be sure to check the positivity assumption is met in your data (everyone has differing data)
+#### Be sure to check to see if the positivity assumption is met in your data. 
 
 ```{r}
 # Set see to get same results within the same computer 
@@ -55,7 +55,7 @@ table(A, L)
 ```
 
 
-If there is no zero-cell across A and L, proceeed to next step, creating *Y*. 
+If there is no zero-cell across A and L, proceed to the next step, creating *Y*. 
 ```{r}
 # Create a third variable (fake confounder) from the outcome and exposure  
 theta = -1 + 0.3*A + -0.4*L  # Generate logit of outcome
@@ -66,7 +66,7 @@ head(Y, 40) # display values
 ```
 
 
-We need to create a data frame with the three varaibles before running the model 
+We need to create a data frame with the three variables before running the model 
 ```{r}
 myData <- data.frame(Y, A, L)
 table(myData$Y)
@@ -81,7 +81,7 @@ epitools::epitab(myData$A, myData$Y, method = "oddsratio")$tab
 epitools::epitab(myData$L, myData$Y, method = "oddsratio")$tab
 ```
 
-##### run the regression to capture the association between Y and A, and Y and L
+##### Run the regression to capture the association between Y and A, and Y and L
 ```{r}
 regressResult <- glm(data=myData, Y~L + A,  family="binomial")
 

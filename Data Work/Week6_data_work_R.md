@@ -6,24 +6,24 @@ output:
         keep_md: true
 ---
 
-### Simulating counterfactual outcomes with 1 confounder variable 
-
+### Simulating counterfactual outcomes with 1 confounder variable   
+### Eveyone needs to run these codes and share results to reach correct conclusion collectively, as we all get slightly varying results. 
 
 
 We only need two libraries today 
 
 
 
-Today, we will generate varaibles whose names follow the lecture material, specifically:    
+We will generate variables whose name follows the lecture material, specifically:    
   
   *A*: Binary exposure    
   *L*: Binary confounder   
   *Y*: Binary outcome (observed outcome)    
 
   
-Note that the confounder variable is first generated, from which the exposure and the outcome were generated. Thus, the variable L is a common cause, rather than common effect (collider).  
+Note that the confounder variable is first generated, from which the exposure and the outcome are generated. Thus, the variable L is a common cause, rather than common effect (collider).  
 
-##### Be sure to check the positivity assumption is met in your data (everyone has differing data)
+#### Be sure to check to see if the positivity assumption is met in your data. 
 
 
 ```r
@@ -82,7 +82,7 @@ table(A, L)
 ```
 
 
-If there is no zero-cell across A and L, proceeed to next step, creating *Y*. 
+If there is no zero-cell across A and L, proceed to the next step, creating *Y*. 
 
 ```r
 # Create a third variable (fake confounder) from the outcome and exposure  
@@ -99,7 +99,7 @@ head(Y, 40) # display values
 ```
 
 
-We need to create a data frame with the three varaibles before running the model 
+We need to create a data frame with the three variables before running the model 
 
 ```r
 myData <- data.frame(Y, A, L)
@@ -157,7 +157,7 @@ epitools::epitab(myData$L, myData$Y, method = "oddsratio")$tab
 ##         1 187 0.5054054 43 0.3307692 0.4836806 0.3183224 0.734937 0.0007061134
 ```
 
-##### run the regression to capture the association between Y and A, and Y and L
+##### Run the regression to capture the association between Y and A, and Y and L
 
 ```r
 regressResult <- glm(data=myData, Y~L + A,  family="binomial")
