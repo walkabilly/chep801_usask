@@ -80,6 +80,14 @@ epitools::epitab(myData$A, myData$Y, method = "oddsratio")$tab
 epitools::epitab(myData$L, myData$Y, method = "oddsratio")$tab
 ```
 
+
+Check the disttribution of L, A, Y and calculate inverse weights if you like 
+```{r}
+myData %>%  group_by(L, A, Y) %>% summarise(count = n()) 
+```
+
+
+
 ##### Run the regression to capture the association between Y and A, and Y and L
 ```{r}
 regressResult <- glm(data=myData, Y~L + A,  family="binomial")
