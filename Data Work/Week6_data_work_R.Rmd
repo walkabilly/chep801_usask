@@ -10,8 +10,8 @@ output:
 
 
 We only need two libraries today 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+```{r, include=FALSE}
+knitr::purl(input = "Week6_data_work_R.Rmd", output = "codesLab6.R",documentation = 0)
 
 library(tidyverse)
 library(ggplot2)

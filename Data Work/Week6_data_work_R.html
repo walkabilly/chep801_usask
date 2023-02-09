@@ -436,6 +436,23 @@ table(myData$Y)</code></pre>
 ## Predictor   0        p0  1        p1 oddsratio     lower    upper      p.value
 ##         0 183 0.4945946 87 0.6692308 1.0000000        NA       NA           NA
 ##         1 187 0.5054054 43 0.3307692 0.4836806 0.3183224 0.734937 0.0007061134</code></pre>
+<p>Check the disttribution of L, A, Y and calculate inverse weights if
+you like</p>
+<pre class="r"><code>myData %&gt;%  group_by(L, A, Y) %&gt;% summarise(count = n()) </code></pre>
+<pre><code>## `summarise()` has grouped output by &#39;L&#39;, &#39;A&#39;. You can override using the
+## `.groups` argument.</code></pre>
+<pre><code>## # A tibble: 8 × 4
+## # Groups:   L, A [4]
+##       L     A     Y count
+##   &lt;int&gt; &lt;dbl&gt; &lt;int&gt; &lt;int&gt;
+## 1     0     0     0   112
+## 2     0     0     1    48
+## 3     0     1     0    71
+## 4     0     1     1    39
+## 5     1     0     0   153
+## 6     1     0     1    31
+## 7     1     1     0    34
+## 8     1     1     1    12</code></pre>
 <div id="run-the-regression-to-capture-the-association-between-y-and-a-and-y-and-l" class="section level5">
 <h5>Run the regression to capture the association between Y and A, and Y
 and L</h5>
