@@ -2,12 +2,11 @@
 title: "Week6_data_work_r"
 date: "2023-02-08"
 output:
-      html_document:
-        keep_md: true
+      html_document
 ---
 
 ### Simulating counterfactual outcomes with 1 confounder variable   
-### Eveyone needs to run these codes and share results to reach correct conclusion collectively, as we all get slightly varying results. 
+
 
 
 We only need two libraries today 
