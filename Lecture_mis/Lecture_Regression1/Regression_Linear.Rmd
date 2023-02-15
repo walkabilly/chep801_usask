@@ -1,0 +1,68 @@
+---
+title: "Regression_Example"
+author: "HM"
+date: "2023-02-15"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(epitools)
+data <- read_csv("Data.csv")
+```
+
+```{r setup variables}
+
+
+
+url <- "http://www.emersonstatistics.com/datasets/fev.txt"
+download.file(url, "fev.txt" )
+fev <- read.csv("~/GitHub/chep801_usask/Lecture_mis/Lecture_Regression1/fev.txt", sep="")
+
+hist(fev$age)
+hist(fev$fev)
+hist(fev$fev, breaks = 30)
+hist(fev$height)
+
+fev$sex <- factor(fev$sex)
+levels(fev$sex) = c("Female", "Male")
+table(fev$sex)
+
+fev$smoke <- factor(fev$smoke)
+levels(fev$smoke) <- c("Smoker", "Non-smoker")
+table(fev$smoke)
+
+
+#https://www.tandfonline.com/doi/full/10.1080/10691898.2005.11910559
+
+ggplot(fev, aes(x= age, y = fev)) + 
+  geom_point() +
+  theme_classic() + 
+  ggtitle("Relationship between Age (years) and FEV (Litres")
+  
+ggplot(fev, aes(x= age, y = fev)) + 
+  geom_point() +
+  theme_classic() + 
+  ggtitle("Relationship between Age (years) and FEV (Litres), by Sex") + 
+  facet_wrap(~sex)
+
+ggplot(fev, aes(x= height, y = fev)) + 
+  geom_point() +
+  theme_classic() + 
+  ggtitle("Relationship between Height (years) and FEV (Litres)")
+
+ggplot(fev, aes(x= height, y = fev)) + 
+  geom_point() +
+  theme_classic() + 
+  ggtitle("Relationship between Height (years) and FEV (Litres)") + 
+  facet_wrap(~smoke)
+
+
+ggplot(fev, aes(sex, fev)) + geom_boxplot() + theme_classic()
+ggplot(fev, aes(smoke, fev)) + geom_boxplot() + theme_classic()
+
+table(fev$sex, fev$smoke)
+
+
+```
