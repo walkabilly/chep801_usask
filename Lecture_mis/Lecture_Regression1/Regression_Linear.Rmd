@@ -100,7 +100,7 @@ knitr::kable(prediInt, digits = 2, caption = "Confidence and prediction interval
 ```
 
 
-### Bit more depth 
+
 #### Extrapolation
 ```{r}
 # Same data and model, extrapolation 
@@ -109,6 +109,29 @@ abline(lm(df$y~ df$x, data = df))
 abline(v = 50, lty = 2)
 abline(v = 150, lty = 2)
 ```
+
+### fitted vs observed
+```{r}
+# generate new data
+x <- runif(N); 
+y = 10 + 3*x + rnorm(N, sd=0.2)
+plot(x, y, pch = 16, cex = 0.4, main = "Relationship between continuous y and x")
+abline(lm(y~ x))
+
+# fitted line 
+#newX <- seq(0, 1, by = 1/(N-1))
+#lmFit <- lm(y~x)
+#fitted <- coef(lmFit)[1] + coef(lmFit)[2]*newX
+#plot(x, y, pch = 16, cex = 0.4, main = "Relationship between continuous y and x")
+#plot(newX, fitted, pch = 16, cex = 0.4, main = "Relationship between continuous y and x")
+
+# fitted based on observed x
+lmFit <- lm(y~ x)
+fitted <- coef(lmFit)[1] + coef(lmFit)[2]*x
+plot(y=y, x=fitted, xlim=c(8,14), ylim = c(8,14), xlab = "FItted values of Y from estimated model", ylab = "Observed (actual) values of Y from actual data ")
+```
+
+### Bit more depth 
 
 
 #### Same data, but different scale of X (x per 100)
@@ -205,7 +228,7 @@ lmTable <- funcColNames2(lmTable)
 knitr::kable(lmTable, digits = 2, caption = "Results: No natural log transformation ")
 
 
-# log fit 
+# log(x) fit 
 plot(df$x, df$y,  pch = 16, cex = 0.4, main = "Updated x-y pot: \n Linear model \n fit to data sampled from log function")
 fit <- lm(y~log(x), data=df)
 curve(fit$coefficients[1] + fit$coefficients[2]*log(x), add=T)
@@ -213,6 +236,8 @@ curve(fit$coefficients[1] + fit$coefficients[2]*log(x), add=T)
 lmTable<-broom::tidy(fit, conf.int = TRUE)
 lmTable <- funcColNames2(lmTable) 
 knitr::kable(lmTable, digits = 2, caption = "Results: After natural log tranformation ")
+
+
 
 
 ```
@@ -426,6 +451,7 @@ dat$smoke <- factor(dat$smoke)
 levels(dat$smoke) <- c("Smoker", "Non-smoker")
 table(dat$smoke)
 
+pairs(dat %>%  select(-c("seqnbr", subjid)))
 ```
 
 
@@ -529,26 +555,7 @@ dat %>% select(-c(seqnbr, subjid)) %>% pairs
 
 
 
-### fitted vs observed
-```{r}
-# generate new data
-x <- runif(N); 
-y = 10 + 3*x + rnorm(N, sd=0.5)
-plot(x, y, pch = 16, cex = 0.4, main = "Relationship between continuous y and x")
-abline(lm(y~ x))
 
-# fitted line 
-#newX <- seq(0, 1, by = 1/(N-1))
-#lmFit <- lm(y~x)
-#fitted <- coef(lmFit)[1] + coef(lmFit)[2]*newX
-#plot(x, y, pch = 16, cex = 0.4, main = "Relationship between continuous y and x")
-#plot(newX, fitted, pch = 16, cex = 0.4, main = "Relationship between continuous y and x")
-
-# fitted based on observed x
-lmFit <- lm(y~ x)
-fitted <- coef(lmFit)[1] + coef(lmFit)[2]*x
-plot(y, fitted, xlim=c(8,14), ylim = c(8,14))
-```
 
 
 #Logit
@@ -556,5 +563,5 @@ plot(y, fitted, xlim=c(8,14), ylim = c(8,14))
 # Inverse logit function 
 # Logit and binary 
 p <- seq(0,1, by = 0.01)
-plot(y = p, x = log(p/(1-p)))
+plot(y = p, x = log(p/(1-p)), ylab = "Probability of event" ,xlab  = "Logit, log(p/(1-p))")
 ```
