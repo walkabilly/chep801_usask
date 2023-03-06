@@ -1,0 +1,315 @@
+---
+title: "Regression_OLS_Assumption_FEVdata"
+author: "HM"
+date: "2023-03_9"
+output: html_document
+---
+
+## Setup 
+Load library, set figure size
+```{r}
+rm(list=ls()) # clear all workspace, very important to do this to refresh 
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(fig.width=4.5, fig.height=4.5) 
+library(tidyverse)
+library(epitools)
+library(htmlTable)
+library(autoReg)
+library(labelled)
+```
+
+### Data size for simulation and custom function to format table names 
+```{r setup variables}
+N = 200
+
+funcColNames <- function(d){
+  colnames(d)[colnames(d) == "term"] <- "Coefficient"
+  colnames(d)[colnames(d) == "conf.low"] <- "ConfInt.Lower"
+  colnames(d)[colnames(d) == "conf.high"] <- "ConfInt.Higher"
+  return(d)
+}
+# Make shorter variables names 
+funcColNames2 <- function(d){
+  colnames(d)[colnames(d) == "term"] <- "Coef"
+  colnames(d)[colnames(d) == "conf.low"] <- "CI.Lower"
+  colnames(d)[colnames(d) == "conf.high"] <- "CI.Higher"
+  d <- d %>% select(-c(p.value, statistic))
+  return(d)
+}
+```
+
+
+
+
+## Real data to check the assumptions 
+FEV (Forced Expiration Volume) study, can be download from many sources    
+Some anlaysis examples https://www.tandfonline.com/doi/full/10.1080/10691898.2005.11910559   
+An Exhalent Problem for Teaching Statistics, Kahn (2017) https://doi.org/10.1080/10691898.2005.11910559
+```{r}
+
+url <- "http://www.emersonstatistics.com/datasets/fev.txt"
+download.file(url, "fev.txt" )
+dat <- read.csv("~/GitHub/chep801_usask/Lecture_mis/Lecture_Regression1/fev.txt", sep="")
+
+# Describe data 
+glimpse(dat)
+
+# Make categorical varaibles out of characters 
+dat$sex <- factor(dat$sex)
+levels(dat$sex) = c("Female", "Male")
+table(dat$sex)
+
+dat$smoke <- factor(dat$smoke)
+levels(dat$smoke) <- c("Smoker", "Non-smoker")
+table(dat$smoke)
+
+pairs(dat %>%  select(-c("seqnbr", subjid)))
+```
+
+
+We will start from descriptive statistics
+### We will assess the association of each variables as well as potential non-linearity and effect measure modification 
+Descritpive plots - histogram 
+```{r fig1, fig.height = 4, fig.width = 4, fig.show="hold", out.width="50%"}
+# Distribution of continuous outcomes 
+hist(dat$age, main = "Age", cex.main = 1)
+hist(dat$fev, main = "FEV, outcome", cex.main = 1)
+hist(dat$height, main = "Height", cex.main = 1)
+```
+
+### Descriptive plots - xy age and fev
+```{r fig2, fig.height = 4, fig.width = 4, fig.show="hold", out.width="50%"}
+ggplot(dat, aes(x= age, y = fev)) + 
+  geom_point() +
+  theme_classic() + 
+  ggtitle("Relationship between Age (years) and FEV (Litres)") + 
+  theme(plot.title = element_text(size = 9)) + 
+   geom_smooth(se=FALSE)
+  
+ggplot(dat, aes(x= age, y = fev)) + 
+  geom_point() +
+  theme_classic() + 
+  ggtitle("Relationship between Age (years) and FEV (Litres) \n  by Sex") + 
+  facet_wrap(~sex) + 
+  theme(plot.title = element_text(size = 9)) + 
+   geom_smooth(se=FALSE)
+```
+
+### Descriptive plots - height and fev 
+```{r fig3, fig.height = 4, fig.width = 4, fig.show="hold", out.width="50%"}
+ggplot(dat, aes(x= height, y = fev)) + 
+  geom_point() +
+  theme_classic() + 
+  ggtitle("Relationship between Height (years) and FEV (Litres)")+ 
+  theme(plot.title = element_text(size = 9)) + 
+   geom_smooth(se=FALSE)
+
+ggplot(dat, aes(x= height, y = fev)) + 
+  geom_point() +
+  theme_classic() + 
+  ggtitle("Relationship between Height (years) and FEV (Litres) \n by smoking status") + 
+  facet_wrap(~smoke)+ 
+  theme(plot.title = element_text(size = 9)) + 
+   geom_smooth(se=FALSE)
+
+ggplot(dat, aes(x= age, y = height)) + 
+  geom_point() +
+  theme_classic() + 
+  ggtitle("Relationship between Age (years) and FEV (Litres)")+ 
+  theme(plot.title = element_text(size = 9)) + 
+   geom_smooth(se=FALSE)
+```
+
+### Descriptive plots - height and fev 
+```{r fig4, fig.height = 4, fig.width = 4, fig.show="hold", out.width="50%"}
+ggplot(dat, aes(sex, fev)) + geom_boxplot() + theme_classic() + ggtitle("FEV by sex")
+ggplot(dat, aes(smoke, fev)) + geom_boxplot() + theme_classic() + ggtitle("FEV by smoking status")
+
+knitr::kable(table(dat$sex), digits = 2, caption = "Results: Linear model ")
+knitr::kable(table(dat$smoke), digits = 2, caption = "Results: Linear model ")
+
+```
+
+### Plot all varaibles at once, execpt person IDs 
+```{r}
+dat %>% select(-c(seqnbr, subjid)) %>% pairs
+```
+
+
+## Exploratory regression analysis,  
+#### single variable regression between FEV and each covariate
+#### remember though, just looking at coefficients only is not as imformative as x-y plots above 
+```{r}
+independentVariables <- c("age", "height", "smoke", "sex")
+independentVariablesData<- dat[, independentVariables]
+fitList <- lapply(1:ncol(independentVariablesData), function(x) lm(dat$fev ~ independentVariablesData[,x]))
+
+# extract just coefficients
+sapply(fitList, coef)
+
+fit=lm(fev~age+sex+height+smoke,data=dat)
+
+#fit=lm(fev~age*sex*height*smoke,data=dat)
+autoReg(fit,uni=TRUE, threshold=0.2) %>% myft()
+
+final=step(fit,trace=0)
+summary(final)
+
+```
+
+
+
+
+
+#### Multivariable regression
+Our model of interest is: 
+$$E[Y_{fev}] = \alpha + \beta_{age}*age + \beta_{height}*height + \beta_{smoking}*smoking +  \beta_{sex}*sex  $$
+```{r}
+fit=lm(fev~age+sex+height+smoke,data=dat)
+datPlot <- data.frame(dat, fitted =  fit$fitted.values, residual = fit$residuals)
+```
+
+
+### Our FEV model, for now throw everything, Exposure of interesting smoking yes/no 
+#### As usual, be sure to consult with DAF for real analysis 
+#### No interaction term for now 
+
+### Assumption 1 - Lienarity of outcome with fitted values (or x if univariate model)
+```{r}
+ggplot(data = datPlot, aes(y = fev, x = fitted)) + 
+  geom_point() + 
+  theme_classic() + 
+  ggtitle("Assumption 1: Fitted vs Observed outcome") + 
+  geom_smooth(se = FALSE) + 
+  geom_abline(slope = 1,linetype = "dashed")
+
+
+ggplot(data = datPlot, aes(y = residual, x = fitted)) + 
+  geom_point() + 
+  theme_classic() + 
+  ggtitle("Assumption 1: Fitted vs residuals") + 
+  geom_smooth(se = FALSE) + 
+  geom_hline(yintercept = 0, linetype = "dashed")
+
+
+```
+
+### Assumption 1 - plot by Sex and Smoking
+#### Besure though, smokign is our exposure of interest, so we cannot subset data by smoke 
+```{r}
+ggplot(data = datPlot, aes(y = fev, x = fitted)) + 
+  geom_point() + 
+  theme_classic() + 
+  facet_wrap(~smoke) + 
+  ggtitle("Assumption 1: Fitted vs Observed outcome, \n by Smoke")+ 
+  geom_abline(slope = 1,linetype = "dashed")
+
+
+ggplot(data = datPlot, aes(y = fev, x = fitted)) + 
+  geom_point() + 
+  theme_classic() + 
+  facet_wrap(~sex) + 
+  ggtitle("Assumption 1: Fitted vs Observed outcome, \n by Sex")+ 
+  geom_abline(slope = 1,linetype = "dashed")
+
+```
+
+### Assumption 1 - Perhaps, quadratic term in the regression model, since we saw that FEV is non-linear with age and height? This cold lead to residual confounding by age and height. 
+#### Abter adding quadratic term for age and height, the association of fitted and observed FEV look linear **BUT**, the interpretation of age and height are no longer linear (quadratic term added), and there is a larger disagreement at higher values of fitted and observed. 
+```{r assumption 1 fig quadratic , fig.height = 4, fig.width = 4, fig.show="hold", out.width="50%"}
+dat$age2 <- dat$age*dat$age
+dat$height2 <- dat$height*dat$height
+fit=lm(fev~age +age2 +sex+height + height2+smoke,data=dat)
+datPlot_Q <- data.frame(dat, fitted =  fit$fitted.values, residual = fit$residuals)
+
+ggplot(data = datPlot_Q, aes(y = fev, x = fitted)) + 
+  geom_point() + 
+  theme_classic() + 
+  ggtitle("Assumption 1: Fitted vs Observed outcome, \n quadratic age and height")
+
+
+ggplot(data = datPlot_Q, aes(y = fev, x = fitted, color = smoke)) + 
+  geom_point() + 
+  theme_classic() + 
+  ggtitle("Assumption 1: Fitted vs Observed outcome, \n quadratic age and height \n color separated by smoking ")
+
+ggplot(data = datPlot, aes(y = fev, x = fitted)) + 
+  geom_point() + 
+  theme_classic() + 
+  ggtitle("Assumption 1: Fitted vs Observed outcome \ Original model ")
+
+```
+
+
+
+### Assumption 2 - Independence of errors (residuals)
+```{r}
+
+```
+
+
+#### Assumption 3 - Constant dispersion of residuals across the value of fitted values (if multiple regression), or x (if univariate model) 
+```{r assumption 3 , fig.height = 4, fig.width = 4, fig.show="hold", out.width="50%"}
+ggplot(data = datPlot, aes(y = residual, x = fitted)) + 
+  geom_point() + 
+  theme_classic() + 
+  ggtitle("Assumption 3: Fitted vs residuals \n increase of variance \n but U-shaped") + 
+  geom_smooth(se = FALSE) + 
+  geom_hline(yintercept = 0, linetype = "dashed")
+
+ggplot(data = datPlot_Q, aes(y = residual, x = fitted)) + 
+  geom_point() + 
+  theme_classic() + 
+  ggtitle("Assumption 3: Fitted vs age \n increase of variance") + 
+    geom_smooth(se = FALSE) + 
+  geom_hline(yintercept = 0, linetype = "dashed")
+```
+
+#### Assumption 3 - Constant dispersion of residuals across the value of fitted values (if multiple regression), or x (if univariate model) 
+```{r assumption 3 by smoking subset, fig.height = 4, fig.width = 4, fig.show="hold", out.width="50%"}
+ggplot(data = datPlot[datPlot$smoke == "Smoker", ], aes(y = residual, x = fitted)) + 
+  geom_point() + 
+  theme_classic() + 
+  ggtitle("Assumption 3: Fitted vs height \n smokers only") + 
+  geom_hline(yintercept = 0, linetype = "dashed")
+
+```
+
+
+#### Assumption 3 - Constant dispersion of residuals across the value of fitted values (if multiple regression), or x (if univariate model) 
+```{r assumption 3 by covarites, fig.height = 4, fig.width = 4, fig.show="hold", out.width="50%"}
+ggplot(data = datPlot, aes(y = residual, x = age)) + 
+  geom_point() + 
+  theme_classic() + 
+  ggtitle("Assumption 1: Fitted vs age \n increase of variance") + 
+  geom_hline(yintercept = 0, linetype = "dashed")
+
+ggplot(data = datPlot, aes(y = residual, x = height)) + 
+  geom_point() + 
+  theme_classic() + 
+  ggtitle("Assumption 1: Fitted vs height \n increase of variance \n and bit of u-shape") + 
+  geom_hline(yintercept = 0, linetype = "dashed")
+```
+
+
+### Assumption 4 - Resisuals are normally distributed 
+#### We typically do not get very normal distribution of residuals 
+```{r assumption 4 , fig.height = 4, fig.width = 4, fig.show="hold", out.width="50%"}
+hist(fit$residuals, main = "Histrogram of residuals, longer tails", breaks = 20)
+qqnorm(fit$residuals)
+qqline(fit$residuals)
+```
+
+### Assumptions - Summary of residual diagnosis 
+```{r}
+plot(fit)
+```
+
+
+
+
+
+
+
+
+
