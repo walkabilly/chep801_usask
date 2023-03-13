@@ -1,0 +1,108 @@
+---
+title: "Linear and Logistic Regression Cheat Sheet"
+output:
+  pdf_document: default
+  html_document:
+    keep_md: yes
+---
+
+
+```{r, warning = FALSE, message = FALSE}
+library(rstatix)
+library(tidyverse)
+library(pastecs)
+library(knitr)
+library(epitools)
+library(jtools)
+library(Epi)
+library(gtsummary)
+options(scipen=999) 
+```
+
+### Open the Data
+
+We are interested in the association between gender and BMI. We will do descriptive analysis and examine associations. This is a cheat sheet so mostly to show code examples and is not specific to your assignments. 
+
+```{r}
+data <- read_csv("Data.csv")
+```
+
+### Recode and label categorical variables as necessary. 
+
+We saw this in data work week 2. [https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/Week2_data_work_R.md](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/Week2_data_work_R.md)
+
+```{r}
+data <- data %>%
+	mutate(gender_recode = case_when(
+		SDC_GENDER == 1 ~ "Male",
+    SDC_GENDER == 2 ~ "Female"
+	))
+
+data$gender_recode <- as.factor(data$gender_recode) 
+
+### Checking our code to make sure our recode is correct
+table(data$SDC_GENDER, data$gender_recode)
+```
+
+Calculate the percents and frequencies 
+
+```{r}
+## First we need to make sure we get the variables recoded and organized
+
+### Example with gender where we already recoded
+gender_table <- bind_rows(table(data$gender_recode), prop.table(table(data$gender_recode)))
+```
+
+### Visualize the data
+
+Nothing fancy here just default ggplot2. Inspect of the type of distribution, outliers, and anything else. Probably need to fix a few things with the BMI variable. 
+
+We saw this in data work week 3. [https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/Week3_data_work_R.md](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/Week3_data_work_R.md)
+
+```{r}
+bmi_histo <- ggplot(data, aes(PM_BMI_SR)) + 
+              geom_histogram()
+plot(bmi_histo)
+```
+
+Inspect distribution by gender to see if anything is different other what we would expect. 
+
+```{r}
+boxplot <- ggplot(data, aes(PM_BMI_SR)) + 
+              geom_boxplot() + 
+              coord_flip() + 
+              facet_wrap(~ gender_recode)
+plot(boxplot)
+```
+
+### Examine bi-variable associations 
+
+We saw this in data work week 4 [https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/Week4_data_work_R.md](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/Week4_data_work_R.md) and 5 [https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/Week5_data_work_R.md](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/Week5_data_work_R.md). 
+
+#### Linear regression
+
+```{r}
+bmi_gender <- glm(PM_BMI_SR ~ gender_recode, data = data, family = "gaussian")
+summary(bmi_gender)
+```
+
+#### Logistic regression
+
+```{r}
+gender_bmi <- glm(gender_recode ~ PM_BMI_SR, data = data, family = "binomial")
+summary(gender_bmi)
+
+multi_table <- tbl_regression(gender_bmi, exponentiate = TRUE) 
+
+multi_table %>% as_kable()
+```
+
+Check model fit and assumptions
+
+We saw this in data work week 5 and the model assumptions lecture.
+
+```{r}
+plot(gender_bmi)
+```
+
+
