@@ -1,8 +1,9 @@
 ---
 title: "Data Wrangling Assignment"
 output:
-      html_document:
-        keep_md: true
+  pdf_document: default
+  html_document:
+    keep_md: yes
 ---
 
 ```{r setup, include=TRUE, warning=FALSE, message=FALSE}
@@ -20,9 +21,8 @@ You must submit the following.
 
 **Stata**
 
-* Stata Log File
-* Stata Do File
-* Report in Word doc form with tables/figures cut and pasted from Stata output file
+* Stata Do File using Stata Markdown format
+* Report in HTML or PDF from generated Stata Markdown file
 
 **R**
 

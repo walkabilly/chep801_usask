@@ -1,8 +1,9 @@
 ---
 title: "Bias Assignment"
 output:
-      html_document:
-        keep_md: true
+  pdf_document: default
+  html_document:
+    keep_md: yes
 ---
 
 ```{r setup, message=FALSE, warning=FALSE}
