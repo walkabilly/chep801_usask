@@ -23,9 +23,9 @@ ggplot2 is built on things called *geoms* which represent different types of plo
 
 
 ```r
-bmi_histo <- ggplot(data, aes(PA_TOTAL_SHORT)) + 
+pa_histo <- ggplot(data, aes(PA_TOTAL_SHORT)) + 
               geom_histogram()
-plot(bmi_histo)
+plot(pa_histo)
 ```
 
 ```
@@ -42,9 +42,9 @@ Here *ggplot2* is gives us a warning because the binwidth might not be appropria
 
 
 ```r
-bmi_histo_bin_100 <- ggplot(data, aes(PA_TOTAL_SHORT)) + 
+pa_histo_bin_100 <- ggplot(data, aes(PA_TOTAL_SHORT)) + 
               geom_histogram(binwidth = 100)
-plot(bmi_histo_bin_100)
+plot(pa_histo_bin_100)
 ```
 
 ```
@@ -138,7 +138,7 @@ plot(boxplot)
 
 ### 3. Scatter plots
 
-Scatterplots plot the relationship between two variables. There are lots of things we can do and we will build a plot sequentially. We are going to plot the relationship between age and BMI (two continuous variables). 
+Scatterplots plot the relationship between two variables. There are lots of things we can do and we will build a plot sequentially. We are going to plot the relationship between age and physical activity (two continuous variables). 
 
 
 ```r
@@ -262,7 +262,7 @@ plot(scatter_plot_alpha)
 
 ### 4. Grouping with ggplot2
 
-One of the best things about ggplot2 is the ability to easily *group_by* like we would do with data wrangling. We do this by adding groupings (colouring by a variable) or facets (creating separate plots). Here we want to group by gender to see if there are visual differences between genders in the age-BMI association. 
+One of the best things about ggplot2 is the ability to easily *group_by* like we would do with data wrangling. We do this by adding groupings (colouring by a variable) or facets (creating separate plots). Here we want to group by gender to see if there are visual differences between genders in the age-PA association. 
 
 
 ```r

@@ -1,8 +1,9 @@
 ---
 title: "Logistic Regression Assignment"
 output:
-      html_document:
-        keep_md: true
+  pdf_document: default
+  html_document:
+    keep_md: yes
 ---
 
 ```{r setup, include=TRUE, warning=FALSE, message=FALSE}
