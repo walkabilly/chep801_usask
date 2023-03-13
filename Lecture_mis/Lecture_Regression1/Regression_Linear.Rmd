@@ -1,0 +1,441 @@
+---
+title: "Regression_Example"
+author: "HM"
+date: "2023-02-15"
+output: html_document
+---
+
+### Setup 
+Load library, set figure size
+```{r}
+rm(list=ls()) # clear all workspace, very important to do this to refresh 
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(fig.width=4.5, fig.height=4.5) 
+library(tidyverse)
+library(epitools)
+library(htmlTable)
+```
+
+#### Data size for simulation and custom function to format table names 
+```{r setup variables}
+N = 200
+
+funcColNames <- function(d){
+  colnames(d)[colnames(d) == "term"] <- "Coefficient"
+  colnames(d)[colnames(d) == "conf.low"] <- "ConfInt.Lower"
+  colnames(d)[colnames(d) == "conf.high"] <- "ConfInt.Higher"
+  return(d)
+}
+# Make shorter variables names 
+funcColNames2 <- function(d){
+  colnames(d)[colnames(d) == "term"] <- "Coef"
+  colnames(d)[colnames(d) == "conf.low"] <- "CI.Lower"
+  colnames(d)[colnames(d) == "conf.high"] <- "CI.Higher"
+  d <- d %>% select(-c(p.value, statistic))
+  return(d)
+}
+```
+
+### Simple demonstration 
+#### Generate x and y data for Simple OLS
+```{r}
+# simple OLS
+x <- runif(N)*100; 
+y = 10 + 3*x + rnorm(N, mean = 0, sd=30)
+df <- data.frame(x, y)
+
+# plot image 
+plot(df$x, df$y, pch = 16, cex = 0.4, main = "Relationship between continuous y and x")
+
+
+# plot image 
+plot(df$x, df$y, pch = 16, cex = 0.4, main = "Relationship between continuous y and x")
+abline(lm(y~ x, data = df))
+
+# Fit model 
+fit <- lm(y~x, data = df) 
+
+# Summary table for model fit 
+lmTable<-broom::tidy(fit, conf.int = TRUE)
+lmTable <- funcColNames(lmTable) 
+knitr::kable(lmTable, digits = 2, caption = "Results: Linear model ")
+```
+
+#### Residual
+```{r}
+# Calculate fitted values
+fittedY <- fit$coefficients[1] + fit$coefficients[2]*df$x
+
+# Plot resid 
+hist(df$y - fittedY, main = "Distribution of residual")
+
+# Show residuals, comapred to oberved values 
+df_resid<- data.frame(df$x, df$y, fittedY, residual = df$y - fittedY)
+head(df_resid)
+
+knitr::kable(df_resid[1:5,], digits = 2, caption = "Residual for 5 observations")
+```
+
+
+
+
+#### Very simple prediction of Y value from a new person's X based on fitted line 
+```{r}
+# Calculate fitted values
+newPersonValue = 20 
+fitted <- fit$coefficients[1] + fit$coefficients[2]*newPersonValue
+
+plot(df$x, df$y, pch = 16, cex = 0.4, main = "Prediction of Y based on new value of X")
+abline(lm(y~ x, data = df))
+abline(v = newPersonValue, lty = 2)
+
+# Alternatively, use built-in prediction 
+prediInt <- data.frame(
+  rbind(
+    predict(fit, newdata = data.frame(x = newPersonValue), interval = "confidence" ),
+    predict(fit, newdata = data.frame(x = newPersonValue), interval = "prediction" )
+  )
+)
+knitr::kable(prediInt, digits = 2, caption = "Confidence and prediction intervals")
+```
+
+
+
+#### Extrapolation
+```{r}
+# Same data and model, extrapolation 
+plot(df$x, df$y, pch = 16, cex = 0.4, xlim = c(0,200),ylim = c(0,500), main = "Fitted line within and outside range of x")
+abline(lm(df$y~ df$x, data = df))
+abline(v = 50, lty = 2)
+abline(v = 150, lty = 2)
+```
+
+### fitted vs observed
+```{r}
+# generate new data
+x <- runif(N); 
+y = 10 + 3*x + rnorm(N, sd=0.2)
+plot(x, y, pch = 16, cex = 0.4, main = "Relationship between continuous y and x")
+abline(lm(y~ x))
+
+# fitted line 
+#newX <- seq(0, 1, by = 1/(N-1))
+#lmFit <- lm(y~x)
+#fitted <- coef(lmFit)[1] + coef(lmFit)[2]*newX
+#plot(x, y, pch = 16, cex = 0.4, main = "Relationship between continuous y and x")
+#plot(newX, fitted, pch = 16, cex = 0.4, main = "Relationship between continuous y and x")
+
+# fitted based on observed x
+lmFit <- lm(y~ x)
+fitted <- coef(lmFit)[1] + coef(lmFit)[2]*x
+plot(y=y, x=fitted, xlim=c(8,14), ylim = c(8,14), xlab = "FItted values of Y from estimated model", ylab = "Observed (actual) values of Y from actual data ")
+```
+
+### Bit more depth 
+
+
+#### Same data, but different scale of X (x per 100)
+Pay attention to the extimate coefficient of X
+```{r}
+# Scale of x is much smaller now 
+df$x <- x/100; 
+
+# plot image 
+plot(df$x, df$y, pch = 16, cex = 0.4, main = "Relationship between continuous y and x")
+abline(lm(y~ x, data = df))
+
+fit <- lm(y~x, data = df) 
+
+# Show model results with x having smaller scale 
+lmTable<-broom::tidy(fit, conf.int = TRUE)
+lmTable <- funcColNames(lmTable) %>%  select(-c(p.value, statistic))
+knitr::kable(lmTable, digits = 2, caption = "Results: New x, 100 times smaller in scale") 
+```
+
+
+
+#### Binary X
+
+```{r}
+# Binary values 
+xbin <- rbinom(n = N, size = 1, prob = 0.5); 
+y2 = 10 + 3*xbin + rnorm(100)
+plot(xbin, y2, pch = 16, cex = 0.4, main = "Relationship between continuous y and binary x_bin")
+dfBin <- data.frame(xbin, y2)
+abline(lm(y2~ xbin, data = dfBin))
+fit <- lm(y2~ xbin, data = dfBin)
+lmTable<-broom::tidy(fit, conf.int = TRUE)
+lmTable <- funcColNames(lmTable) %>%  select(-c(p.value, statistic))
+knitr::kable(lmTable, digits = 2, caption = "Results: Binary exposure")
+
+
+```
+
+
+#### COnfidnce interval of slope
+
+```{r}
+```
+
+
+
+#### non-linear fitting, quadratic
+
+```{r}
+# Quadratic association between x and y 
+x <- runif(N, min=0, max=10) 
+y = 4 + -30*x + 5*(x^2) + rnorm(N, mean= 0, sd = 20)
+df <- data.frame(x, y )
+
+plot(df$x, df$y,  pch = 16, cex = 0.4, main = "Linear model \n fit to data sampled from quadratic function")
+fit <- lm(y~ x, data = df)
+abline(fit, lty = 3)
+
+lmTable<-broom::tidy(fit, conf.int = TRUE)
+lmTable <- funcColNames2(lmTable) 
+knitr::kable(lmTable, digits = 2, caption = "Results: Linear model fit to quadratic data")
+
+
+# Quadratic fit 
+df$x2 <- df$x*df$x
+fit <- lm(y~x+x2, data = df)
+plot(df$x, df$y,  pch = 16, cex = 0.4, main = "Updated y-x plot\n Non-linear model")
+curve(fit$coefficients[1] + fit$coefficients[2]*x +fit$coefficients[3]*x^2, add=T)
+
+lmTable<-broom::tidy(fit, conf.int = TRUE)
+lmTable <- funcColNames2(lmTable) 
+knitr::kable(lmTable, digits = 2, caption = "Results: Quadratic model , x^2 now added")
+
+
+```
+
+#### Non-linear, log function
+
+```{r}
+# Another one, log transformed 
+x <- runif(N, min=0, max=3) 
+y = 10 + 4*log(x+0.1) + rnorm(N, sd = 1)
+df <- data.frame(x, y )
+
+
+# Linear fit
+plot(df$x, df$y,  pch = 16, cex = 0.4, main = "Linear model \n fit to data sampled from log function")
+abline(lm(y~ x, data = df), lty = 3)
+fit <- lm(y~ x, data = df)
+
+lmTable<-broom::tidy(fit, conf.int = TRUE)
+lmTable <- funcColNames2(lmTable) 
+knitr::kable(lmTable, digits = 2, caption = "Results: No natural log transformation ")
+
+
+# log(x) fit 
+plot(df$x, df$y,  pch = 16, cex = 0.4, main = "Updated x-y pot: \n Linear model \n fit to data sampled from log function")
+fit <- lm(y~log(x), data=df)
+curve(fit$coefficients[1] + fit$coefficients[2]*log(x), add=T)
+
+lmTable<-broom::tidy(fit, conf.int = TRUE)
+lmTable <- funcColNames2(lmTable) 
+knitr::kable(lmTable, digits = 2, caption = "Results: After natural log tranformation ")
+
+
+
+
+```
+
+#### Categorical variables
+
+```{r}
+#right skewness 
+set.seed(400)
+x <- rbeta(1000,2,40)*500000 + 20000
+hist(x, main = "simulated income, CAN$")
+#quantile(x)
+#summary(x)
+incomeCat <- cut(x,
+              breaks=c(20000, 40000, 60000, 90000, 150000),
+              labels=c('20-40k','40-60k', '60-90k', '>90k'), 
+              incude.lowest = TRUE)
+table(incomeCat)
+
+library(fastDummies)
+incomeDummy <- fastDummies::dummy_cols(data.frame(income = incomeCat), 
+                                     remove_first_dummy = TRUE, 
+                                     remove_selected_columns = TRUE)
+
+#incomeCat[which(incomeDummy$income_NA!=0)]
+#x[which(incomeDummy$income_NA!=0)]
+
+knitr::kable(incomeDummy[1:8, ], caption = "Dummy binary indicators of categorical varaible ")
+
+
+# Create Y variables from slope coefficients in each level 
+y = 60 + 
+  as.matrix(incomeDummy) %*% c(2, 6, 10) + 
+  rnorm(N, sd=0.5)
+
+model.matrix(y ~ incomeCat, data = data.frame(x = incomeCat)) %>%  head(15)
+df <- data.frame(y, incomeCat)
+
+# Fit 
+fit <- lm(y~incomeCat, data = df) 
+lmTable<-broom::tidy(fit, conf.int = TRUE)
+lmTable <- funcColNames2(lmTable) 
+knitr::kable(lmTable, digits = 2, caption = "Results: Categorical exposure, \n lowest income as reference ")
+
+```
+
+#### Categorical variables, re-levelled. Now the third category is reference 
+
+```{r}
+df$incomeCat <- relevel(df$incomeCat, 3)
+fit <- lm(y~incomeCat, data = df) 
+lmTable<-broom::tidy(fit, conf.int = TRUE)
+lmTable <- funcColNames2(lmTable) 
+knitr::kable(lmTable, digits = 2, caption = "Results: reference category is now 60-90K")
+
+
+```
+
+$$E[y] = \alpha + 0*income_1 + \beta_2*income_2 + \beta_3*income_3 + \beta_4*income_4 $$
+$$\hat{y} = 60.05 + 0*income_1 + 1.96*income_2 + 5.92*income_3 + 9.98*income_4 $$
+$$E[y] = \alpha +\beta_1*income_1 + \beta_2*income_2 + 0*income_3 + \beta_4*income_4 $$
+$$\hat{y} = 65.97 +-5.92*income_1 + -3.96*income_2 + 0*income_3 + 4.05*income_4 $$
+
+\begin{center}
+
+\end{center}
+
+#### Scaling multiple variables, starting with the unscaled version 
+$$ E[y] = \alpha +\beta_1X_1 + \beta_2X_2 + \beta_3X_3 + \beta_4X_4 $$
+```{r}
+# Generate 4 x variables 
+x <- runif(N, min = 500, max = 1000); 
+x2 <- runif(N)*100 + 20 
+x3 <- abs(rnorm(N, 5, 2))
+x4 <- x3*4+ x2 + rnorm(N, sd=4)
+
+y = 10 + 3*x + 2*x2 + 1.5*x3 + 4*x4 + rnorm(N, sd=0.5)
+df <- data.frame(y, x, x2, x3, x4)
+pairs(df, main = "correlation of 4 X varaibles \n X4 is correlated with X2 and X3 ")
+
+tb <- bind_rows(
+  df %>%summarise(across(x:x4, min)) , 
+  df %>%summarise(across(x:x4, max)) 
+)
+rownames(tb) <- c("Minimum value", "Max value")
+knitr::kable((tb), digits = 2, caption = "Range of X variables")
+
+fit <- (lm(y~ x + x2 + x3 + x4, data = df))
+lmTable<-broom::tidy(fit, conf.int = TRUE)
+lmTable <- funcColNames2(lmTable) 
+knitr::kable(lmTable, digits = 2, caption = "Results: Variables in original scale")
+```
+#### Scaled variables 
+```{r}
+df <- df %>% mutate_at(vars(matches("x")), scale)
+pairs(df, main = "ScaledX varaibles - see axis of Xs")
+fit <- (lm(y~ x + x2 + x3 + x4, data=df))
+lmTable<-broom::tidy(fit, conf.int = TRUE)
+lmTable <- funcColNames2(lmTable) 
+knitr::kable(lmTable, digits = 2, caption = "Results: Variables scaled ")
+
+```
+
+
+#### Colinearity, now induce a stronger colleration across x variables 
+See how X4 is generated (standard deviation, sd, of the random variable between x3 and x4 is very small)
+```{r}
+x <- runif(N, min = 1, max = 10); 
+x2 <- runif(N)  
+x3 <- abs(rnorm(N, 5, 2))
+x4 <- x3+ rnorm(N, sd=0.1)
+y = 10 + 3*x + 2*x2 + 1.5*x3 + 4*x4 + rnorm(N, mean = 0, sd=0.5)
+df <- data.frame(y, x, x2, x3, x4)
+pairs(df, main = "Strong corelation of X3 and X4")
+
+fit <- (lm(y~ x + x2 + x3 + x4, data=df))
+lmTable<-broom::tidy(fit, conf.int = TRUE)
+lmTable <- funcColNames2(lmTable) 
+knitr::kable(lmTable, digits = 2, caption = "Results: strongly correlated X4 and X3 ")
+
+```
+
+#### MOre extreme correlation, X4 is now a perfectly predicted by X3 
+```{r}
+x <- runif(N, min = 1, max = 10); 
+x2 <- runif(N)  
+x3 <- abs(rnorm(N, 5, 2))
+x4 <- x3
+y = 10 + 3*x + 2*x2 + 1.5*x3 + 4*x4 + rnorm(N, mean = 0, sd=0.5)
+df <- data.frame(y, x, x2, x3, x4)
+pairs(df, main = "Perfect linear correlation of X3 and X4")
+
+fit <- (lm(y~ x + x2 + x3 + x4, data=df))
+lmTable<-broom::tidy(fit, conf.int = TRUE)
+lmTable <- funcColNames2(lmTable) 
+knitr::kable(lmTable, digits = 2, caption = "Unidentifiable result")
+```
+
+
+
+#### Overfit
+```{r}
+# sigmoid 
+x <- seq(1,30, by =1) 
+y <- 300 + 5*x +  rnorm(length(x), mean = 0, sd =15)
+df <- data.frame(x, y)
+
+# Linear 
+plot(df$x, df$y,  pch = 16, cex = 0.4, main = "Linear fit \n")
+abline(lm(y~ x, data = df), lty = 3)
+fit <- lm(y~ x, data = df)
+
+plot(x, y,  pch = 16, cex = 0.4, main = "Overfit model \n high-order polynomial")
+fitPoly <-lm(y ~ poly(x, 23),data = df )
+predPoly <- predict(fitPoly, data.frame(x=x))
+points(x, predPoly, type = "l")
+
+par(mfrow= c(1,2))
+hist(fitPoly$residuals, main = "residual, linar model")
+hist(fit$residuals, main = "residual, overfit")
+
+
+#now...repeat analysis from different samples 
+funcPlot <- function(){
+  x <- seq(1,30, by =1) 
+  y <- 300 + 5*x +  rnorm(length(x), mean = 0, sd =15)
+  df <- data.frame(x, y)
+  
+  # Linear 
+  plot(df$x, df$y,  pch = 16, cex = 0.4, main = "Linear fit \n")
+  abline(lm(y~ x, data = df), lty = 3)
+  fit <- lm(y~ x, data = df)
+  
+  plot(x, y,  pch = 16, cex = 0.4, main = "Overfit model \n high-order polynomial")
+  fitPoly <-lm(y ~ poly(x, 23),data = df )
+  predPoly <- predict(fitPoly, data.frame(x=x))
+  points(x, predPoly, type = "l")
+}
+
+funcPlot()
+funcPlot()
+funcPlot()
+
+
+
+
+
+```
+
+
+
+
+
+
+#Logit
+```{r}
+# Inverse logit function 
+# Logit and binary 
+p <- seq(0,1, by = 0.01)
+plot(y = p, x = log(p/(1-p)), ylab = "Probability of event" ,xlab  = "Logit, log(p/(1-p))")
+```

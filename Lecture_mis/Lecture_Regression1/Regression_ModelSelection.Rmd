@@ -1,0 +1,123 @@
+---
+title: "Regression_OLS_Assumption_FEVdata"
+author: "HM"
+date: "2023-03_10"
+output: html_document
+---
+
+## Setup 
+Load library, set figure size
+```{r}
+rm(list=ls()) # clear all workspace, very important to do this to refresh 
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(fig.width=4.5, fig.height=4.5) 
+library(tidyverse)
+library(epitools)
+library(htmlTable)
+library(autoReg)
+library(labelled)
+library(lmtest)
+```
+
+### Data size for simulation and custom function to format table names 
+```{r setup functions}
+funcColNames <- function(d){
+  colnames(d)[colnames(d) == "term"] <- "Coefficient"
+  colnames(d)[colnames(d) == "conf.low"] <- "ConfInt.Lower"
+  colnames(d)[colnames(d) == "conf.high"] <- "ConfInt.Higher"
+  return(d)
+}
+# Make shorter variables names 
+funcColNames2 <- function(d){
+  colnames(d)[colnames(d) == "term"] <- "Coef"
+  colnames(d)[colnames(d) == "conf.low"] <- "CI.Lower"
+  colnames(d)[colnames(d) == "conf.high"] <- "CI.Higher"
+  d <- d %>% select(-c(p.value, statistic))
+  return(d)
+}
+```
+
+
+
+
+## Real data to check the assumptions 
+FEV (Forced Expiration Volume) study, can be download from many sources    
+Some anlaysis examples https://www.tandfonline.com/doi/full/10.1080/10691898.2005.11910559   
+An Exhalent Problem for Teaching Statistics, Kahn (2017) https://doi.org/10.1080/10691898.2005.11910559
+```{r}
+
+url <- "http://www.emersonstatistics.com/datasets/fev.txt"
+download.file(url, "fev.txt" )
+dat <- read.csv("fev.txt", sep="")
+
+# Describe data 
+glimpse(dat)
+
+# Make categorical varaibles out of characters 
+dat$sex <- factor(dat$sex)
+levels(dat$sex) = c("Female", "Male")
+table(dat$sex)
+
+dat$smoke <- factor(dat$smoke)
+levels(dat$smoke) <- c("Smoker", "Non-smoker")
+table(dat$smoke)
+
+pairs(dat %>%  select(-c("seqnbr", subjid)))
+```
+
+
+### Linear outcome, two models 
+```{r}
+fit<-lm(fev ~ smoke + age,  data=dat)
+fit2<-lm(fev ~  smoke + age + height, data=dat)
+
+# Summary table for model fit 
+lmTable<-broom::tidy(fit, conf.int = TRUE)
+lmTable1 <- funcColNames2(lmTable) 
+#knitr::kable(lmTable1, digits = 2, caption = "Results: Linear model")
+
+# Summary table for model fit 
+lmTable<-broom::tidy(fit2, conf.int = TRUE)
+lmTable2 <- funcColNames2(lmTable) 
+#knitr::kable(lmTable2, digits = 2, caption = "Results: Linear model2")
+
+# Combine two tables 
+lmTable12 <- lmTable1 %>%  right_join(lmTable2 , by = "Coef") 
+knitr::kable(lmTable12, digits = 2, caption = "Results: Linear model, with and without height")
+
+(summary(fit))$r.squared
+(summary(fit2))$r.squared
+
+
+```
+
+### Binary outcome rather than continuous - not so valid epidemiologic question
+```{r}
+fitLog1<-glm(smoke ~fev + age, family = binomial(link = logit), data=dat)
+table1<-broom::tidy(fitLog1, conf.int = TRUE,  exponentiate = TRUE)
+fitLog2<-glm(smoke ~fev + age + height, family = binomial(link = logit), data=dat)
+table2<-broom::tidy(fitLog2, conf.int = TRUE,  exponentiate = TRUE)
+
+table12 <- table1 %>%  right_join(table2 , by = "term") 
+
+# table except intercept - why showing so high value?
+knitr::kable(table12[-1,], digits = 2, caption = "Results: Logit model, with and without height")
+
+# AIC to compare models 
+fitLog1$aic
+fitLog2$aic
+
+# Log likelihood test to compared nested model  
+library(lmtest)
+logLik(fitLog1)
+logLik(fitLog2)
+
+lrtest(fitLog1, fitLog2)
+
+
+# Test of assumption 
+plot(y=predict(fitLog1), x=dat$height)
+plot(y=predict(fitLog1), x=dat$fev)
+
+
+```
