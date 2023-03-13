@@ -1,0 +1,85 @@
+---
+title: "Week 8 Data Work"
+output:
+      html_document:
+        keep_md: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(sjPlot)
+library(finalfit)
+library(knitr)
+library(marginaleffects)
+library(jtools)
+library(emmeans)
+library(lindia)
+library(gtsummary)
+```
+
+## Interaction/Effect Measure Modification
+
+We will show different methods to estimate interaction in regression models in different scenarios depending on types of variables. We will present both regression based and visual methods to examine interaction. Interaction is complex and we will use new data instead of the usual data for this course in order to simplify the interpretation. 
+
+### Interaction in linear regression with a contiunous exposure of interest (A) and a categorical effect modifier (Z)
+
+```{r}
+data <- read_csv("interaction_data1.csv")
+```
+
+We have 3 variables in these data. 
+
+1. Mental Health Score. A survey measure ranging from 10 to 25 with higher scores representing better mental health on average
+2. Screen Time. A self-report measure of screen time that has been categorized into 8 hours or more. 
+3. Gender. A three category gender variable. 
+
+We suspect that gender is an effect modifier of the association between screen time and mental health score. We want to examine this. 
+
+#### Visual inspection
+
+1. Visualize the boxplot between screen time and mental health
+
+```{r}
+boxplot_screen <- ggplot(data, aes(x = screen_time, y = mental_health_score, colour = screen_time)) + 
+                  geom_boxplot() + 
+                  labs(x = "Screen Time", y = "Mental Health", colour = "Screen Time") 
+plot(boxplot_screen)
+```
+
+We can see that there is probably a strong association between screen time and mental health. 
+
+2. Visualize the boxplot between screen time and mental health stratified by gender
+
+```{r}
+boxplot_screen_gender <- ggplot(data, aes(x = screen_time, y = mental_health_score, colour = screen_time)) + 
+                  geom_boxplot() + 
+                  labs(x = "Screen Time", y = "Mental Health", colour = "Screen Time") +
+                  facet_wrap(~ gender)
+plot(boxplot_screen_gender)
+```
+
+We can also see here differences between mental and screen time by gender. It looks like men in general have greater mental health and women and non-binary people but the effect of screen time is still there for each group. 
+
+3. Run the regression
+
+Here we will run the regression including all three variables of interest `and` the interaction term between screen_time and gender. This is multiplicative interaction. There are a few ways to do this in R that will give you the same result. We also include both the main effect and interaction term in the models. 
+
+```{r}
+regression_m1 <- lm(mental_health_score ~ screen_time + gender + screen_time*gender, data=data) ## Method 1
+summary(regression_m1)
+
+regression_m2 <- lm(mental_health_score ~ screen_time*gender, data=data) ## Method 2
+summary(regression_m2)
+```
+
+Nicer output
+
+```{r}
+interaction_model <- tbl_regression(regression_m2) 
+
+interaction_model %>% as_kable()
+```
+
+We can see the interaction here 
+
