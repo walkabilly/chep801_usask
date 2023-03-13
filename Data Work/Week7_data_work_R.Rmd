@@ -1,0 +1,354 @@
+---
+title: "Week 7 Data Work"
+output:
+      html_document:
+        keep_md: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(sjPlot)
+library(finalfit)
+library(knitr)
+library(marginaleffects)
+library(jtools)
+library(emmeans)
+library(lindia)
+library(gtsummary)
+data <- read_csv("Data.csv")
+```
+
+### 1. Model Selection
+
+Here we will demonstrate the different model selection methods we discussed in class. In class we talked about the following methods. 
+
+1. More or less automated process (DO NOT do these)
+    - Backwards selection
+    - Forwards selection
+    - Backwards and forwards selection 
+
+2. Traditional confounding criteria, change-in-estimate or significance (p < 0.2 in bivariate)
+
+3. Information criterion for relative comparison
+    - Akaike’s Information Criterion (AIC)
+    - Bayesian Information Criterion  (BIC)
+
+### 2. Research question and data
+
+Our research question is:  
+
+- **What factors are associated with BMI?**
+
+We have identified the following variables that will be potentially included in our models. We assume we have done all of the data checking and cleaning. 
+
+- `PM_BMI_SR` = BMI
+- `DIS_DIAB_TYPE` = Diabetes yes or no
+- `PA_TOTAL_SHORT` = Physical activity in MET Minutes per Week
+- `SDC_AGE_CALC` = Are 45 years or older
+- `diabetes == "Gestational"` = Have ever had gestational diabetes (diabetes during pregnancy) or given birth to a baby who weighed over 9 pounds
+- `SDC_EB_ABORIGINAL` + `SDC_EB_LATIN` + `SDC_EB_BLACK` = Are an African American, Hispanic or Latino, American Indian, or Alaska Native person
+- `DIS_LIVER_FATTY_EVER` = Have non-alcoholic fatty liver disease
+
+Let's simplify the dataset so we are not working with so many variables. 
+
+```{r}
+data_working <- select(data, "DIS_DIAB_TYPE", "PM_BMI_SR", "PA_LEVEL_SHORT", "SDC_AGE_CALC", "PA_TOTAL_SHORT", "SDC_EB_ABORIGINAL", "SDC_EB_LATIN", "SDC_EB_BLACK", "DIS_LIVER_FATTY_EVER")
+
+rm(data) ### Remove the old data from working memory
+```
+
+#### Outcome variable
+
+Let's look at the outcome variable, recode, and drop observations that are not relevant. We need to do a histogram and check the distribution. Then we might deal with outliers.  
+
+```{r}
+summary(data_working$PM_BMI_SR)
+
+bmi_histogram <- ggplot(data = data_working, aes(PM_BMI_SR)) +
+                  geom_histogram()
+plot(bmi_histogram)
+```
+
+Nice normal(ish) distribution here. We probably have some outliers on the low and high end with values of 8.86 and 69.40 
+
+We can recode people who are less than 10 and greater than 60 to values of 10 and 60 respectively. 
+
+```{r}
+data_working <- data_working %>%
+          mutate(bmi_recode = case_when(
+            PM_BMI_SR < 10 ~ 10, 
+            PM_BMI_SR > 60 ~ 60,
+            TRUE ~ PM_BMI_SR
+          ))
+summary(data_working$bmi_recode)
+
+bmi_recode_histogram <- ggplot(data = data_working, aes(bmi_recode)) +
+                  geom_histogram()
+plot(bmi_recode_histogram)
+```
+
+#### Preparing predictor variables
+
+**Diabetes**
+
+```{r}
+table(data_working$DIS_DIAB_TYPE)
+
+data_working <- data_working %>%
+	mutate(diabetes_t2 = case_when(
+    DIS_DIAB_TYPE == 2 ~ 1,
+    DIS_DIAB_TYPE == -7 ~ 0, 
+		TRUE ~ NA_real_
+	))
+
+data_working$diabetes_t2 <- as.factor(data_working$diabetes_t2)
+```
+
+**Age**
+
+```{r}
+glimpse(data_working$SDC_AGE_CALC)
+
+summary(data_working$SDC_AGE_CALC) ### Lots of NAs! 
+
+data_working <- data_working %>%
+	mutate(age_45 = case_when(
+	  SDC_AGE_CALC >= 45.00 ~ "Over 45",
+		SDC_AGE_CALC < 45.00 ~ "Under 45"
+	))
+
+table(data_working$age_45)
+```
+
+**Physical Activity**
+
+```{r}
+glimpse(data_working$PA_LEVEL_SHORT)
+
+table(data_working$PA_LEVEL_SHORT)
+
+data_working <- data_working %>%
+	mutate(pa_cat = case_when(
+		PA_LEVEL_SHORT == 1 ~ "1_Low Activity",
+		PA_LEVEL_SHORT == 2 ~ "2_Moderate Activity",
+		PA_LEVEL_SHORT == 3 ~ "3_High Activity"
+	))
+
+table(data_working$pa_cat, data_working$PA_LEVEL_SHORT)
+```
+
+**Racialized**
+
+```{r}
+table(data_working$SDC_EB_ABORIGINAL)
+table(data_working$SDC_EB_LATIN)
+table(data_working$SDC_EB_BLACK)
+
+### Latinx
+
+data_working <- data_working %>%
+	mutate(latinx = case_when(
+		SDC_EB_LATIN == 1 ~ "Yes",
+		SDC_EB_LATIN == 0 ~ "No"
+	))
+
+table(data_working$SDC_EB_LATIN, data_working$latinx)
+
+### Indigenous
+
+data_working <- data_working %>%
+	mutate(indigenous = case_when(
+		SDC_EB_ABORIGINAL == 1 ~ "Yes",
+		SDC_EB_ABORIGINAL == 0 ~ "No"
+	))
+
+table(data_working$SDC_EB_ABORIGINAL, data_working$indigenous)
+
+### Black
+
+data_working <- data_working %>%
+	mutate(black = case_when(
+		SDC_EB_BLACK == 1 ~ "Yes",
+		SDC_EB_BLACK == 0 ~ "No"
+	))
+
+table(data_working$SDC_EB_BLACK, data_working$black)
+```
+
+**Fatty liver disease**
+
+```{r}
+table(data_working$DIS_LIVER_FATTY_EVER)
+
+data_working <- data_working %>%
+	mutate(fatty_liver = case_when(
+		DIS_LIVER_FATTY_EVER == 1 ~ "Yes",
+		DIS_LIVER_FATTY_EVER == 2 ~ "Yes"
+	))
+
+data_working <- data_working %>%
+	mutate(fatty_liver = case_when(
+		DIS_LIVER_FATTY_EVER == 1 ~ "Yes",
+		DIS_LIVER_FATTY_EVER == 2 ~ "Yes"
+	))
+
+data_working <- data_working %>% 
+                  mutate(fatty_liver = replace_na(fatty_liver, "No"))
+
+table(data_working$fatty_liver)
+```
+
+## Removing missing for convenience
+
+```{r}
+data_working <- select(data_working, bmi_recode, diabetes_t2, age_45, pa_cat, latinx, indigenous, black, fatty_liver) 
+
+data_working <- data_working %>% drop_na()
+```
+
+#### 3. Preliminary analysis
+
+We want to start by doing bivariable regression on the outcome and each variable. This can a be a bit of a process if we have lots of variables. Here we are using the `glm` (General Linear Model) function. 
+
+```{r}
+model_t2_diab <- glm(bmi_recode ~ diabetes_t2, data = data_working, family = "gaussian")
+summary(model_t2_diab)
+
+cbind(coef(model_t2_diab), confint(model_t2_diab)) ## Old school way
+
+model_t2_diab_table <- tbl_regression(model_t2_diab) 
+
+model_t2_diab_table %>% as_kable()
+```
+
+There are advantages and disadvantages to different was to display models. The `summary` method is good because we all of relevant output from the models. On the downside it's very ugly and hard to make nice tables with. The `tbl_regression` way is nice because we get nice output but we can miss things that might be relevant to our models. 
+
+We always want to look at all of the bivariate associations for each independent variable. We can do this quickly with the final fit package. For now ignore the multivariable model results. We just want to look at the bivariable. 
+
+```{r}
+univ_table <- data_working %>%
+  select(bmi_recode, diabetes_t2, age_45, pa_cat, latinx, indigenous, black, fatty_liver) %>%
+  tbl_uvregression(
+    method = glm,
+    y = bmi_recode,
+    method.args = list(family = gaussian)) 
+
+univ_table %>% as_kable()
+```
+
+## 1. Forward Selection
+
+```{r}
+intercept_only <- lm(bmi_recode ~ 1, data=data_working)
+
+#define model with all predictors
+all <- lm(bmi_recode ~ diabetes_t2 + age_45 + pa_cat + latinx + indigenous + black + fatty_liver, data=data_working)
+
+#perform forward stepwise regression
+forward <- step(intercept_only, direction='forward', scope=formula(all))
+forward$anova
+forward$coefficients
+```
+
+The final model using forward selection selects all of the variables except fatty liver disease. 
+
+## 1. Backward Selection
+
+```{r}
+#define model with all predictors
+all <- lm(bmi_recode ~ diabetes_t2 + age_45 + pa_cat + latinx + indigenous + black + fatty_liver, data=data_working)
+
+backward <- step(all, direction='backward', scope=formula(all))
+
+backward$anova
+
+backward$coefficients
+```
+
+The final model using backward selection selects all of the variables except fatty liver disease. The forward and backward selection selected the same model in this case but that does not happen all of the time. We already ran the bivariable models and we can run the full model and compare. 
+
+## 2. Traditional confounding criteria, change-in-estimate 
+
+Here we can compare the change in estimate from the bivariate model to a full model with all of the variables of interest. We can compare these here. 
+
+```{r}
+model_final <- glm(bmi_recode ~  diabetes_t2 +
+                                  age_45 + 
+                                  pa_cat + 
+                                  latinx + 
+                                  indigenous + 
+                                  black + 
+                                  fatty_liver, 
+                    data = data_working, family = "gaussian")
+summary(model_final)
+
+multi_table <- tbl_regression(model_final) 
+```
+
+```{r}
+tbl_univ_multi <- tbl_merge(list(univ_table, multi_table))
+
+tbl_univ_multi %>% as_kable()
+```
+
+Based on this criteria we would include variables were the model estimate (Beta or OR) changes by more than 10%, this suggests some confounding. Here we would include `latinx`, `fatty_liver` and maybe `age_45`. The other variables appear to say relatively the same between the bivariable and multivariable models. 
+
+This is a different model from the the forward and backward model selection approaches. 
+
+## 2. P value criteria in bivariable
+
+Some people use a p-value criteria of p < 0.02 in bivariable models and include those variables in the model, regardless of what happens in the multivariable model. If we did this we would just examine the variables and include everything except `latinx` and `fatty_liver`. 
+
+## 3. Information criteria 
+
+Here we would suggest a few potential models then compare them. Here we can compare the models we had proposed and use AIC to compare them. Remember that these have to be nested models. 
+
+#### Forward/Backward Selection
+
+```{r}
+forward_backward <- lm(bmi_recode ~ diabetes_t2 + age_45 + pa_cat + latinx + indigenous + black, data=data_working)
+```
+
+#### Confounding
+
+```{r}
+confounding <- lm(bmi_recode ~ age_45 + latinx + fatty_liver, data=data_working)
+```
+
+#### P Value
+
+```{r}
+p_value <- lm(bmi_recode ~ diabetes_t2 + age_45 + pa_cat + indigenous + black, data=data_working)
+```
+
+We can see the AIC values for each model using the AIC command. 
+
+```{r}
+AIC(forward_backward)
+AIC(confounding)
+AIC(p_value)
+```
+
+The smallest AIC is the one from the p-value approach, whether we like that or not. 
+
+We can also compare the models using ANOVA to see if they are significantly different. 
+
+```{r}
+anova(forward_backward, confounding)
+```
+
+The forward/backward model is significantly better than the confounding model in the ANOVA test. This is corroborated by the AIC values. 
+
+```{r}
+anova(confounding, p_value)
+```
+
+The P value model is significantly better than the confounding model in the ANOVA test. This is corroborated by the AIC values. 
+
+```{r}
+anova(forward_backward, p_value)
+```
+
+There is no difference between the P value and forward/backward models. 
+
