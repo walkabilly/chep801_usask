@@ -6,11 +6,7 @@ output:
   pdf_document: default
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-library(dagitty)
-library(ggdag)
-```
+
 
 # Assignment 3- Directed Acyclic Graph (DAG)
 
