@@ -1,9 +1,9 @@
 ---
-title: "Logistic Regression Assignment"
+title: "Linear Regression Assignment"
 output:
+  pdf_document: default
   html_document:
     keep_md: yes
-  pdf_document: default
 ---
 
 ```{r setup, include=TRUE, warning=FALSE, message=FALSE}
@@ -13,7 +13,7 @@ library(pastecs)
 library(knitr)
 ```
 
-# Logistic Regression Assignment
+# Linear Regression Assignment
 
 ## General instructions
 
@@ -32,9 +32,17 @@ You must submit the following.
 
 ## Part 1 - Statistical Model Building
 
-You are interested in examining the association between the occurrence of major depression at any point during the life of the participant `DIS_DEP_EVER` and physical activity `PA_TOTAL_SHORT`. It is well known that there are many factors associated with depression [https://doi.org/10.1176/appi.ajp.2020.19111158](https://doi.org/10.1176/appi.ajp.2020.19111158). There also been attempts to develop data driven DAGs for depression as it is such an outcome with a very complicated causal web [https://doi.org/10.3389/fpsyt.2022.809745](https://doi.org/10.3389/fpsyt.2022.809745).
+The following analysis uses the Can-Path Dataset available in Canvas.  
 
-Your task in this analysis is to determine which variables should be included in a regression model examining the association between depression and physical activity. 
+Your boss tells you to conducted an analysis examining the association between different social and behavioural factors on Body Mass Index using the Can-Path dataset. Your goal as a epidemiologist is to understand factors associated with BMI that can either be intervened on (exposures of interest) or that may be effect modifiers in the association between an exposure of interest and BMI.
+
+It is crucial when discussing obesity and weight status that we avoid adding to stigma as researchers and epidemiologists. There are a number of health consequences to weight stigma that we must attempt to avoid. At the same time, we need to work with people to try and improve health. Some resources here: 
+
+1. Puhl, R M., Wharton, C M. Weight Bias: A Primer for the Fitness Industry. Health & Fitness Journal. 2007; 11(3), p 7-11. [https://doi.org/10.1249/01.FIT.0000269060.03465.ab](https://doi.org/10.1249/01.FIT.0000269060.03465.ab)
+2. Phelan SM, Burgess DJ, Yeazel MW, Hellerstedt WL, Griffin JM, van Ryn M. Impact of weight bias and stigma on quality of care and outcomes for patients with obesity. Obes Rev. 2015;16(4):319-326. [https://doi.org/10.1111/obr.12266](https://doi.org/10.1111/obr.12266).
+3. Puhl RM, Himmelstein MS, Pearl RL. Weight stigma as a psychosocial contributor to obesity. Am Psychol. 2020;75(2):274-289. [https://doi.org/10.1037/amp0000538](https://doi.org/10.1037/amp0000538)
+
+Your task in this analysis is to determine which variables should be included in a regression model with BMI as the outcome.  
 
 1. Identify the primary outcome of interest and the main predictor(s) of interest
 
@@ -51,12 +59,12 @@ Your task in this analysis is to determine which variables should be included in
 
     * Are you concerned about any of the cell sizes?  
 
-5. Identify and fit the best model evaluating the association between your exposure and outcome of interest. Describe why you included/excluded predictors and how you compared between models to arrive at your final model.  
+5. Identify and fit the best model(s) evaluating the association between your exposure and outcome of interest. Describe why you included/excluded predictors and how you compared between models to arrive at your final model.  
 
     * Insert your model output below. 
     * Interpret each of the coefficients and odds ratios.   
 
-6. Evaluate the model and indicate if there are any issues with the reliability of the model, and if the model meets the assumptions of logistic regression. Use regression diagnostics. 
+6. Evaluate the model and if the model meets the assumptions of linear regression. Use regression diagnostics. 
 
     * For the rest of the variables you picked, use them to drop some (or all) using model selection, either using AIC, BIC, or likelihood ratio test. Remember, the likelihood ratio test can be only used for comparing nested models.
     * Present 1 or two final models with appropriate conclusion.
@@ -71,13 +79,3 @@ about providing references to the scales/items within the dataset.
 ### Overall
 - Assignments will be evaluated based on the overall effort and thoroughness of the assignment, attention to details, and overall presentation of results.
 
-## Data
-
-We will again be using the CanPath data. For this assignment you have access to the entire CanPath dataset. Your key variables of interest are
-
-1. Outcome (__Hint. You will need to recode this variable__)
-    * Occurrence of major depression at any point during the life of the participant
-    * Variable name - `DIS_DEP_EVER`
-2. Exposure (__Hint. In the data wrangling assignment we recoded this variable into 3 categories__)
-    * Quantitative indicator of global physical activity in metabolic equivalent (MET)-minutes per week (IPAQ short form)
-    * Variable name - `PA_TOTAL_SHORT`
