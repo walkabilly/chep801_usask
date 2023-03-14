@@ -1,0 +1,231 @@
+gender,screen_time,mental_health_score,id,physician_visits
+Man,>8 hours,18,1,7
+Man,>8 hours,21,2,8
+Man,>8 hours,20,3,6
+Man,>8 hours,21,4,5
+Woman,>8 hours,16,5,7
+Woman,>8 hours,18,6,4
+Woman,>8 hours,18,7,7
+Man,<=8 hours,18,8,6
+Man,<=8 hours,16,9,8
+Man,<=8 hours,20,10,6
+Man,<=8 hours,19,11,4
+Woman,<=8 hours,15,12,5
+Woman,<=8 hours,17,13,6
+Woman,<=8 hours,17,14,7
+Woman,<=8 hours,15,15,2
+Woman,<=8 hours,15,16,5
+Woman,<=8 hours,17,17,7
+Non Binary,<=8 hours,16,18,8
+Non Binary,>8 hours,14,19,9
+Non Binary,>8 hours,11,20,0
+Non Binary,>8 hours,14,21,6
+Non Binary,>8 hours,13,22,2
+Non Binary,>8 hours,12,23,1
+Non Binary,>8 hours,16,24,4
+Non Binary,>8 hours,15,25,5
+Non Binary,>8 hours,16,26,6
+Non Binary,>8 hours,15,27,8
+Non Binary,>8 hours,15,28,7
+Non Binary,<=8 hours,14,29,1
+Non Binary,<=8 hours,11,30,2
+Non Binary,<=8 hours,11,31,4
+Non Binary,<=8 hours,14,32,5
+Man,>8 hours,19,33,8
+Man,>8 hours,22,34,8
+Woman,>8 hours,18,35,9
+Woman,>8 hours,18,36,7
+Woman,>8 hours,17,37,6
+Man,>8 hours,18,38,5
+Woman,>8 hours,17,39,5
+Woman,>8 hours,16,40,4
+Woman,>8 hours,16,41,6
+Woman,>8 hours,17,42,8
+Woman,>8 hours,17,43,9
+Woman,>8 hours,11,44,0
+Woman,>8 hours,15,45,7
+Woman,>8 hours,15,46,6
+Woman,>8 hours,16,47,3
+Woman,>8 hours,16,48,2
+Woman,<=8 hours,15,49,4
+Woman,<=8 hours,14,50,5
+Woman,<=8 hours,13,51,6
+Woman,<=8 hours,14,52,8
+Non Binary,<=8 hours,14,53,9
+Non Binary,<=8 hours,14,54,0
+Non Binary,<=8 hours,9,55,6
+Non Binary,<=8 hours,11,56,4
+Non Binary,<=8 hours,11,57,1.8
+Woman,<=8 hours,13,58,1
+Non Binary,<=8 hours,13,59,3
+Non Binary,<=8 hours,9,60,5
+Non Binary,<=8 hours,13,61,7
+Non Binary,<=8 hours,11,62,4
+Non Binary,<=8 hours,13,63,1
+Non Binary,<=8 hours,11,64,6
+Non Binary,<=8 hours,12,65,8
+Non Binary,<=8 hours,9,66,9
+Non Binary,<=8 hours,13,67,4
+Non Binary,<=8 hours,13,68,5
+Non Binary,<=8 hours,12,69,6
+Non Binary,<=8 hours,9,70,7
+Non Binary,<=8 hours,11,71,2
+Non Binary,<=8 hours,11,72,5
+Non Binary,<=8 hours,13,73,7
+Non Binary,<=8 hours,11,74,8
+Non Binary,>8 hours,11,75,9
+Non Binary,>8 hours,11,76,0
+Non Binary,>8 hours,12,77,6
+Woman,<=8 hours,14,78,2
+Woman,<=8 hours,15,79,1
+Woman,<=8 hours,14,80,4
+Woman,<=8 hours,13,81,5
+Non Binary,<=8 hours,13,82,6
+Non Binary,<=8 hours,13,83,8
+Woman,<=8 hours,14,84,7
+Woman,<=8 hours,14,85,1
+Non Binary,<=8 hours,13,86,2
+Non Binary,<=8 hours,13,87,4
+Non Binary,<=8 hours,13,88,5
+Non Binary,<=8 hours,11,89,7
+Non Binary,<=8 hours,13,90,8
+Woman,>8 hours,18,91,9
+Woman,>8 hours,18,92,7
+Woman,>8 hours,17,93,6
+Woman,>8 hours,16,94,5
+Non Binary,>8 hours,15,95,5
+Non Binary,>8 hours,15,96,4
+Non Binary,>8 hours,15,97,6
+Non Binary,>8 hours,15,98,8
+Non Binary,>8 hours,14,99,9
+Man,>8 hours,28,100,9
+Man,>8 hours,24,101,7
+Man,>8 hours,25,102,8
+Man,>8 hours,23,103,8
+Man,>8 hours,24,104,7
+Man,>8 hours,26,105,9
+Man,>8 hours,25,106,6
+Man,>8 hours,24,107,9
+Man,>8 hours,21,108,8
+Man,>8 hours,18,109,9
+Man,>8 hours,18,110,7
+Man,>8 hours,21,111,6
+Man,>8 hours,21,112,9
+Woman,>8 hours,18,113,8
+Woman,>8 hours,18,114,7
+Woman,>8 hours,19,115,8
+Man,>8 hours,19,116,7
+Man,>8 hours,19,117,7
+Man,>8 hours,20,118,9
+Man,>8 hours,20,119,8
+Woman,>8 hours,17,120,6
+Woman,>8 hours,16,121,8
+Woman,>8 hours,17,122,9
+Woman,<=8 hours,17,123,4
+Woman,<=8 hours,15,124,5
+Woman,<=8 hours,15,125,6
+Non Binary,<=8 hours,14,126,7
+Non Binary,<=8 hours,9,127,2
+Non Binary,<=8 hours,14,128,5
+Non Binary,<=8 hours,13,129,7
+Non Binary,<=8 hours,11,130,8
+Non Binary,<=8 hours,11,131,9
+Non Binary,<=8 hours,12,132,0
+Non Binary,<=8 hours,12,133,6
+Non Binary,<=8 hours,11,134,2
+Non Binary,>8 hours,11,135,1
+Non Binary,>8 hours,11,136,4
+Non Binary,>8 hours,12,137,5
+Woman,<=8 hours,14,138,6
+Woman,<=8 hours,13,139,8
+Non Binary,<=8 hours,13,140,7
+Non Binary,<=8 hours,13,141,1
+Man,>8 hours,21,142,8
+Man,>8 hours,19,143,8
+Man,>8 hours,23,144,6
+Man,>8 hours,23,145,7
+Woman,>8 hours,19,146,8
+Woman,>8 hours,19,147,9
+Woman,>8 hours,18,148,7
+Woman,>8 hours,19,149,6
+Woman,>8 hours,19,150,6
+Woman,<=8 hours,14,151,5
+Woman,<=8 hours,15,152,4
+Woman,<=8 hours,14,153,6
+Non Binary,<=8 hours,12,154,8
+Woman,>8 hours,18,155,9
+Woman,>8 hours,16,156,0
+Woman,>8 hours,17,157,7
+Woman,>8 hours,18,158,6
+Non Binary,>8 hours,16,159,3
+Man,<=8 hours,18,160,7
+Man,<=8 hours,18,161,6
+Man,<=8 hours,20,162,5
+Man,<=8 hours,19,163,6
+Man,<=8 hours,20,164,8
+Man,<=8 hours,18,165,9
+Man,<=8 hours,21,166,7
+Man,<=8 hours,19,167,8
+Man,<=8 hours,19,168,8
+Man,<=8 hours,19,169,9
+Man,<=8 hours,20,170,9
+Man,<=8 hours,20,171,9
+Man,<=8 hours,19,172,6
+Man,<=8 hours,20,173,9
+Man,<=8 hours,15,174,4
+Man,<=8 hours,16,175,1
+Woman,<=8 hours,15,176,6
+Woman,<=8 hours,15,177,8
+Woman,<=8 hours,16,178,9
+Non Binary,<=8 hours,14,179,4
+Man,>8 hours,21,180,8
+Man,>8 hours,21,181,7
+Man,>8 hours,21,182,7
+Man,>8 hours,21,183,8
+Woman,>8 hours,18,184,5
+Woman,>8 hours,18,185,7
+Woman,>8 hours,19,186,8
+Man,>8 hours,21,187,9
+Man,>8 hours,21,188,8
+Man,>8 hours,21,189,9
+Man,>8 hours,22,190,8
+Woman,>8 hours,18,191,8
+Woman,>8 hours,18,192,7
+Woman,>8 hours,18,193,6
+Man,>8 hours,24,194,8
+Man,>8 hours,24,195,6
+Man,>8 hours,26,196,8
+Man,>8 hours,28,197,8
+Man,>8 hours,26,198,8
+Non Binary,<=8 hours,11,199,4
+Non Binary,<=8 hours,13,200,5
+Man,<=8 hours,15,201,7
+Man,<=8 hours,16,202,8
+Man,<=8 hours,17,203,9
+Woman,<=8 hours,15,204,7
+Woman,<=8 hours,15,205,6
+Woman,<=8 hours,15,206,5
+Woman,<=8 hours,16,207,5
+Man,>8 hours,21,208,4
+Man,>8 hours,19,209,6
+Man,>8 hours,21,210,9
+Man,>8 hours,22,211,9
+Woman,>8 hours,17,212,8
+Man,>8 hours,33,213,7
+Man,>8 hours,21,214,8
+Man,>8 hours,19,215,3
+Man,>8 hours,22,216,9
+Man,>8 hours,21,217,9
+Woman,>8 hours,16,218,5
+Woman,>8 hours,17,219,6
+Man,>8 hours,35,220,8
+Man,>8 hours,29,221,9
+Man,>8 hours,21,222,8
+Man,>8 hours,19,223,6
+Man,>8 hours,21,224,7
+Man,>8 hours,18,225,6
+Man,>8 hours,19,226,8
+Man,>8 hours,21,227,8
+Woman,>8 hours,16,228,2.8
+Woman,>8 hours,18,229,8
+Woman,>8 hours,17,230,6
