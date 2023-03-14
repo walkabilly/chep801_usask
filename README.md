@@ -18,17 +18,17 @@ By the completion of this course, students will be able to
 
 Week |	Date |	Topic |	Data Work
 -----|-------|--------|-----------
-1	| January 5	| Intro/Epi Review 	| Intro R/Stata
-2	| January 12	| Descriptive Epi and Study Design	| Data Wrangling
-3	| January 19	| Bias	| Data Visualization
-4	| January 26	| Confounding	| Logistic Regression
-5	| February 2	| Direct Acyclic Graphs (DAGs) |	Linear Regression
-6	| February 9	| Causal Inference |	Average Treatment Effect (causal inference)
+1	| January 5	| Intro/Epi Review 	| [Intro R/Stata](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/Week1_data_work.md)
+2	| January 12	| Descriptive Epi and Study Design	| [Data Wrangling](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/Week2_data_work_R.md)
+3	| January 19	| Bias	| [Data Visualization](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/Week3_data_work_R.md)
+4	| January 26	| Confounding	| [Logistic Regression](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/Week4_data_work_R.md)
+5	| February 2	| Direct Acyclic Graphs (DAGs) |	[Linear Regression](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/Week5_data_work_R.md)
+6	| February 9	| Causal Inference |	[Average Treatment Effect (causal inference)](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/Week6_data_work_R.md)
 7	| February 16	| Epi Communication	| 
 8	| February 23	| Reading Week	| 
-9	| March 2	| Overview of Statistical Models	| Model Assumptions
-10	| March 9	| Model Assumptions, Diagnosis, and Fitting	| Confounding
-11	| March 16	| Interaction/Effect Measure Modification	| Effect Measure Modification
+9	| March 2	| Overview of Statistical Models	| [Model Assumptions](https://github.com/walkabilly/chep801_usask/blob/main/Lecture_mis/Lecture_Regression1/Regression_AssumptionOLS.md)
+10	| March 9	| Model Assumptions, Diagnosis, and Fitting	| [Confounding](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/Week7_data_work_R.md)
+11	| March 16	| Interaction/Effect Measure Modification	| [Effect Measure Modification](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/Week8_data_work_R.md)
 12	| March 23	| Statistical/Machine Learning/Predictive Analysis	| Logistic Regression - The machine learning way
 13	| March 30	| Student Presentations	|
 
@@ -54,13 +54,13 @@ Remote access: students can access statistical software programs, including Stat
 ## Grading Scheme
 Assignment | Grade
 -----------|------
-Data Wrangling and Descriptive Statistics	| 10%
-Bias |	15%
-DAG (Directed Acyclic Graphs) |	15%
-Logistic Regression – Focus on confounding |	15%
-Linear Regression – Focus on effect measure modification | 15%
-Epi Communication – Part 1 (One Pager)	| 15%
-Epi Communication – Part 2 (Oral Presentation)	| 15%
+[Data Wrangling and Descriptive Statistics](https://github.com/walkabilly/chep801_usask/blob/main/Assignments/Data%20Wrangling/Data-Wrangling-Assignment.md) | 10%
+[Bias](https://github.com/walkabilly/chep801_usask/blob/main/Assignments/Bias/Bias-Assignment.md) |	15%
+[DAG (Directed Acyclic Graphs)](https://github.com/walkabilly/chep801_usask/blob/main/Assignments/DAGs/Assignment-3--DAG.md) |	15%
+[Logistic Regression – Focus on confounding](https://github.com/walkabilly/chep801_usask/blob/main/Assignments/Logistic%20Regression/Logistic-Regression-Assignment.md) |	15%
+[Linear Regression](https://github.com/walkabilly/chep801_usask/blob/main/Assignments/Linear%20Regression/Linear-Regression-Assignment.md) – Focus on effect measure modification | 15%
+[Epi Communication](https://github.com/walkabilly/chep801_usask/blob/main/Assignments/Epi%20Communication%201/Epi_Communication_Assignment.md) – Part 1 (One Pager)	| 15%
+[Epi Communication](https://github.com/walkabilly/chep801_usask/blob/main/Assignments/Epi%20Communication%202/Epi_Communication_Assignment.md) – Part 2 (Oral Presentation)	| 15%
 Total	| 100%
 
 ## Evaluation Components
