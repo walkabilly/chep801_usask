@@ -45,7 +45,7 @@ TO answer the questions below, you do not need to perform literature search to d
 
 In the daggity software, copy and paste the following code (staring from `dag{` to `}`) that will generate a DAG, with a focus on association between `Neighbourhood safety` (exposure)  and `Cardiovascular Disease` (outcome).  You need to paste into the `MOdel_code` section (right hand side, the third pane). You will see the DAG with 8 variables (nodes), as in the .pdf image file in the github page.  
 
-![](https://github.com/walkabilly/chep801_usask/raw/main/Assignments/DAGs/Question2_ExampleDAG.pdf)
+![](https://github.com/walkabilly/chep801_usask/raw/main/Assignments/DAGs/Question2_ExampleDAG.png)
 
 ```
 dag {
