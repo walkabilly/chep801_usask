@@ -10,3 +10,6 @@ Data Wrangling  | [Week_2_data_work_R.md](https://github.com/walkabilly/chep801_
 Data Visualization  | [Week_3_data_work_R.md](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/Week3_data_work_R.md)   | [Week_3_data_work_Stata.do](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/Week3_data_work_Stata.do)
 Logistic Regression  | [Week_4_data_work_R.md](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/Week4_data_work_R.md)   | [Coming Soon]()
 Linear Regression  | [Week_5_data_work_R.md](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/Week5_data_work_R.md)   | [Coming Soon]()
+Average Treatment Effect  | [Week_6_data_work_R.md](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/Week6_data_work_R.md) | [Coming Soon]()
+Model Selection  | [Week_7_data_work_R.md](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/Week7_data_work_R.md) | [Coming Soon]()
+Effect Modification  | [Week_8_data_work_R.md](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/Week8_data_work_R.md) | [Coming Soon]()
