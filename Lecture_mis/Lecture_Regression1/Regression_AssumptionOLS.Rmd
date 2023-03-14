@@ -1,7 +1,5 @@
 ---
 title: "Regression_OLS_Assumption_FEVdata"
-author: "HM"
-date: "2023-03_9"
 output:
   html_document:
     keep_md: yes
@@ -41,17 +39,16 @@ funcColNames2 <- function(d){
 ```
 
 
-
-
 ## Real data to check the assumptions 
 FEV (Forced Expiration Volume) study, can be download from many sources    
-Some anlaysis examples https://www.tandfonline.com/doi/full/10.1080/10691898.2005.11910559   
-An Exhalent Problem for Teaching Statistics, Kahn (2017) https://doi.org/10.1080/10691898.2005.11910559
-```{r}
 
+* Some anlaysis examples [https://www.tandfonline.com/doi/full/10.1080/10691898.2005.11910559](https://www.tandfonline.com/doi/full/10.1080/10691898.2005.11910559)  
+* An Exhalent Problem for Teaching Statistics, Kahn (2017) [https://doi.org/10.1080/10691898.2005.11910559](https://doi.org/10.1080/10691898.2005.11910559)
+
+```{r}
 url <- "http://www.emersonstatistics.com/datasets/fev.txt"
 download.file(url, "fev.txt" )
-dat <- read.csv("~/GitHub/chep801_usask/Lecture_mis/Lecture_Regression1/fev.txt", sep="")
+dat <- read.csv("https://github.com/walkabilly/chep801_usask/raw/main/fev.txt", sep="")
 
 # Describe data 
 glimpse(dat)
