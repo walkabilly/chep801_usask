@@ -7,39 +7,6 @@ output:
 
 
 
-```{}
-mpg2 <- mpg
-mpg2$cyl <- factor(mpg2$cyl)
-mpg2["auto"] <- "auto"
-mpg2$auto[mpg2$trans %in% c("manual(m5)", "manual(m6)")] <- "manual"
-mpg2$auto <- factor(mpg2$auto)
-mpg2["fwd"] <- "2wd"
-mpg2$fwd[mpg2$drv == "4"] <- "4wd"
-mpg2$fwd <- factor(mpg2$fwd)
-## Drop the two cars with 5 cylinders (rest are 4, 6, or 8)
-mpg2 <- mpg2[mpg2$cyl != "5",]
-
-
-mpg2$gender <- mpg2$cyl
-mpg2$mental_health_score <- mpg2$cty
-mpg2$physician_visits <- mpg2$displ
-
-table(mpg2$gender)
-
-mpg2 <- mpg2 %>%
-	mutate(gender = case_when(
-		gender == 4 ~ "Man",
-    gender == 6 ~ "Women",
-		gender == 8 ~ "Non Binary"
-	))
-
-mpg2$id <- seq_len(230)
-
-df <- select(mpg2, id, gender, mental_health_score, physician_visits)
-
-write_csv(df, "interaction_df.csv")
-```
-
 ## Interaction/Effect Measure Modification
 
 We will show different methods to estimate interaction in regression models in different scenarios depending on types of variables. We will present both regression based and visual methods to examine interaction. Interaction is complex and we will use new data instead of the usual data for this course in order to simplify the interpretation. 
@@ -197,21 +164,19 @@ Here we need to interpret both the main effects and the interaction.
 
 Main effect of A (screen time)
 
-* Compared to those who have more than 8 hours of screen time, those who have less than or equal to 8 hours of screen have a 3.7 point (95% CI = 2.7 to 4.8) greater mental health score.
-* BUT you need to interpret the main effect and interaction. 
+* __Men__ who who have more than 8 hours of screen time have a 3.7 point (95% CI = 2.7 to 4.8) greater mental health score compared to men with less than or equal to 8 hours of screen time. This effect is for men because we have the interaction term in the model. Without the interaction term the effect would be regardless of gender. 
 
 Main effect of Z (gender)
 
-* Compared to those who identify as men, women have -3.6 point lower (95% CI =	-4.7 to -2.4) mental health score. Those who identify as non-binary had a -6.3 point lower (95% CI = -7.3 to -5.1) mental health score.
-* BUT you need to interpret the main effect and interaction. 
+* Compared to those who identify as men with <=8 hours of screen time, women have -3.6 point lower (95% CI =	-4.7 to -2.4) mental health score. Those who identify as non-binary had a -6.2 point lower (95% CI = -7.3 to -5.1) mental health score. 
 
 Interaction
 
-* Compared to men who had more than 8 hours of screen time (Reference category is a bit complicated here) non-binary people with less then 8 hours of screen time had a 2.2 lower mental health score (95% CI = -3.8 to -0.69). Women with less then 8 hours of screen time had a 1.2 point lower mental health score (95% CI = -2.8 to 0.14) compared to men how watched 8 hours of screen time. 
+* Compared to men who had more than 8 hours of screen time non-binary people with less then 8 hours of screen time had a 2.2 lower mental health score (95% CI = -3.8 to -0.69). Women with less then 8 hours of screen time had a 1.3 point lower mental health score (95% CI = -2.8 to 0.14) compared to men how watched 8 hours of screen time. What we are saying is that the effect of screen time stronger for men compared to the other genders. 
 
 In simple terms
 
-* __The effect of screen time on mental health risk is modified by gender in that it is stronger in women and non binary people than it is in those who identify as men.__
+* __The effect of screen time on mental health risk is modified by gender in that it is weaker in women and non binary people than it is in those who identify as men.__
 
 ##### 1.4 Visualize the regression results
 
@@ -324,17 +289,15 @@ Here have a continuous exposure of interest physician visits (A) and on categori
 
 Main effect of A (physician visits)
 
-* For a 0.6 unit increase in physician visits there is a 1 unit increase in the mental health score overall. 
-* BUT you need to interpret the main effect and interaction. 
+* For a 0.6 unit increase in physician visits there is a 1 unit increase in the mental health score overall (95% CI = 0.25 to 0.92) for men. This is the slope of the regression line for men. 
 
 Main effect of Z (gender)
 
-* Compared to those who identify as men, women have -2.8 point lower (95% CI =	-5.8 to 0.15) mental health score. Those who identify as non-binary had a -4.5 point lower (95% CI = -7.3 to -1.6) mental health score.
-* BUT you need to interpret the main effect and interaction. 
+* Compared to those who identify as men, women have -2.8 point lower (95% CI =	-5.8 to 0.15) mental health score. Those who identify as non-binary had a -4.5 point lower (95% CI = -7.3 to -1.6) mental health score. This a comparison of the intercept between the three groups. 
 
 Interaction
 
-* Compared to the association between men's physician visits and mental health, the association between physician visits and mental health score for women and non-binary people is negative -0.19 (95% CI = -0.61 to 0.23) and -0.52 (95% CI = -0.92 to -0.11), respectively. 
+* Compared to the association between men's physician visits and mental health, the association between physician visits and mental health score for women and non-binary people is negative -0.19 (95% CI = -0.61 to 0.23) and -0.52 (95% CI = -0.92 to -0.11), respectively. This is a comparison of the difference in slopes between men's slope and the other two slopes. Notice that in the figures all slopes are positive but the slopes for the interaction are negative. This is because we are comparing the different in slopes, so the men's slope is steeper than the women's and non-binary. 
 
 ##### 1.4 Visualize the regression results
 
