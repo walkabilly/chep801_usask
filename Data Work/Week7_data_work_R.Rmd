@@ -16,6 +16,7 @@ library(jtools)
 library(emmeans)
 library(lindia)
 library(gtsummary)
+library(lmtest)
 data <- read_csv("Data.csv")
 ```
 
@@ -332,6 +333,8 @@ AIC(p_value)
 
 The smallest AIC is the one from the p-value approach, whether we like that or not. 
 
+##### Comparing models with ANOVA
+
 We can also compare the models using ANOVA to see if they are significantly different. 
 
 ```{r}
@@ -351,4 +354,35 @@ anova(forward_backward, p_value)
 ```
 
 There is no difference between the P value and forward/backward models. 
+
+##### Comparing models with likelihood ratio test
+
+Here we need to compare nested models. The model with the most variables is the `forward_backward` model so we use that for the comparison. 
+
+Let's the likelihood ratio from each model then compare just like we did with ANOVA. Just like AIC smaller is better for likelihood ratios. 
+
+```{r}
+logLik(forward_backward)
+logLik(confounding)
+logLik(p_value)
+```
+
+```{r}
+lrtest(forward_backward, confounding)
+```
+
+The forward/backward model is significantly better than the confounding model in the `lrtest`. This is corroborated by the LR values. 
+
+```{r}
+lrtest(confounding, p_value)
+```
+
+The P value model is significantly better than the confounding model in the `lrtest`. This is corroborated by the LR values. 
+
+```{r}
+lrtest(forward_backward, p_value)
+```
+
+There is no difference between the P value for the `lrtest` and forward/backward models. 
+
 

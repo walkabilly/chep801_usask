@@ -792,6 +792,8 @@ AIC(p_value)
 
 The smallest AIC is the one from the p-value approach, whether we like that or not. 
 
+##### Comparing models with ANOVA
+
 We can also compare the models using ANOVA to see if they are significantly different. 
 
 
@@ -850,4 +852,93 @@ anova(forward_backward, p_value)
 ```
 
 There is no difference between the P value and forward/backward models. 
+
+##### Comparing models with likelihood ratio test
+
+Here we need to compare nested models. The model with the most variables is the `forward_backward` model so we use that for the comparison. 
+
+Let's the likelihood ratio from each model then compare just like we did with ANOVA. Just like AIC smaller is better for likelihood ratios. 
+
+
+```r
+logLik(forward_backward)
+```
+
+```
+## 'log Lik.' -78622.43 (df=9)
+```
+
+```r
+logLik(confounding)
+```
+
+```
+## 'log Lik.' -78874.71 (df=5)
+```
+
+```r
+logLik(p_value)
+```
+
+```
+## 'log Lik.' -78622.57 (df=8)
+```
+
+
+```r
+lrtest(forward_backward, confounding)
+```
+
+```
+## Likelihood ratio test
+## 
+## Model 1: bmi_recode ~ diabetes_t2 + age_45 + pa_cat + latinx + indigenous + 
+##     black
+## Model 2: bmi_recode ~ age_45 + latinx + fatty_liver
+##   #Df LogLik Df  Chisq Pr(>Chisq)    
+## 1   9 -78622                         
+## 2   5 -78875 -4 504.57  < 2.2e-16 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+```
+
+The forward/backward model is significantly better than the confounding model in the `lrtest`. This is corroborated by the LR values. 
+
+
+```r
+lrtest(confounding, p_value)
+```
+
+```
+## Likelihood ratio test
+## 
+## Model 1: bmi_recode ~ age_45 + latinx + fatty_liver
+## Model 2: bmi_recode ~ diabetes_t2 + age_45 + pa_cat + indigenous + black
+##   #Df LogLik Df  Chisq Pr(>Chisq)    
+## 1   5 -78875                         
+## 2   8 -78623  3 504.29  < 2.2e-16 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+```
+
+The P value model is significantly better than the confounding model in the `lrtest`. This is corroborated by the LR values. 
+
+
+```r
+lrtest(forward_backward, p_value)
+```
+
+```
+## Likelihood ratio test
+## 
+## Model 1: bmi_recode ~ diabetes_t2 + age_45 + pa_cat + latinx + indigenous + 
+##     black
+## Model 2: bmi_recode ~ diabetes_t2 + age_45 + pa_cat + indigenous + black
+##   #Df LogLik Df  Chisq Pr(>Chisq)
+## 1   9 -78622                     
+## 2   8 -78623 -1 0.2746     0.6003
+```
+
+There is no difference between the P value for the `lrtest` and forward/backward models. 
+
 
