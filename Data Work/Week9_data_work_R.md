@@ -338,25 +338,133 @@ table(data_working$fatty_liver)
 
 We are going to use the [Tidymodels](https://www.tidymodels.org/) framework for this analysis since we are in the Tidyverse world for this course. On our previous examples for logistic and linear regression we did not use the tidyverse framework. 
 
+Removing missing data. Normally you would do this variable by variable and be very clear on what and why you are removing data. We are just going to simplify that here. 
+
+
+```r
+data_working <- select(data_working, diabetes_t2, bmi_overweight, age_45, pa_cat, latinx, indigenous, black, fatty_liver)
+
+data_working <- data_working %>% drop_na()
+```
+
 More machine learning we need a way to split the data into a training set and a test set. There are a few different approaches too this. Here we are going to use an 70/30 split with 70% of the data going to training and 30 going to testing. This is sort of an older way to split data and I would say that a k-fold cross validation is probably more in line with modern practice... but we are here for the learning. 
 
 
 ```r
 # Fix the random numbers by setting the seed 
 # This enables the analysis to be reproducible when random numbers are used 
-set.seed(222)
-# Put 3/4 of the data into the training set 
-data_split <- initial_split(data_working, prop = 0.80)
+set.seed(1)
+
+data_split <- initial_split(data_working, prop = 0.70)
 
 # Create data frames for the two sets:
 train_data <- training(data_split)
-test_data  <- testing(data_split)
+
+table(train_data$diabetes_t2)
 ```
 
-Now we have split the data, we want to create the model for the training data and save it so it can be applied to the testing set. 
+```
+## 
+##     0     1 
+## 16304   876
+```
+
+```r
+test_data  <- testing(data_split)
+
+table(test_data$diabetes_t2)
+```
+
+```
+## 
+##    0    1 
+## 6953  410
+```
+
+Now we have split the data, we want to create the model for the training data and save it so it can be applied to the testing set. This is basically exactly what we did before. __Note that we only run the model on the training data__ Not all of the data like would in a traditional logistic regression. Here we won't get the exact same result as our original logisitic regression because we don't have the same data. We expect there will be some variation but that the results should relatively similar.
+
+
+```r
+logistic_model<- logistic_reg() %>%
+        set_engine("glm") %>%
+        fit(diabetes_t2 ~ bmi_overweight + age_45 + pa_cat + latinx + indigenous + black + fatty_liver, data = train_data)
+
+tidy(logistic_model, exponentiate = TRUE)
+```
+
+```
+## # A tibble: 9 × 5
+##   term                      estimate std.error statistic   p.value
+##   <chr>                        <dbl>     <dbl>     <dbl>     <dbl>
+## 1 (Intercept)                 0.0473    0.0916   -33.3   5.07e-243
+## 2 bmi_overweightOverweight    2.06      0.0827     8.74  2.33e- 18
+## 3 age_45Under 45              0.333     0.105    -10.5   1.24e- 25
+## 4 pa_cat2_Moderate Activity   0.876     0.0863    -1.54  1.24e-  1
+## 5 pa_cat3_High Activity       0.719     0.0859    -3.84  1.23e-  4
+## 6 latinxYes                   0.559     0.512     -1.14  2.56e-  1
+## 7 indigenousYes               0.876     0.202     -0.658 5.11e-  1
+## 8 blackYes                    2.33      0.231      3.67  2.46e-  4
+## 9 fatty_liverYes              1.61      0.374      1.26  2.06e-  1
+```
+
+Once we `train the model` we want to understand how will our trained model works on new data the model has not seen. This is where the testing data comes in. We can use the `predict` feature for this. 
+
+
+```r
+pred_class <- predict(logistic_model,
+                      new_data = test_data,
+                      type = "class")
+table(pred_class$.pred_class)
+```
+
+```
+## 
+##    0    1 
+## 7363    0
+```
+
+
+```r
+pred_prob <- predict(logistic_model,
+                      new_data = test_data,
+                      type = "prob")
+table(pred_class$.pred_class)
+```
+
+```
+## 
+##    0    1 
+## 7363    0
+```
+
+
+```r
+diabetes_results <- test_data %>%
+  select(diabetes_t2) %>%
+  bind_cols(pred_class, pred_prob)
+```
+
+
+```r
+conf_mat(diabetes_results, truth = diabetes_t2,
+         estimate = .pred_class)
+```
+
+```
+##           Truth
+## Prediction    0    1
+##          0 6953  410
+##          1    0    0
+```
+
+
+
 
 ```{}
-lr_mod <- 
-  logistic_reg(diabetes_t2 ~ bmi_overweight + age_45 + pa_cat + latinx + indigenous + black + fatty_liver, data = training_data) %>% 
-  set_engine("glm")
+custom_metrics <- metric_set(accuracy, sens, spec, precision, recall, f_meas, kap, mcc)
+
+custom_metrics(diabetes_results,
+               truth = diabetes,
+               estimate = .pred_class)
 ```
+
