@@ -36,7 +36,7 @@ Let's simplify the dataset so we are not working with so many variables.
 
 
 ```r
-data_working <- select(data, "DIS_DIAB_TYPE", "PM_BMI_SR", "SDC_AGE_CALC", "PA_LEVEL_SHORT", "SDC_EB_ABORIGINAL", "SDC_EB_LATIN", "SDC_EB_BLACK", "DIS_LIVER_FATTY_EVER")
+data_working <- select(data, "DIS_DIAB_TYPE", "PM_BMI_SR", "SDC_AGE_CALC", "PA_LEVEL_SHORT", "SDC_EB_ABORIGINAL", "SDC_EB_LATIN", "SDC_EB_BLACK", "DIS_LIVER_FATTY_EVER", "SDC_MARITAL_STATUS", "SDC_EDU_LEVEL", "SDC_INCOME", "HS_GEN_HEALTH", "NUT_VEG_QTY", "NUT_FRUITS_QTY", "ALC_CUR_FREQ", "SDC_BIRTH_COUNTRY", "PA_SIT_AVG_TIME_DAY", "SMK_CIG_STATUS", "SLE_TIME", "DIS_DIAB_FAM_EVER")
 
 rm(data) ### Remove the old data from working memory
 ```
@@ -86,8 +86,33 @@ data_working <- data_working %>%
 
 data_working$diabetes_gestat <- as.factor(data_working$diabetes_gestat)
 
-
 data_working <- filter(data_working, diabetes_t2 == 0 | diabetes_t2 == 1 | diabetes_gestat == 1)
+
+table(data_working$diabetes_t2, data_working$DIS_DIAB_TYPE)
+```
+
+```
+##    
+##        -7     2     3
+##   0 36807     0     0
+##   1     0  2160     0
+```
+
+```r
+data_working <- data_working %>%
+	mutate(diabetes = case_when(
+    diabetes_t2 == 0 ~ "neg",
+    diabetes_t2 == 1 ~ "pos"
+	))
+
+table(data_working$diabetes_t2, data_working$diabetes)
+```
+
+```
+##    
+##       neg   pos
+##   0 36807     0
+##   1     0  2160
 ```
 
 For logistic regression in the case of a cross-section study we want the outcome to be ~10% of the total sample. Here we have `2160/36807*100 = 5.86%`. 
@@ -342,10 +367,15 @@ Removing missing data. Normally you would do this variable by variable and be ve
 
 
 ```r
-data_working <- select(data_working, diabetes_t2, bmi_overweight, age_45, pa_cat, latinx, indigenous, black, fatty_liver)
+cols <- c("pa_cat", "latinx", "indigenous", "black", "fatty_liver", "SDC_MARITAL_STATUS", "SDC_EDU_LEVEL", "SDC_INCOME", "HS_GEN_HEALTH", "diabetes", "SDC_BIRTH_COUNTRY", "SMK_CIG_STATUS", "DIS_DIAB_FAM_EVER")
+data_working %<>% mutate_at(cols, factor)
+
+data_working <- select(data_working, diabetes_t2, diabetes, PM_BMI_SR, SDC_AGE_CALC, pa_cat, latinx, indigenous, black, fatty_liver, SDC_MARITAL_STATUS, SDC_EDU_LEVEL, SDC_INCOME, HS_GEN_HEALTH, NUT_VEG_QTY, NUT_FRUITS_QTY, ALC_CUR_FREQ, SDC_BIRTH_COUNTRY, PA_SIT_AVG_TIME_DAY, SMK_CIG_STATUS, SLE_TIME, DIS_DIAB_FAM_EVER)
 
 data_working <- data_working %>% drop_na()
 ```
+
+#### 3.1 Data Split
 
 More machine learning we need a way to split the data into a training set and a test set. There are a few different approaches too this. Here we are going to use an 70/30 split with 70% of the data going to training and 30 going to testing. This is sort of an older way to split data and I would say that a k-fold cross validation is probably more in line with modern practice... but we are here for the learning. 
 
@@ -355,7 +385,7 @@ More machine learning we need a way to split the data into a training set and a 
 # This enables the analysis to be reproducible when random numbers are used 
 set.seed(1)
 
-data_split <- initial_split(data_working, prop = 0.70)
+data_split <- initial_split(data_working, prop = 0.70, strata = diabetes)
 
 # Create data frames for the two sets:
 train_data <- training(data_split)
@@ -365,8 +395,8 @@ table(train_data$diabetes_t2)
 
 ```
 ## 
-##     0     1 
-## 16304   876
+##    0    1 
+## 9545  470
 ```
 
 ```r
@@ -378,36 +408,47 @@ table(test_data$diabetes_t2)
 ```
 ## 
 ##    0    1 
-## 6953  410
+## 4077  216
 ```
 
-Now we have split the data, we want to create the model for the training data and save it so it can be applied to the testing set. This is basically exactly what we did before. __Note that we only run the model on the training data__ Not all of the data like would in a traditional logistic regression. Here we won't get the exact same result as our original logisitic regression because we don't have the same data. We expect there will be some variation but that the results should relatively similar.
+Now we have split the data, we want to create the model for the training data and save it so it can be applied to the testing set. This is basically exactly what we did before. __Note that we only run the model on the training data__ Not all of the data like would in a traditional logistic regression. Here we won't get the exact same result as our original logistic regression because we don't have the same data. We expect there will be some variation but that the results should relatively similar. 
+
+**Another note. I've added variables to this model compared to our previous model. The previous model did a very poor job of predicting diabetes overall. In fact, it had a sensitivity of ZERO! Meaning it did not predict a single case of diabetes in the test set. That's bad so I've added variables to try and increase our prediction ability. 
+
+#### 3.2 Running the regression
 
 
 ```r
 logistic_model<- logistic_reg() %>%
         set_engine("glm") %>%
-        fit(diabetes_t2 ~ bmi_overweight + age_45 + pa_cat + latinx + indigenous + black + fatty_liver, data = train_data)
+        set_mode("classification") %>%
+        fit(diabetes ~ PM_BMI_SR + SDC_AGE_CALC + pa_cat + latinx + indigenous + black + fatty_liver + SDC_MARITAL_STATUS + SDC_EDU_LEVEL + SDC_INCOME + HS_GEN_HEALTH + NUT_VEG_QTY + NUT_FRUITS_QTY + ALC_CUR_FREQ + SDC_BIRTH_COUNTRY + PA_SIT_AVG_TIME_DAY + SMK_CIG_STATUS + SLE_TIME + DIS_DIAB_FAM_EVER, data = train_data)
 
 tidy(logistic_model, exponentiate = TRUE)
 ```
 
 ```
-## # A tibble: 9 × 5
-##   term                      estimate std.error statistic   p.value
-##   <chr>                        <dbl>     <dbl>     <dbl>     <dbl>
-## 1 (Intercept)                 0.0473    0.0916   -33.3   5.07e-243
-## 2 bmi_overweightOverweight    2.06      0.0827     8.74  2.33e- 18
-## 3 age_45Under 45              0.333     0.105    -10.5   1.24e- 25
-## 4 pa_cat2_Moderate Activity   0.876     0.0863    -1.54  1.24e-  1
-## 5 pa_cat3_High Activity       0.719     0.0859    -3.84  1.23e-  4
-## 6 latinxYes                   0.559     0.512     -1.14  2.56e-  1
-## 7 indigenousYes               0.876     0.202     -0.658 5.11e-  1
-## 8 blackYes                    2.33      0.231      3.67  2.46e-  4
-## 9 fatty_liverYes              1.61      0.374      1.26  2.06e-  1
+## # A tibble: 60 × 5
+##    term                      estimate std.error statistic  p.value
+##    <chr>                        <dbl>     <dbl>     <dbl>    <dbl>
+##  1 (Intercept)                0.00224   1.39      -4.39   1.12e- 5
+##  2 PM_BMI_SR                  1.05      0.00723    6.13   8.66e-10
+##  3 SDC_AGE_CALC               1.05      0.00550    9.71   2.65e-22
+##  4 pa_cat2_Moderate Activity  0.903     0.126     -0.813  4.16e- 1
+##  5 pa_cat3_High Activity      0.859     0.130     -1.17   2.40e- 1
+##  6 latinxYes                  0.629     0.738     -0.629  5.30e- 1
+##  7 indigenousYes              0.466     0.376     -2.03   4.21e- 2
+##  8 blackYes                   1.97      0.415      1.63   1.03e- 1
+##  9 fatty_liverYes             1.03      0.539      0.0526 9.58e- 1
+## 10 SDC_MARITAL_STATUS2        1.09      0.173      0.506  6.13e- 1
+## # … with 50 more rows
 ```
 
-Once we `train the model` we want to understand how will our trained model works on new data the model has not seen. This is where the testing data comes in. We can use the `predict` feature for this. 
+#### 3.3 Test the trained model
+
+Once we `train the model` we want to understand how well our trained model works on new data the model has not seen. This is where the testing data comes in. We can use the `predict` feature for this. What we are doing here is predicting if someone has diabetes (yes/no) from the model we trained using the training data, on the testing data. We had 4293 observations in the training with 4077 people with on diabetes and 216 people with diabetes. Much of this example comes from [https://medium.com/the-researchers-guide/modelling-binary-logistic-regression-using-tidymodels-library-in-r-part-1-c1bdce0ac055](https://medium.com/the-researchers-guide/modelling-binary-logistic-regression-using-tidymodels-library-in-r-part-1-c1bdce0ac055)
+
+The code below outputs the predict class `diabetes (yes/no)` for the test data. 
 
 
 ```r
@@ -419,52 +460,288 @@ table(pred_class$.pred_class)
 
 ```
 ## 
-##    0    1 
-## 7363    0
+##  neg  pos 
+## 4287    6
 ```
+
+Our model predicts that we have 4287 people with diabetes and 6 people with diabetes. Not looking good for our model! 
+
+Now we want to generated the predicted probabilities for the model. That is, how well does our model think it does for each person. 
 
 
 ```r
 pred_prob <- predict(logistic_model,
                       new_data = test_data,
                       type = "prob")
-table(pred_class$.pred_class)
+head(pred_prob)
 ```
 
 ```
-## 
-##    0    1 
-## 7363    0
+## # A tibble: 6 × 2
+##   .pred_neg .pred_pos
+##       <dbl>     <dbl>
+## 1     0.993   0.00745
+## 2     0.925   0.0748 
+## 3     0.971   0.0286 
+## 4     0.933   0.0672 
+## 5     0.983   0.0173 
+## 6     0.903   0.0965
 ```
+
+This is not very informative in terms of results but we will discuss this more later. 
+
+Now we want to combine all of our results into one dataframe and just do a quick check. 
 
 
 ```r
 diabetes_results <- test_data %>%
-  select(diabetes_t2) %>%
+  select(diabetes_t2, diabetes) %>%
   bind_cols(pred_class, pred_prob)
+
+head(diabetes_results)
+```
+
+```
+## # A tibble: 6 × 5
+##   diabetes_t2 diabetes .pred_class .pred_neg .pred_pos
+##   <fct>       <fct>    <fct>           <dbl>     <dbl>
+## 1 0           neg      neg             0.993   0.00745
+## 2 0           neg      neg             0.925   0.0748 
+## 3 0           neg      neg             0.971   0.0286 
+## 4 0           neg      neg             0.933   0.0672 
+## 5 0           neg      neg             0.983   0.0173 
+## 6 0           neg      neg             0.903   0.0965
+```
+
+Here we can see the first 6 rows of data data all negative for diabetes and are predicted as negative. The model is very confident in these predictions, with over 90% negative prediction in all six observations. 
+
+#### 3.3 Model evaluation
+
+There are a number of different methods we must use to evaluate machine learning models. We will walk through those. 
+
+#### Calibration Slope
+
+The calibration slope is the predicted values from the model compared to the actual values [https://doi.org/10.1016/j.jclinepi.2019.09.016](https://doi.org/10.1016/j.jclinepi.2019.09.016) 
+
+```{}
+
+
+p <- diabetes_results$.pred_neg
+y <- diabetes_results$diabetes_t2
+
+
+val.prob(p, y)
+
+
+
+set.seed(1)
+n <- 200
+x1 <- runif(n)
+x2 <- runif(n)
+x3 <- runif(n)
+logit <- 2*(x1-.5)
+P <- 1/(1+exp(-logit))
+y <- ifelse(runif(n)<=P, 1, 0)
+d <- data.frame(x1,x2,x3,y)
+f <- lrm(y ~ x1 + x2 + x3, subset=1:100)
+pred.logit <- predict(f, d[101:200,])
+phat <- 1/(1+exp(-pred.logit))
+val.prob(phat, y[101:200], m=20, cex=.5)  # subgroups of 20 obs.
+
+
+# Validate predictions more stringently by stratifying on whether
+# x1 is above or below the median
+
+
+v <- val.prob(phat, y[101:200], group=x1[101:200], g.group=2)
+v
+plot(v)
+
 ```
 
 
+
+#### Confusion Matrix
+
+We can generate a confusion matrix by using the `conf_mat()` function by supplying the final data frame (`diabetes_results`), the truth column `diabetes` and predicted class `.pred_class` in the estimate attribute.
+
+A confusion matrix is sort of a 2x2 table with the true values on one side and predicted values in another column. If we look on the diagonal we see when the model correctly predicts the values `yes/no` and off diagonal is when the model does not predict the correct value. So this model correctly predicts that 4075 cases of diabetes and incorrectly predicts that 212 people do not have diabetes when they do have it. The model correctly predicts 4 cases of diabetes. It also incorrectly predicts that two people who do not have diabetes do have diabetes. 
+
+
 ```r
-conf_mat(diabetes_results, truth = diabetes_t2,
+conf_mat(diabetes_results, truth = diabetes,
          estimate = .pred_class)
 ```
 
 ```
 ##           Truth
-## Prediction    0    1
-##          0 6953  410
-##          1    0    0
+## Prediction  neg  pos
+##        neg 4075  212
+##        pos    2    4
 ```
 
+#### Accuracy
+
+We can calculate the classification accuracy by using the `accuracy()` function by supplying the final data frame `diabetes_results`, the truth column `diabetes` and predicted class `.pred_class` in the estimate attribute. The model classification accuracy on test dataset is about 95.0%. This looks good but it's a bit of fake result as we will see later. 
+
+
+```r
+accuracy(diabetes_results, truth = diabetes,
+         estimate = .pred_class)
+```
+
+```
+## # A tibble: 1 × 3
+##   .metric  .estimator .estimate
+##   <chr>    <chr>          <dbl>
+## 1 accuracy binary         0.950
+```
+
+#### Sensitivity
+
+The sensitivity (also known as __Recall__) of a classifier is the ratio between what was correctly identified as positive (True Positives) and all positives (False Negative + True Positive).
+
+__Sensitivity = TP / FN + TP__
+
+The sensitivity value is 1.0 indicating that we are able to correctly detect 100% of the positive values.  
+
+
+```r
+sens(diabetes_results, truth = diabetes,
+    estimate = .pred_class)
+```
+
+```
+## # A tibble: 1 × 3
+##   .metric .estimator .estimate
+##   <chr>   <chr>          <dbl>
+## 1 sens    binary          1.00
+```
+
+#### Specificity
+
+Specificity of a classifier is the ratio between what was classified as negative (True Negatives) and all negative values (False Positive + True Native)
+
+__Specificity = TN / FP + TN__
+
+The specificity value is 0.0185. Meaning that we correctly classify 1.85% of the negative values, which is pretty terrible. 
+
+
+```r
+spec(diabetes_results, truth = diabetes,
+    estimate = .pred_class)
+```
+
+```
+## # A tibble: 1 × 3
+##   .metric .estimator .estimate
+##   <chr>   <chr>          <dbl>
+## 1 spec    binary        0.0185
+```
+
+#### Precision
+
+What percent of values are correctly classified as positive (True Positives) out of all positives (True Positive + False Positive)?
+
+__Precision = TP / TP + FP__
+
+The precision is 0.818, meaning we identify 81.8% of true positives compared to all positives. 
+
+
+```r
+precision(diabetes_results, truth = diabetes,
+    estimate = .pred_class)
+```
+
+```
+## # A tibble: 1 × 3
+##   .metric   .estimator .estimate
+##   <chr>     <chr>          <dbl>
+## 1 precision binary         0.951
+```
+
+#### F-Score
+
+F-score is the mean of precision and sensitivity. The value ranges from 1 (the best score) and 0 (the worst score). F-score gives us the balance between precision and sensitivity. The F1 score is about 0.974, which indicates that the trained model has a classification strength of 07.4%.
+
+
+```r
+f_meas(diabetes_results, truth = diabetes,
+       estimate = .pred_class)
+```
+
+```
+## # A tibble: 1 × 3
+##   .metric .estimator .estimate
+##   <chr>   <chr>          <dbl>
+## 1 f_meas  binary         0.974
+```
+
+#### ROC Curve
+
+The ROC curve is plotted with `sensitivity` against `1 - Specificity`, where `sensitivity` is on the y-axis and `1 - Specificity` is on the x-axis. A line is drawn diagonally to denote 50–50 partitioning of the graph. If the curve is more close to the line, lower the performance of the classifier, which is no better than a mere random guess.
+
+You can generate a ROC Curve using the `roc_curve()` function where you need to supply the truth column `diabetes` and predicted probabilities for the positive class `.pred_pos`.
+
+Our model has got a ROC-AUC score of 0.243 indicating a good model that cannot distinguish between patients with diabetes and no diabetes.
+
+
+```r
+roc_auc(diabetes_results,
+        truth = diabetes,
+        .pred_pos)
+```
+
+```
+## # A tibble: 1 × 3
+##   .metric .estimator .estimate
+##   <chr>   <chr>          <dbl>
+## 1 roc_auc binary         0.243
+```
+
+```r
+roc_curve <- diabetes_results %>%
+  roc_curve(truth = diabetes, .pred_pos) %>%
+  autoplot()
+
+plot(roc_curve)
+```
+
+![](Week9_data_work_R_files/figure-html/unnamed-chunk-20-1.png)<!-- -->
 
 
 
-```{}
-custom_metrics <- metric_set(accuracy, sens, spec, precision, recall, f_meas, kap, mcc)
 
-custom_metrics(diabetes_results,
+
+#### All the metrics 
+
+We can produce all of the metrics using the `metric_set` function. 
+
+
+```r
+metrics <- metric_set(accuracy, sens, spec, precision, recall, f_meas)
+
+all_metrics <- metrics(diabetes_results,
                truth = diabetes,
                estimate = .pred_class)
+               
+kable(all_metrics)
 ```
+
+
+
+|.metric   |.estimator | .estimate|
+|:---------|:----------|---------:|
+|accuracy  |binary     | 0.9501514|
+|sens      |binary     | 0.9995094|
+|spec      |binary     | 0.0185185|
+|precision |binary     | 0.9505482|
+|recall    |binary     | 0.9995094|
+|f_meas    |binary     | 0.9744142|
+
+
+
+
+#### 3.4 Model interpretation
+
 
