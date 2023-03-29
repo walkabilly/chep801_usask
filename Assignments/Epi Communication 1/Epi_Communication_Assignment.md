@@ -4,6 +4,7 @@ author: "Daniel Fuller"
 output:
   html_document:
     keep_md: yes
+  word_document: default
   pdf_document: default
 ---
 
@@ -17,7 +18,14 @@ output:
 
 The following analysis uses the Can-Path Dataset available in Canvas.  
 
-One of your biostatistician staff has conducted an analysis examining the association between different social and behavioural factors on Body Mass Index using the Can-Path dataset. Your goal as a epidemiologist is to use the analysis provided and develop a one page communication report/document to communicate the beginning of health promotion strategy for your region. You can write text, develop an infographic, and use outside knowledge to support the development of your report. 
+One of your biostatistician staff has conducted an analysis examining the association between different social and behavioural factors on Body Mass Index using the Can-Path dataset. Your goal as a epidemiologist is to use the analysis provided and develop a one page communication report/document to communicate the beginning of health promotion strategy for your region. You can write text, develop an infographic, and use outside knowledge to support the development of your report. You can also use figures or tables that are available in the analysis as part of the one page document. 
+
+Example documents you could use for inspiration include: 
+
+- [Canada’s Guidance on Alcohol and Health](https://ccsa.ca/canadas-guidance-alcohol-and-health)
+- [Describing Epidemiologic Data](https://www.cdc.gov/eis/field-epi-manual/chapters/Describing-Epi-Data.html)
+- [Using Social Determinants of Health Data to Generate Value](https://hitconsultant.net/2018/06/08/social-determinants-of-health-2/)
+- [HIV Transmission from Mother to Child](https://www.nichd.nih.gov/newsroom/digital-media/infographics/HIV-AIDS)
 
 It is crucial when discussing obesity and weight status that we avoid adding to stigma as researchers and epidemiologists. There are a number of health consequences to weight stigma that we must attempt to avoid. At the same time, we need to work with people to try and improve health. Some resources here: 
 
@@ -216,7 +224,7 @@ Variable representing the education level of participants.
 ## Behavioural Variables
 
 
-     Dependent: PM_BMI_SR                                                     unit        value        Coefficient (univariable)         Coefficient (multivariable)     
+     Dependent: PM_BMI_SR                                                     unit        value        OR (univariable)                  OR (multivariable)              
 ---  ---------------------  ------------------------------------------------  ----------  -----------  --------------------------------  --------------------------------
 28   SMK_CIG_CUR_FREQ       0_Does not smoke currently                        Mean (sd)   27.6 (5.6)   -                                 -                               
 29                          1_Current occasional smoker                       Mean (sd)   27.7 (5.8)   0.06 (-0.42 to 0.55, p=0.795)     0.30 (-0.18 to 0.79, p=0.218)   
@@ -256,12 +264,12 @@ Below is the same model output but includes the model descriptive statistics
 
 
 ```{=html}
-<div id="lloeekcikv" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="ubwaketqvx" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#lloeekcikv .gt_table {
+#ubwaketqvx .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -286,7 +294,7 @@ Below is the same model output but includes the model descriptive statistics
   border-left-color: #D3D3D3;
 }
 
-#lloeekcikv .gt_heading {
+#ubwaketqvx .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -298,12 +306,12 @@ Below is the same model output but includes the model descriptive statistics
   border-right-color: #D3D3D3;
 }
 
-#lloeekcikv .gt_caption {
+#ubwaketqvx .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#lloeekcikv .gt_title {
+#ubwaketqvx .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -315,7 +323,7 @@ Below is the same model output but includes the model descriptive statistics
   border-bottom-width: 0;
 }
 
-#lloeekcikv .gt_subtitle {
+#ubwaketqvx .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -327,13 +335,13 @@ Below is the same model output but includes the model descriptive statistics
   border-top-width: 0;
 }
 
-#lloeekcikv .gt_bottom_border {
+#ubwaketqvx .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#lloeekcikv .gt_col_headings {
+#ubwaketqvx .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -348,7 +356,7 @@ Below is the same model output but includes the model descriptive statistics
   border-right-color: #D3D3D3;
 }
 
-#lloeekcikv .gt_col_heading {
+#ubwaketqvx .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -368,7 +376,7 @@ Below is the same model output but includes the model descriptive statistics
   overflow-x: hidden;
 }
 
-#lloeekcikv .gt_column_spanner_outer {
+#ubwaketqvx .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -380,15 +388,15 @@ Below is the same model output but includes the model descriptive statistics
   padding-right: 4px;
 }
 
-#lloeekcikv .gt_column_spanner_outer:first-child {
+#ubwaketqvx .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#lloeekcikv .gt_column_spanner_outer:last-child {
+#ubwaketqvx .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#lloeekcikv .gt_column_spanner {
+#ubwaketqvx .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -400,7 +408,7 @@ Below is the same model output but includes the model descriptive statistics
   width: 100%;
 }
 
-#lloeekcikv .gt_group_heading {
+#ubwaketqvx .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -426,7 +434,7 @@ Below is the same model output but includes the model descriptive statistics
   text-align: left;
 }
 
-#lloeekcikv .gt_empty_group_heading {
+#ubwaketqvx .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -441,15 +449,15 @@ Below is the same model output but includes the model descriptive statistics
   vertical-align: middle;
 }
 
-#lloeekcikv .gt_from_md > :first-child {
+#ubwaketqvx .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#lloeekcikv .gt_from_md > :last-child {
+#ubwaketqvx .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#lloeekcikv .gt_row {
+#ubwaketqvx .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -468,7 +476,7 @@ Below is the same model output but includes the model descriptive statistics
   overflow-x: hidden;
 }
 
-#lloeekcikv .gt_stub {
+#ubwaketqvx .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -481,7 +489,7 @@ Below is the same model output but includes the model descriptive statistics
   padding-right: 5px;
 }
 
-#lloeekcikv .gt_stub_row_group {
+#ubwaketqvx .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -495,11 +503,11 @@ Below is the same model output but includes the model descriptive statistics
   vertical-align: top;
 }
 
-#lloeekcikv .gt_row_group_first td {
+#ubwaketqvx .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#lloeekcikv .gt_summary_row {
+#ubwaketqvx .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -509,16 +517,16 @@ Below is the same model output but includes the model descriptive statistics
   padding-right: 5px;
 }
 
-#lloeekcikv .gt_first_summary_row {
+#ubwaketqvx .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#lloeekcikv .gt_first_summary_row.thick {
+#ubwaketqvx .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#lloeekcikv .gt_last_summary_row {
+#ubwaketqvx .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -528,7 +536,7 @@ Below is the same model output but includes the model descriptive statistics
   border-bottom-color: #D3D3D3;
 }
 
-#lloeekcikv .gt_grand_summary_row {
+#ubwaketqvx .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -538,7 +546,7 @@ Below is the same model output but includes the model descriptive statistics
   padding-right: 5px;
 }
 
-#lloeekcikv .gt_first_grand_summary_row {
+#ubwaketqvx .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -548,11 +556,11 @@ Below is the same model output but includes the model descriptive statistics
   border-top-color: #D3D3D3;
 }
 
-#lloeekcikv .gt_striped {
+#ubwaketqvx .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#lloeekcikv .gt_table_body {
+#ubwaketqvx .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -561,7 +569,7 @@ Below is the same model output but includes the model descriptive statistics
   border-bottom-color: #D3D3D3;
 }
 
-#lloeekcikv .gt_footnotes {
+#ubwaketqvx .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -575,7 +583,7 @@ Below is the same model output but includes the model descriptive statistics
   border-right-color: #D3D3D3;
 }
 
-#lloeekcikv .gt_footnote {
+#ubwaketqvx .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -584,7 +592,7 @@ Below is the same model output but includes the model descriptive statistics
   padding-right: 5px;
 }
 
-#lloeekcikv .gt_sourcenotes {
+#ubwaketqvx .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -598,7 +606,7 @@ Below is the same model output but includes the model descriptive statistics
   border-right-color: #D3D3D3;
 }
 
-#lloeekcikv .gt_sourcenote {
+#ubwaketqvx .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -606,64 +614,64 @@ Below is the same model output but includes the model descriptive statistics
   padding-right: 5px;
 }
 
-#lloeekcikv .gt_left {
+#ubwaketqvx .gt_left {
   text-align: left;
 }
 
-#lloeekcikv .gt_center {
+#ubwaketqvx .gt_center {
   text-align: center;
 }
 
-#lloeekcikv .gt_right {
+#ubwaketqvx .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#lloeekcikv .gt_font_normal {
+#ubwaketqvx .gt_font_normal {
   font-weight: normal;
 }
 
-#lloeekcikv .gt_font_bold {
+#ubwaketqvx .gt_font_bold {
   font-weight: bold;
 }
 
-#lloeekcikv .gt_font_italic {
+#ubwaketqvx .gt_font_italic {
   font-style: italic;
 }
 
-#lloeekcikv .gt_super {
+#ubwaketqvx .gt_super {
   font-size: 65%;
 }
 
-#lloeekcikv .gt_footnote_marks {
+#ubwaketqvx .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-#lloeekcikv .gt_asterisk {
+#ubwaketqvx .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#lloeekcikv .gt_indent_1 {
+#ubwaketqvx .gt_indent_1 {
   text-indent: 5px;
 }
 
-#lloeekcikv .gt_indent_2 {
+#ubwaketqvx .gt_indent_2 {
   text-indent: 10px;
 }
 
-#lloeekcikv .gt_indent_3 {
+#ubwaketqvx .gt_indent_3 {
   text-indent: 15px;
 }
 
-#lloeekcikv .gt_indent_4 {
+#ubwaketqvx .gt_indent_4 {
   text-indent: 20px;
 }
 
-#lloeekcikv .gt_indent_5 {
+#ubwaketqvx .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -770,12 +778,12 @@ Below is the same model output but includes the model descriptive statistics
 
 
 ```{=html}
-<div id="yvpepbnqda" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="sdwidjewwz" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#yvpepbnqda .gt_table {
+#sdwidjewwz .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -800,7 +808,7 @@ Below is the same model output but includes the model descriptive statistics
   border-left-color: #D3D3D3;
 }
 
-#yvpepbnqda .gt_heading {
+#sdwidjewwz .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -812,12 +820,12 @@ Below is the same model output but includes the model descriptive statistics
   border-right-color: #D3D3D3;
 }
 
-#yvpepbnqda .gt_caption {
+#sdwidjewwz .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#yvpepbnqda .gt_title {
+#sdwidjewwz .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -829,7 +837,7 @@ Below is the same model output but includes the model descriptive statistics
   border-bottom-width: 0;
 }
 
-#yvpepbnqda .gt_subtitle {
+#sdwidjewwz .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -841,13 +849,13 @@ Below is the same model output but includes the model descriptive statistics
   border-top-width: 0;
 }
 
-#yvpepbnqda .gt_bottom_border {
+#sdwidjewwz .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#yvpepbnqda .gt_col_headings {
+#sdwidjewwz .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -862,7 +870,7 @@ Below is the same model output but includes the model descriptive statistics
   border-right-color: #D3D3D3;
 }
 
-#yvpepbnqda .gt_col_heading {
+#sdwidjewwz .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -882,7 +890,7 @@ Below is the same model output but includes the model descriptive statistics
   overflow-x: hidden;
 }
 
-#yvpepbnqda .gt_column_spanner_outer {
+#sdwidjewwz .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -894,15 +902,15 @@ Below is the same model output but includes the model descriptive statistics
   padding-right: 4px;
 }
 
-#yvpepbnqda .gt_column_spanner_outer:first-child {
+#sdwidjewwz .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#yvpepbnqda .gt_column_spanner_outer:last-child {
+#sdwidjewwz .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#yvpepbnqda .gt_column_spanner {
+#sdwidjewwz .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -914,7 +922,7 @@ Below is the same model output but includes the model descriptive statistics
   width: 100%;
 }
 
-#yvpepbnqda .gt_group_heading {
+#sdwidjewwz .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -940,7 +948,7 @@ Below is the same model output but includes the model descriptive statistics
   text-align: left;
 }
 
-#yvpepbnqda .gt_empty_group_heading {
+#sdwidjewwz .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -955,15 +963,15 @@ Below is the same model output but includes the model descriptive statistics
   vertical-align: middle;
 }
 
-#yvpepbnqda .gt_from_md > :first-child {
+#sdwidjewwz .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#yvpepbnqda .gt_from_md > :last-child {
+#sdwidjewwz .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#yvpepbnqda .gt_row {
+#sdwidjewwz .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -982,7 +990,7 @@ Below is the same model output but includes the model descriptive statistics
   overflow-x: hidden;
 }
 
-#yvpepbnqda .gt_stub {
+#sdwidjewwz .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -995,7 +1003,7 @@ Below is the same model output but includes the model descriptive statistics
   padding-right: 5px;
 }
 
-#yvpepbnqda .gt_stub_row_group {
+#sdwidjewwz .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1009,11 +1017,11 @@ Below is the same model output but includes the model descriptive statistics
   vertical-align: top;
 }
 
-#yvpepbnqda .gt_row_group_first td {
+#sdwidjewwz .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#yvpepbnqda .gt_summary_row {
+#sdwidjewwz .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1023,16 +1031,16 @@ Below is the same model output but includes the model descriptive statistics
   padding-right: 5px;
 }
 
-#yvpepbnqda .gt_first_summary_row {
+#sdwidjewwz .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#yvpepbnqda .gt_first_summary_row.thick {
+#sdwidjewwz .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#yvpepbnqda .gt_last_summary_row {
+#sdwidjewwz .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1042,7 +1050,7 @@ Below is the same model output but includes the model descriptive statistics
   border-bottom-color: #D3D3D3;
 }
 
-#yvpepbnqda .gt_grand_summary_row {
+#sdwidjewwz .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1052,7 +1060,7 @@ Below is the same model output but includes the model descriptive statistics
   padding-right: 5px;
 }
 
-#yvpepbnqda .gt_first_grand_summary_row {
+#sdwidjewwz .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1062,11 +1070,11 @@ Below is the same model output but includes the model descriptive statistics
   border-top-color: #D3D3D3;
 }
 
-#yvpepbnqda .gt_striped {
+#sdwidjewwz .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#yvpepbnqda .gt_table_body {
+#sdwidjewwz .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1075,7 +1083,7 @@ Below is the same model output but includes the model descriptive statistics
   border-bottom-color: #D3D3D3;
 }
 
-#yvpepbnqda .gt_footnotes {
+#sdwidjewwz .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1089,7 +1097,7 @@ Below is the same model output but includes the model descriptive statistics
   border-right-color: #D3D3D3;
 }
 
-#yvpepbnqda .gt_footnote {
+#sdwidjewwz .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -1098,7 +1106,7 @@ Below is the same model output but includes the model descriptive statistics
   padding-right: 5px;
 }
 
-#yvpepbnqda .gt_sourcenotes {
+#sdwidjewwz .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1112,7 +1120,7 @@ Below is the same model output but includes the model descriptive statistics
   border-right-color: #D3D3D3;
 }
 
-#yvpepbnqda .gt_sourcenote {
+#sdwidjewwz .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1120,64 +1128,64 @@ Below is the same model output but includes the model descriptive statistics
   padding-right: 5px;
 }
 
-#yvpepbnqda .gt_left {
+#sdwidjewwz .gt_left {
   text-align: left;
 }
 
-#yvpepbnqda .gt_center {
+#sdwidjewwz .gt_center {
   text-align: center;
 }
 
-#yvpepbnqda .gt_right {
+#sdwidjewwz .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#yvpepbnqda .gt_font_normal {
+#sdwidjewwz .gt_font_normal {
   font-weight: normal;
 }
 
-#yvpepbnqda .gt_font_bold {
+#sdwidjewwz .gt_font_bold {
   font-weight: bold;
 }
 
-#yvpepbnqda .gt_font_italic {
+#sdwidjewwz .gt_font_italic {
   font-style: italic;
 }
 
-#yvpepbnqda .gt_super {
+#sdwidjewwz .gt_super {
   font-size: 65%;
 }
 
-#yvpepbnqda .gt_footnote_marks {
+#sdwidjewwz .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-#yvpepbnqda .gt_asterisk {
+#sdwidjewwz .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#yvpepbnqda .gt_indent_1 {
+#sdwidjewwz .gt_indent_1 {
   text-indent: 5px;
 }
 
-#yvpepbnqda .gt_indent_2 {
+#sdwidjewwz .gt_indent_2 {
   text-indent: 10px;
 }
 
-#yvpepbnqda .gt_indent_3 {
+#sdwidjewwz .gt_indent_3 {
   text-indent: 15px;
 }
 
-#yvpepbnqda .gt_indent_4 {
+#sdwidjewwz .gt_indent_4 {
   text-indent: 20px;
 }
 
-#yvpepbnqda .gt_indent_5 {
+#sdwidjewwz .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -1300,12 +1308,12 @@ Below is the same model output but includes the model descriptive statistics
 
 
 ```{=html}
-<div id="zzykhvveja" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="ecvibbjejd" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#zzykhvveja .gt_table {
+#ecvibbjejd .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -1330,7 +1338,7 @@ Below is the same model output but includes the model descriptive statistics
   border-left-color: #D3D3D3;
 }
 
-#zzykhvveja .gt_heading {
+#ecvibbjejd .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1342,12 +1350,12 @@ Below is the same model output but includes the model descriptive statistics
   border-right-color: #D3D3D3;
 }
 
-#zzykhvveja .gt_caption {
+#ecvibbjejd .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#zzykhvveja .gt_title {
+#ecvibbjejd .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1359,7 +1367,7 @@ Below is the same model output but includes the model descriptive statistics
   border-bottom-width: 0;
 }
 
-#zzykhvveja .gt_subtitle {
+#ecvibbjejd .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1371,13 +1379,13 @@ Below is the same model output but includes the model descriptive statistics
   border-top-width: 0;
 }
 
-#zzykhvveja .gt_bottom_border {
+#ecvibbjejd .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#zzykhvveja .gt_col_headings {
+#ecvibbjejd .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1392,7 +1400,7 @@ Below is the same model output but includes the model descriptive statistics
   border-right-color: #D3D3D3;
 }
 
-#zzykhvveja .gt_col_heading {
+#ecvibbjejd .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1412,7 +1420,7 @@ Below is the same model output but includes the model descriptive statistics
   overflow-x: hidden;
 }
 
-#zzykhvveja .gt_column_spanner_outer {
+#ecvibbjejd .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1424,15 +1432,15 @@ Below is the same model output but includes the model descriptive statistics
   padding-right: 4px;
 }
 
-#zzykhvveja .gt_column_spanner_outer:first-child {
+#ecvibbjejd .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#zzykhvveja .gt_column_spanner_outer:last-child {
+#ecvibbjejd .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#zzykhvveja .gt_column_spanner {
+#ecvibbjejd .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1444,7 +1452,7 @@ Below is the same model output but includes the model descriptive statistics
   width: 100%;
 }
 
-#zzykhvveja .gt_group_heading {
+#ecvibbjejd .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1470,7 +1478,7 @@ Below is the same model output but includes the model descriptive statistics
   text-align: left;
 }
 
-#zzykhvveja .gt_empty_group_heading {
+#ecvibbjejd .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1485,15 +1493,15 @@ Below is the same model output but includes the model descriptive statistics
   vertical-align: middle;
 }
 
-#zzykhvveja .gt_from_md > :first-child {
+#ecvibbjejd .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#zzykhvveja .gt_from_md > :last-child {
+#ecvibbjejd .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#zzykhvveja .gt_row {
+#ecvibbjejd .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1512,7 +1520,7 @@ Below is the same model output but includes the model descriptive statistics
   overflow-x: hidden;
 }
 
-#zzykhvveja .gt_stub {
+#ecvibbjejd .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1525,7 +1533,7 @@ Below is the same model output but includes the model descriptive statistics
   padding-right: 5px;
 }
 
-#zzykhvveja .gt_stub_row_group {
+#ecvibbjejd .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1539,11 +1547,11 @@ Below is the same model output but includes the model descriptive statistics
   vertical-align: top;
 }
 
-#zzykhvveja .gt_row_group_first td {
+#ecvibbjejd .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#zzykhvveja .gt_summary_row {
+#ecvibbjejd .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1553,16 +1561,16 @@ Below is the same model output but includes the model descriptive statistics
   padding-right: 5px;
 }
 
-#zzykhvveja .gt_first_summary_row {
+#ecvibbjejd .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#zzykhvveja .gt_first_summary_row.thick {
+#ecvibbjejd .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#zzykhvveja .gt_last_summary_row {
+#ecvibbjejd .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1572,7 +1580,7 @@ Below is the same model output but includes the model descriptive statistics
   border-bottom-color: #D3D3D3;
 }
 
-#zzykhvveja .gt_grand_summary_row {
+#ecvibbjejd .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1582,7 +1590,7 @@ Below is the same model output but includes the model descriptive statistics
   padding-right: 5px;
 }
 
-#zzykhvveja .gt_first_grand_summary_row {
+#ecvibbjejd .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1592,11 +1600,11 @@ Below is the same model output but includes the model descriptive statistics
   border-top-color: #D3D3D3;
 }
 
-#zzykhvveja .gt_striped {
+#ecvibbjejd .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#zzykhvveja .gt_table_body {
+#ecvibbjejd .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1605,7 +1613,7 @@ Below is the same model output but includes the model descriptive statistics
   border-bottom-color: #D3D3D3;
 }
 
-#zzykhvveja .gt_footnotes {
+#ecvibbjejd .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1619,7 +1627,7 @@ Below is the same model output but includes the model descriptive statistics
   border-right-color: #D3D3D3;
 }
 
-#zzykhvveja .gt_footnote {
+#ecvibbjejd .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -1628,7 +1636,7 @@ Below is the same model output but includes the model descriptive statistics
   padding-right: 5px;
 }
 
-#zzykhvveja .gt_sourcenotes {
+#ecvibbjejd .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1642,7 +1650,7 @@ Below is the same model output but includes the model descriptive statistics
   border-right-color: #D3D3D3;
 }
 
-#zzykhvveja .gt_sourcenote {
+#ecvibbjejd .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1650,64 +1658,64 @@ Below is the same model output but includes the model descriptive statistics
   padding-right: 5px;
 }
 
-#zzykhvveja .gt_left {
+#ecvibbjejd .gt_left {
   text-align: left;
 }
 
-#zzykhvveja .gt_center {
+#ecvibbjejd .gt_center {
   text-align: center;
 }
 
-#zzykhvveja .gt_right {
+#ecvibbjejd .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#zzykhvveja .gt_font_normal {
+#ecvibbjejd .gt_font_normal {
   font-weight: normal;
 }
 
-#zzykhvveja .gt_font_bold {
+#ecvibbjejd .gt_font_bold {
   font-weight: bold;
 }
 
-#zzykhvveja .gt_font_italic {
+#ecvibbjejd .gt_font_italic {
   font-style: italic;
 }
 
-#zzykhvveja .gt_super {
+#ecvibbjejd .gt_super {
   font-size: 65%;
 }
 
-#zzykhvveja .gt_footnote_marks {
+#ecvibbjejd .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-#zzykhvveja .gt_asterisk {
+#ecvibbjejd .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#zzykhvveja .gt_indent_1 {
+#ecvibbjejd .gt_indent_1 {
   text-indent: 5px;
 }
 
-#zzykhvveja .gt_indent_2 {
+#ecvibbjejd .gt_indent_2 {
   text-indent: 10px;
 }
 
-#zzykhvveja .gt_indent_3 {
+#ecvibbjejd .gt_indent_3 {
   text-indent: 15px;
 }
 
-#zzykhvveja .gt_indent_4 {
+#ecvibbjejd .gt_indent_4 {
   text-indent: 20px;
 }
 
-#zzykhvveja .gt_indent_5 {
+#ecvibbjejd .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
