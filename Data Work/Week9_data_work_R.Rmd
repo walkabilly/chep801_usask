@@ -19,6 +19,7 @@ library(emmeans)
 library(gtsummary)
 library(mlbench)
 library(rms)
+library(vip)
 data <- read_csv("Data.csv")
 ```
 
@@ -302,48 +303,6 @@ Here we can see the first 6 rows of data data all negative for diabetes and are 
 
 There are a number of different methods we must use to evaluate machine learning models. We will walk through those. 
 
-#### Calibration Slope
-
-The calibration slope is the predicted values from the model compared to the actual values [https://doi.org/10.1016/j.jclinepi.2019.09.016](https://doi.org/10.1016/j.jclinepi.2019.09.016) 
-
-```{}
-
-
-p <- diabetes_results$.pred_neg
-y <- diabetes_results$diabetes_t2
-
-
-val.prob(p, y)
-
-
-
-set.seed(1)
-n <- 200
-x1 <- runif(n)
-x2 <- runif(n)
-x3 <- runif(n)
-logit <- 2*(x1-.5)
-P <- 1/(1+exp(-logit))
-y <- ifelse(runif(n)<=P, 1, 0)
-d <- data.frame(x1,x2,x3,y)
-f <- lrm(y ~ x1 + x2 + x3, subset=1:100)
-pred.logit <- predict(f, d[101:200,])
-phat <- 1/(1+exp(-pred.logit))
-val.prob(phat, y[101:200], m=20, cex=.5)  # subgroups of 20 obs.
-
-
-# Validate predictions more stringently by stratifying on whether
-# x1 is above or below the median
-
-
-v <- val.prob(phat, y[101:200], group=x1[101:200], g.group=2)
-v
-plot(v)
-
-```
-
-
-
 #### Confusion Matrix
 
 We can generate a confusion matrix by using the `conf_mat()` function by supplying the final data frame (`diabetes_results`), the truth column `diabetes` and predicted class `.pred_class` in the estimate attribute.
@@ -432,10 +391,6 @@ roc_curve <- diabetes_results %>%
 plot(roc_curve)
 ```
 
-
-
-
-
 #### All the metrics 
 
 We can produce all of the metrics using the `metric_set` function. 
@@ -450,9 +405,30 @@ all_metrics <- metrics(diabetes_results,
 kable(all_metrics)
 ```
 
+#### Feature Importance
 
+Feature importance is the one way that ML models examine which variables are important to the predictions overall. It's not super common to see, except for people like Epi folks who think about specific associations between variables. 
 
+```{r}
+coeff <- tidy(logistic_model) %>% 
+  arrange(desc(abs(estimate))) %>% 
+  filter(abs(estimate) > 0.5)
+
+kable(coeff)
+```
+
+#### Plot of feature importance
+
+```{r}
+ggplot(coeff, aes(x = term, y = estimate, fill = term)) + geom_col() + coord_flip()
+```
 
 #### 3.4 Model interpretation
+
+So now we have to interpret the model. General guidelines to think about the bias variance trade off and weather our model performs well. Based on the evaluation metrics how do we fell about this model? 
+
+Typically in ML types of problems a model with less than 80-90% accuracy is consider ok, but it depends a bit on the problem. Our model has an accuracy of 95%... maybe that's good. HOWEVER, when we look at the sensitivity it's 1 and the specificity is 18.5%. A sensitivity of 1 (perfect) is suspect and our specificity is very very bad.
+
+Overall, this model is not very good. We don't have a sufficient number of features (variables) to do a good job with prediction. We have a high bias, our model underfits the data. The variance is also high. 
 
 

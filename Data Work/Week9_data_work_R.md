@@ -519,48 +519,6 @@ Here we can see the first 6 rows of data data all negative for diabetes and are 
 
 There are a number of different methods we must use to evaluate machine learning models. We will walk through those. 
 
-#### Calibration Slope
-
-The calibration slope is the predicted values from the model compared to the actual values [https://doi.org/10.1016/j.jclinepi.2019.09.016](https://doi.org/10.1016/j.jclinepi.2019.09.016) 
-
-```{}
-
-
-p <- diabetes_results$.pred_neg
-y <- diabetes_results$diabetes_t2
-
-
-val.prob(p, y)
-
-
-
-set.seed(1)
-n <- 200
-x1 <- runif(n)
-x2 <- runif(n)
-x3 <- runif(n)
-logit <- 2*(x1-.5)
-P <- 1/(1+exp(-logit))
-y <- ifelse(runif(n)<=P, 1, 0)
-d <- data.frame(x1,x2,x3,y)
-f <- lrm(y ~ x1 + x2 + x3, subset=1:100)
-pred.logit <- predict(f, d[101:200,])
-phat <- 1/(1+exp(-pred.logit))
-val.prob(phat, y[101:200], m=20, cex=.5)  # subgroups of 20 obs.
-
-
-# Validate predictions more stringently by stratifying on whether
-# x1 is above or below the median
-
-
-v <- val.prob(phat, y[101:200], group=x1[101:200], g.group=2)
-v
-plot(v)
-
-```
-
-
-
 #### Confusion Matrix
 
 We can generate a confusion matrix by using the `conf_mat()` function by supplying the final data frame (`diabetes_results`), the truth column `diabetes` and predicted class `.pred_class` in the estimate attribute.
@@ -709,10 +667,6 @@ plot(roc_curve)
 
 ![](Week9_data_work_R_files/figure-html/unnamed-chunk-20-1.png)<!-- -->
 
-
-
-
-
 #### All the metrics 
 
 We can produce all of the metrics using the `metric_set` function. 
@@ -739,9 +693,58 @@ kable(all_metrics)
 |recall    |binary     | 0.9995094|
 |f_meas    |binary     | 0.9744142|
 
+#### Feature Importance
+
+Feature importance is the one way that ML models examine which variables are important to the predictions overall. It's not super common to see, except for people like Epi folks who think about specific associations between variables. 
 
 
+```r
+coeff <- tidy(logistic_model) %>% 
+  arrange(desc(abs(estimate))) %>% 
+  filter(abs(estimate) > 0.5)
+
+kable(coeff)
+```
+
+
+
+|term                |    estimate|    std.error|  statistic|   p.value|
+|:-------------------|-----------:|------------:|----------:|---------:|
+|SDC_BIRTH_COUNTRY5  | -13.6637158| 1194.1576996| -0.0114421| 0.9908707|
+|SDC_BIRTH_COUNTRY13 | -13.6385526|  348.4584231| -0.0391397| 0.9687790|
+|SDC_BIRTH_COUNTRY16 | -13.4762817|  523.6957349| -0.0257330| 0.9794703|
+|SDC_BIRTH_COUNTRY14 | -12.8435218|  367.1793073| -0.0349789| 0.9720966|
+|SDC_BIRTH_COUNTRY3  | -12.8098932|  658.4735885| -0.0194539| 0.9844790|
+|SDC_BIRTH_COUNTRY11 | -12.7032615|  833.0538557| -0.0152490| 0.9878335|
+|(Intercept)         |  -6.1026727|    1.3891001| -4.3932563| 0.0000112|
+|HS_GEN_HEALTH5      |  -2.7552689|    0.3229644| -8.5311846| 0.0000000|
+|HS_GEN_HEALTH4      |  -2.1118114|    0.2522531| -8.3717950| 0.0000000|
+|HS_GEN_HEALTH3      |  -1.2754216|    0.2421634| -5.2667813| 0.0000001|
+|SDC_BIRTH_COUNTRY8  |  -1.0278152|    1.0263527| -1.0014249| 0.3166214|
+|SDC_BIRTH_COUNTRY19 |   1.0149645|    1.1972952|  0.8477145| 0.3965970|
+|SDC_BIRTH_COUNTRY4  |  -0.8232738|    0.6293955| -1.3080388| 0.1908601|
+|DIS_DIAB_FAM_EVER1  |   0.7747898|    0.1163975|  6.6564148| 0.0000000|
+|indigenousYes       |  -0.7640510|    0.3758732| -2.0327362| 0.0420792|
+|blackYes            |   0.6780730|    0.4152782|  1.6328161| 0.1025077|
+|SDC_BIRTH_COUNTRY6  |   0.6571734|    0.3829818|  1.7159391| 0.0861732|
+|SDC_BIRTH_COUNTRY10 |   0.6224422|    0.8289523|  0.7508782| 0.4527260|
+|SDC_BIRTH_COUNTRY20 |  -0.6151264|    0.2731727| -2.2517862| 0.0243358|
+
+#### Plot of feature importance
+
+
+```r
+ggplot(coeff, aes(x = term, y = estimate, fill = term)) + geom_col() + coord_flip()
+```
+
+![](Week9_data_work_R_files/figure-html/unnamed-chunk-23-1.png)<!-- -->
 
 #### 3.4 Model interpretation
+
+So now we have to interpret the model. General guidelines to think about the bias variance trade off and weather our model performs well. Based on the evaluation metrics how do we fell about this model? 
+
+Typically in ML types of problems a model with less than 80-90% accuracy is consider ok, but it depends a bit on the problem. Our model has an accuracy of 95%... maybe that's good. HOWEVER, when we look at the sensitivity it's 1 and the specificity is 18.5%. A sensitivity of 1 (perfect) is suspect and our specificity is very very bad.
+
+Overall, this model is not very good. We don't have a sufficient number of features (variables) to do a good job with prediction. We have a high bias, our model underfits the data. The variance is also high. 
 
 
