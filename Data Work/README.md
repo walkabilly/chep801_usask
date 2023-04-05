@@ -14,3 +14,4 @@ Average Treatment Effect (Week 6) | [Week_6_data_work_R.md](https://github.com/w
 Model Assumptions (Week 9) | [Week_9_data_work_R.md](https://github.com/walkabilly/chep801_usask/blob/main/Lecture_mis/Lecture_Regression1/Regression_AssumptionOLS.md) | [Coming Soon]()
 Model Selection (Week 10)  | [Week_10_data_work_R.md](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/Week7_data_work_R.md) | [Coming Soon]()
 Effect Modification (Week 11) | [Week_11_data_work_R.md](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/Week8_data_work_R.md) | [Coming Soon]()
+Machine Learning (Week 12) | [Week_12_data_work_R.md](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/Week9_data_work_R.md) | [Coming Soon]()
