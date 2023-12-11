@@ -1,3 +1,8 @@
+---
+output:
+  html_document: default
+  pdf_document: default
+---
 # CHEP 801.3: Epidemiology II	
 
 This course is intended to build upon the foundational knowledge gained in CHEP 800 (Epidemiology) and CHEP 805 (Biostatistics) – building upon topics of bias, epidemiologic study design, inferential and descriptive statistics, and statistical model building. Course topics include: causation, bias, multivariable modelling, critical appraisal, study design, and “new” techniques in epidemiology (machine learning and predictive modelling). Methods of instruction will feature lectures and interactive lab sessions. Focus will be on the understanding of modern epidemiological practice and analytical skills in order to conduct independent public health practice and research. 
@@ -16,21 +21,44 @@ By the completion of this course, students will be able to
 * Effectively communicate research findings, both orally and in writing
 * Critically assess and apply modern epidemiologic methods, such as causal inference and machine learning, appropriately
 
+## Land Acknowledgement
+I acknowledge our shared connection to the land and recognize that First Nations and Métis peoples on Treaty 6 Territory and all Indigenous peoples have been and continue to be stewards for social justice, equity, and land-based education. In the spirit of reconciliation may we all strive to learn and support the work of Indigenous communities as allies and return their land.
+
+## COVID-19
+The Department of Community Health and Epidemiology strives to be a leader in COVID-19 prevention. This is both an individual and collective challenge. If you feel sick or unwell, please do not come to class. Every accommodation will be made to support your learning if you are not able to come to class in person. If University of Saskatchewan policy regarding COVID-19 change during the course, I will update you as soon as possible and we will adapt the course as needed. 
+
+## Artificial Intellgience 
+There is no general policy on AI tools at the University of Saskatchewan (December 11, 2023). The University has developed high level guidance based on the [European Network for Academic Integrity (ENAI) recommendations](https://edintegrity.biomedcentral.com/articles/10.1007/s40979-023-00133-4). They are summarised below
+
+1. Acknowledge AI tools: “All persons, sources, and tools that influence the ideas or generate the content should be properly acknowledged” (p. 3). Acknowledgement may be done in different ways, according to context and discipline, and should include the input to the tool.
+2. Do not list AI tools as authors: Authors must take responsibility and be accountable for content and an AI tool cannot do so.
+3. Recognize limits and biases of AI tools: Inaccuracies, errors, and bias are reproduced in AI tools in part because of the human produced materials used for training.
+
+### AI Rules for this course
+
+In general, my opinion is that you should exploring these tools, what they can do, and how you can integrate them into your work. These tools are great for editing, formatting, generating ideas, and writing very  basic code. Not sure where to start, here is a list of tools [https://www.futurepedia.io/](https://www.futurepedia.io/). It's critical that when you use these tools you are very aware of bias and that you intervene to correct the text. Here are my general rules for AI in this course.
+
+* Can use AI tools for any or all parts of the work.
+    * If you do you must cite your work (as above).
+    * If you do you must include a 500 word reflective essay about the experience as part of your self-evaluation.
+* Be very careful with reference. Many of these tools just make up random references.
+* I will not use tools like [GPTZero](https://gptzero.me/faq#i-m-an-educator-who-has-f) to detect whether you have used AI tools or not. We are making a agreement to be honest with each other here. This is small class. We have that luxury. 
+
 Week |	Date |	Topic |	Data Work
 -----|-------|--------|-----------
-1	| January 5	| Intro/Epi Review 	| [Intro R/Stata](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/Week1_data_work.md)
-2	| January 12	| Descriptive Epi and Study Design	| [Data Wrangling](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/Week2_data_work_R.md)
-3	| January 19	| Bias	| [Data Visualization](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/Week3_data_work_R.md)
-4	| January 26	| Confounding	| [Logistic Regression](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/Week4_data_work_R.md)
-5	| February 2	| Direct Acyclic Graphs (DAGs) |	[Linear Regression](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/Week5_data_work_R.md)
-6	| February 9	| Causal Inference |	[Average Treatment Effect (causal inference)](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/Week6_data_work_R.md)
-7	| February 16	| Epi Communication	| 
-8	| February 23	| Reading Week	| 
-9	| March 2	| Overview of Statistical Models	| [Model Assumptions](https://github.com/walkabilly/chep801_usask/blob/main/Lecture_mis/Lecture_Regression1/Regression_AssumptionOLS.md)
-10	| March 9	| Model Assumptions, Diagnosis, and Fitting	| [Confounding](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/Week7_data_work_R.md)
-11	| March 16	| Interaction/Effect Measure Modification	| [Effect Measure Modification](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/Week8_data_work_R.md)
-12	| March 23	| Statistical/Machine Learning/Predictive Analysis	| Logistic Regression - The machine learning way
-13	| March 30	| Student Presentations	|
+1	| January 10	| Intro/Epi Review 	| [Intro R/Stata](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/Week1_data_work.md)
+2	| January 17	| Descriptive Epi and Study Design	| [Data Wrangling](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/Week2_data_work_R.md)
+3	| January 24	| Bias	| [Data Visualization](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/Week3_data_work_R.md)
+4	| January 31	| Confounding	| [Logistic Regression](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/Week4_data_work_R.md)
+5	| February 7	| Direct Acyclic Graphs (DAGs) |	[Linear Regression](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/Week5_data_work_R.md)
+6	| February 14	| Causal Inference |	[Average Treatment Effect (causal inference)](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/Week6_data_work_R.md)
+7	| February 21	| Reading Week	| 
+8	| February 28	| Epi Communication	| 
+9	| March 6	| Overview of Statistical Models	| [Model Assumptions](https://github.com/walkabilly/chep801_usask/blob/main/Lecture_mis/Lecture_Regression1/Regression_AssumptionOLS.md)
+10	| March 13 | Model Assumptions, Diagnosis, and Fitting	| [Confounding](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/Week7_data_work_R.md)
+11	| March 20	| Interaction/Effect Measure Modification	| [Effect Measure Modification](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/Week8_data_work_R.md)
+12	| March 27	| Spatial Statistics + Multilevel Modelling	| Multilevel Modelling
+13	| April 3	| Student Presentations	|
 
 * Subject to change depending on speed
 
@@ -38,9 +66,9 @@ Week |	Date |	Topic |	Data Work
 
 ## Readings/Textbooks
 
-There is no one text for this course – lectures benefit from the following texts and articles. Students wishing to pursue employment as an epidemiologist and/or conduct independent epidemiological research may wish to purchase one or more of the resources; reading relevant sections of textbooks in the U of S library holdings is perfectly acceptable. 
+There is no one text for this course – lectures benefit from the following texts and articles. Students wishing to pursue employment as an epidemiologist and/or conduct independent epidemiological research may wish to purchase one or more of the resources; reading relevant sections of textbooks in the U of S library holdings is perfectly acceptable. Using the 3rd edition of the book is acceptable as well. However, versions older than the 3rd will not include many of the topics we cover in the class.
 
-Szklo M, Nieto FJ. Epidemiology: Beyond the Basics (4th edition). Burlington, Mass: Jones & Bartlett, 2018.
+> Szklo M, Nieto FJ. Epidemiology: Beyond the Basics (4th edition). Burlington, Mass: Jones & Bartlett, 2018.
 Textbooks are available on reserve at the Health Sciences library or you may wish to purchase one or more resources from the University of Saskatchewan Bookstore for future reference:  http://www.usask.ca/bookstore/
 
 ## Other Required Materials
@@ -66,37 +94,37 @@ Total	| 100%
 ## Evaluation Components
 ### Assignment 1:  Data Wrangling and Descriptive Statistics   
 Value: 		10% of final grade  
-Due Date: 	January 19th, 2023  
+Due Date: 	January 26, 2024  
 Description: 	Students will be expected to create an epidemiological plan for monitoring the impact of COVID-19 at the population-level using a data-driven approach. Assignment details, including a template and specific requirements, will be provided.  
 
 ### Assignment 2:  Bias
 Value: 		15% of final grade  
-Due Date: 	Feb 2, 2023  
+Due Date: 	February 9, 2024  
 Description: 	Students will perform the detection and description of selection and information bias and evaluate the extent of bias.   
 
 ### Assignment 3:  DAG
 Value: 		15% of final grade  
-Due Date: 	Feb 16, 2023  
+Due Date: 	March 1, 2024  
 Description: 	Students will structurally evaluate confounding and bias using Directed Acyclic Graph.   
 
 ### Assignment 4:  Epi communication 1
 Value: 		15% of final grade  
-Due Date: 	Mar 16, 2023  
+Due Date: 	March 15, 2024 
 Description: 	Students will interpret and create a written communication document from the results of a regression analysis.   
 
 ### Assignment 5:  Logistic regression and confounding 
 Value: 		15% of final grade  
-Due Date: 	Mar 30, 2023  
+Due Date: 	March 29, 2024  
 Description: 	Students will perform model fitting and diagnosis for logistic regression, followed by the investigation, interpretation, and visualization of confounding.  
 
 ### Assignment 6:  Linear regression and effect measure modification
 Value: 		15% of final grade  
-Due Date: 	Apr 6, 2023  
+Due Date: 	April 12, 2024  
 Description:    Students will perform model fitting and diagnosis for linear regression, followed by the investigation, interpretation, and visualization of interaction and effect measure modification.   
 
 ### Assignment 7:  Epi communication 2
 Value: 		15% of final grade  
-Due Date: 	Mar 30, 2023  
+Due Date:  April 3, 2024  
 Description: 	Students will present on an epidemiological topic of interest to them and provide critical information for communicating to different interest groups in public health.   
 
 ## Course Data
