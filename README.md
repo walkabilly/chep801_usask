@@ -1,7 +1,7 @@
 ---
 output:
-  html_document: default
   pdf_document: default
+  html_document: default
 ---
 # CHEP 801.3: Epidemiology II	
 
@@ -51,9 +51,9 @@ Week |	Date |	Topic |	Data Work
 3	| January 24	| Bias	| [Data Visualization](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/Week3_data_work_R.md)
 4	| January 31	| Confounding	| [Logistic Regression](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/Week4_data_work_R.md)
 5	| February 7	| Direct Acyclic Graphs (DAGs) |	[Linear Regression](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/Week5_data_work_R.md)
-6	| February 14	| Causal Inference |	[Average Treatment Effect (causal inference)](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/Week6_data_work_R.md)
+6	| February 14	| Causal Inference |	[Causal Quartet - Coming Soon]()
 7	| February 21	| Reading Week	| 
-8	| February 28	| Epi Communication	| 
+8	| February 28	| Epi Communication	| [Quantitative Bias Adjustment - Coming Soon]()
 9	| March 6	| Overview of Statistical Models	| [Model Assumptions](https://github.com/walkabilly/chep801_usask/blob/main/Lecture_mis/Lecture_Regression1/Regression_AssumptionOLS.md)
 10	| March 13 | Model Assumptions, Diagnosis, and Fitting	| [Confounding](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/Week7_data_work_R.md)
 11	| March 20	| Interaction/Effect Measure Modification	| [Effect Measure Modification](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/Week8_data_work_R.md)
