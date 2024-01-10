@@ -1,18 +1,14 @@
 ---
-title: "Assignment 3 - DAG"
+title: "DAG Assignment"
 output:
   html_document:
     keep_md: yes
   pdf_document: default
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-library(dagitty)
-library(ggdag)
-```
 
-# Assignment 3- Directed Acyclic Graph (DAG)
+
+# Assignment - Directed Acyclic Graph (DAG)
 
 ### The assignment consists Question 1a-d and Question 2 a-d. You are free to work in group  for question 2.   
 
