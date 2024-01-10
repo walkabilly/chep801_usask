@@ -71,6 +71,8 @@ There is no one text for this course – lectures benefit from the following tex
 > Szklo M, Nieto FJ. Epidemiology: Beyond the Basics (4th edition). Burlington, Mass: Jones & Bartlett, 2018.
 Textbooks are available on reserve at the Health Sciences library or you may wish to purchase one or more resources from the University of Saskatchewan Bookstore for future reference:  http://www.usask.ca/bookstore/
 
+> Hernán MA, Robins JM (2020). Causal Inference: What If. Boca Raton: Chapman & Hall/CRC. [Free Online](https://www.hsph.harvard.edu/miguel-hernan/causal-inference-book/).
+
 ## Other Required Materials
 
 Use of a statistical software program (Stata, R) is required for this course. 
