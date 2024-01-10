@@ -86,7 +86,7 @@ Assignment | Grade
 -----------|------
 [Data Wrangling and Descriptive Statistics](https://github.com/walkabilly/chep801_usask/blob/main/Assignments/Data%20Wrangling/Data-Wrangling-Assignment.md) | 10%
 [Bias](https://github.com/walkabilly/chep801_usask/blob/main/Assignments/Bias/Bias-Assignment.md) |	15%
-[DAG (Directed Acyclic Graphs)](https://github.com/walkabilly/chep801_usask/blob/main/Assignments/DAGs/Assignment-3--DAG.md) |	15%
+[DAG (Directed Acyclic Graphs)](https://github.com/walkabilly/chep801_usask/blob/main/Assignments/DAGs/DAG_Assignment.md) |	15%
 [Logistic Regression – Focus on confounding](https://github.com/walkabilly/chep801_usask/blob/main/Assignments/Logistic%20Regression/Logistic-Regression-Assignment.md) |	15%
 [Linear Regression](https://github.com/walkabilly/chep801_usask/blob/main/Assignments/Linear%20Regression/Linear-Regression-Assignment.md) – Focus on effect measure modification | 15%
 [Epi Communication](https://github.com/walkabilly/chep801_usask/blob/main/Assignments/Epi%20Communication%201/Epi_Communication_Assignment.md) – Part 1 (One Pager)	| 15%
