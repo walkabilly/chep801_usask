@@ -20,7 +20,7 @@ options(scipen=999)
 
 
 ```r
-data <- read_csv("CANPTH_data_wrangling.csv")
+data <- read_csv("CANPATH_data_wrangling.csv")
 ```
 
 ```
@@ -75,7 +75,7 @@ data <- data %>%
     SDC_GENDER == 2 ~ "Female"
 	))
 
-data$gender_recode <- as.factor(data$gender_recode)
+data$gender_recode <- as.factor(data$gender_recode) 
 
 ### Checking our code to make sure our recode is correct
 table(data$SDC_GENDER, data$gender_recode)
@@ -133,6 +133,16 @@ data <- data %>%
     fruit_veg_tot > 7 ~ "Meeting Guidelines"
 	))
 
+table(data$fruit_veg_cat)
+```
+
+```
+## 
+##     Meeting Guidelines Not Meeting Guidelines 
+##                   5237                  33042
+```
+
+```r
 data <- data %>%
 	mutate(fruit_veg_dic = case_when(
 		fruit_veg_tot <= 7 ~ 0,
@@ -210,18 +220,10 @@ data <- data %>%
 	mutate(pa_cat = case_when(
 		PA_TOTAL_SHORT < 600  ~ "Low Activity",
 		PA_TOTAL_SHORT >= 3000 ~ "High Activity",
-    PA_TOTAL_SHORT >= 600 ~ "Moderate Activity",
+		PA_TOTAL_SHORT >= 600 ~ "Moderate Activity"
 	))
 
 ### Flag we need to put the low and how activity first otherwise we don't get the right answer
-
-table(data$pa_cat)
-```
-
-```
-## 
-##     High Activity      Low Activity Moderate Activity 
-##             10963              8604             14857
 ```
 
 ### 6. Calculate the percents and frequencies 
@@ -296,3 +298,64 @@ epitab(gender_fv_table, method = "oddsratio")
 ## $pvalue
 ## [1] "fisher.exact"
 ```
+
+## OOOPSSSS 
+
+#### Epitab expects
+
+| --- | --- | Disease | --- | 
+| --- | --- | --- | --- | --- |
+| --- | --- | No (REF) | Yes |
+| Exposure | Level 1 (REF) | a | b | 
+| --- | Level 2 | c | d | 
+
+#### We gave it 
+
+| --- | --- | Disease | --- | 
+| --- | --- | --- | --- | --- |
+| --- | --- | Yes  | No (REF) |
+| Exposure | Level 1 (REF) | a | b | 
+| --- | Level 2 | c | d | 
+
+
+```r
+gender_fv_table <- table(data$gender_recode, data$fruit_veg_cat)
+gender_fv_table
+```
+
+```
+##         
+##          Meeting Guidelines Not Meeting Guidelines
+##   Female               4004                  20213
+##   Male                 1233                  12829
+```
+
+```r
+epitab(gender_fv_table, method = "oddsratio", rev = "columns") ## Here we flip the columns around to get the right answer for males. 
+```
+
+```
+## $tab
+##         
+##          Not Meeting Guidelines        p0 Meeting Guidelines        p1
+##   Female                  20213 0.6117366               4004 0.7645599
+##   Male                    12829 0.3882634               1233 0.2354401
+##         
+##          oddsratio    lower     upper
+##   Female 1.0000000       NA        NA
+##   Male   0.4851846 0.453488 0.5190966
+##         
+##                                                                                                                     p.value
+##   Female                                                                                                                 NA
+##   Male   0.0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001651292
+## 
+## $measure
+## [1] "wald"
+## 
+## $conf.level
+## [1] 0.95
+## 
+## $pvalue
+## [1] "fisher.exact"
+```
+   

@@ -18,7 +18,7 @@ options(scipen=999)
 
 
 ```{r}
-data <- read_csv("CANPTH_data_wrangling.csv")
+data <- read_csv("CANPATH_data_wrangling.csv")
 ```
 
 ## General instructions
@@ -105,8 +105,6 @@ data <- data %>%
 	))
 
 ### Flag we need to put the low and how activity first otherwise we don't get the right answer
-
-table(data$PA_TOTAL_SHORT, data$pa_cat)
 ```
 
 ### 6. Calculate the percents and frequencies 
@@ -139,3 +137,29 @@ gender_fv_table
 
 epitab(gender_fv_table, method = "oddsratio")
 ```
+
+## OOOPSSSS 
+
+#### Epitab expects
+
+| --- | --- | Disease | --- | 
+| --- | --- | --- | --- | --- |
+| --- | --- | No (REF) | Yes |
+| Exposure | Level 1 (REF) | a | b | 
+| --- | Level 2 | c | d | 
+
+#### We gave it 
+
+| --- | --- | Disease | --- | 
+| --- | --- | --- | --- | --- |
+| --- | --- | Yes  | No (REF) |
+| Exposure | Level 1 (REF) | a | b | 
+| --- | Level 2 | c | d | 
+
+```{r}
+gender_fv_table <- table(data$gender_recode, data$fruit_veg_cat)
+gender_fv_table
+
+epitab(gender_fv_table, method = "oddsratio", rev = "columns") ## Here we flip the columns around to get the right answer for males. 
+```
+   
