@@ -1,9 +1,9 @@
 ---
 title: "Linear and Logistic Regression Cheat Sheet"
 output:
-  pdf_document: default
   html_document:
     keep_md: yes
+  pdf_document: default
 ---
 
 
@@ -19,12 +19,17 @@ library(gtsummary)
 options(scipen=999) 
 ```
 
+## Ressources
+
+1. (Mostly Clinical) Epidemiology with R. James Brophy. [https://bookdown.org/jbrophy115/bookdown-clinepi/](https://bookdown.org/jbrophy115/bookdown-clinepi/)
+2. 
+
 ### Open the Data
 
 We are interested in the association between gender and BMI. We will do descriptive analysis and examine associations. This is a cheat sheet so mostly to show code examples and is not specific to your assignments. 
 
 ```{r}
-data <- read_csv("Data.csv")
+data <- read_csv("CANPATH_data.csv")
 ```
 
 ### Recode and label categorical variables as necessary. 
@@ -74,6 +79,43 @@ boxplot <- ggplot(data, aes(PM_BMI_SR)) +
               facet_wrap(~ gender_recode)
 plot(boxplot)
 ```
+
+## Missing data
+
+Two good ressources for missing data [https://jenslaufer.com/data/analysis/visualize_missing_values_with_ggplot.html](https://jenslaufer.com/data/analysis/visualize_missing_values_with_ggplot.html) and [https://towardsdatascience.com/data-cleaning-with-r-and-the-tidyverse-detecting-missing-values-ea23c519bc62](https://towardsdatascience.com/data-cleaning-with-r-and-the-tidyverse-detecting-missing-values-ea23c519bc62). Some of the information from these presented below applied to our data. 
+
+This is critically important step in data cleaning and understanding and it's challenging with real data. 
+
+### Find distinct values
+
+```{r}
+# looking at the distinct values for gender
+data %>%
+  distinct(SDC_GENDER)
+
+# looking at the distinct values for BMI
+data %>%
+  distinct(PM_BMI_SR)
+```
+
+For `SDC_GENDER` there are no missing but for `PM_BMI_SR` there are missing values. 
+
+### Create a table of missing values for each column
+
+This creates a table with the number of missing for each variable. Pretty handy. Important to walk through this [https://jenslaufer.com/data/analysis/visualize_missing_values_with_ggplot.html](https://jenslaufer.com/data/analysis/visualize_missing_values_with_ggplot.html) to make sure you understand what the code is doing. 
+
+```{r}
+missing.values <- data %>%
+    gather(key = "key", value = "val") %>%
+    mutate(is.missing = is.na(val)) %>%
+    group_by(key, is.missing) %>%
+    summarise(num.missing = n()) %>%
+    filter(is.missing==T) %>%
+    select(-is.missing) %>%
+    arrange(desc(num.missing)) 
+```
+
+This doc [https://towardsdatascience.com/data-cleaning-with-r-and-the-tidyverse-detecting-missing-values-ea23c519bc62](https://towardsdatascience.com/data-cleaning-with-r-and-the-tidyverse-detecting-missing-values-ea23c519bc62) also has a great explainer on non-standard missing values, which you will find for sure in real data. 
 
 ### Examine bi-variable associations 
 

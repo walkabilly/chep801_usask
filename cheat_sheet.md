@@ -1,8 +1,9 @@
 ---
 title: "Linear and Logistic Regression Cheat Sheet"
 output:
-      html_document:
-        keep_md: true
+  html_document:
+    keep_md: yes
+  pdf_document: default
 ---
 
 
@@ -19,13 +20,18 @@ library(gtsummary)
 options(scipen=999) 
 ```
 
+## Ressources
+
+1. (Mostly Clinical) Epidemiology with R. James Brophy. [https://bookdown.org/jbrophy115/bookdown-clinepi/](https://bookdown.org/jbrophy115/bookdown-clinepi/)
+2. 
+
 ### Open the Data
 
 We are interested in the association between gender and BMI. We will do descriptive analysis and examine associations. This is a cheat sheet so mostly to show code examples and is not specific to your assignments. 
 
 
 ```r
-data <- read_csv("Data.csv")
+data <- read_csv("CANPATH_data.csv")
 ```
 
 ```
@@ -122,6 +128,82 @@ plot(boxplot)
 
 ![](cheat_sheet_files/figure-html/unnamed-chunk-6-1.png)<!-- -->
 
+## Missing data
+
+Two good ressources for missing data [https://jenslaufer.com/data/analysis/visualize_missing_values_with_ggplot.html](https://jenslaufer.com/data/analysis/visualize_missing_values_with_ggplot.html) and [https://towardsdatascience.com/data-cleaning-with-r-and-the-tidyverse-detecting-missing-values-ea23c519bc62](https://towardsdatascience.com/data-cleaning-with-r-and-the-tidyverse-detecting-missing-values-ea23c519bc62). Some of the information from these presented below applied to our data. 
+
+This is critically important step in data cleaning and understanding and it's challenging with real data. 
+
+### Find distinct values
+
+
+```r
+# looking at the distinct values for gender
+data %>%
+  distinct(SDC_GENDER)
+```
+
+```
+## # A tibble: 2 × 1
+##   SDC_GENDER
+##        <dbl>
+## 1          2
+## 2          1
+```
+
+```r
+# looking at the distinct values for BMI
+data %>%
+  distinct(PM_BMI_SR)
+```
+
+```
+## # A tibble: 7,922 × 1
+##    PM_BMI_SR
+##        <dbl>
+##  1      NA  
+##  2      28.3
+##  3      25.5
+##  4      22.5
+##  5      44.8
+##  6      23.8
+##  7      32.8
+##  8      35.2
+##  9      25.7
+## 10      26.6
+## # ℹ 7,912 more rows
+```
+
+For `SDC_GENDER` there are no missing but for `PM_BMI_SR` there are missing values. 
+
+### Create a table of missing values for each column
+
+This creates a table with the number of missing for each variable. Pretty handy. Important to walk through this [https://jenslaufer.com/data/analysis/visualize_missing_values_with_ggplot.html](https://jenslaufer.com/data/analysis/visualize_missing_values_with_ggplot.html) to make sure you understand what the code is doing. 
+
+
+```r
+missing.values <- data %>%
+    gather(key = "key", value = "val") %>%
+    mutate(is.missing = is.na(val)) %>%
+    group_by(key, is.missing) %>%
+    summarise(num.missing = n()) %>%
+    filter(is.missing==T) %>%
+    select(-is.missing) %>%
+    arrange(desc(num.missing)) 
+```
+
+```
+## Warning: attributes are not identical across measure variables; they will be
+## dropped
+```
+
+```
+## `summarise()` has grouped output by 'key'. You can override using the `.groups`
+## argument.
+```
+
+This doc [https://towardsdatascience.com/data-cleaning-with-r-and-the-tidyverse-detecting-missing-values-ea23c519bc62](https://towardsdatascience.com/data-cleaning-with-r-and-the-tidyverse-detecting-missing-values-ea23c519bc62) also has a great explainer on non-standard missing values, which you will find for sure in real data. 
+
 ### Examine bi-variable associations 
 
 We saw this in data work week 4 [https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/Week4_data_work_R.md](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/Week4_data_work_R.md) and 5 [https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/Week5_data_work_R.md](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/Week5_data_work_R.md). 
@@ -139,10 +221,6 @@ summary(bmi_gender)
 ## Call:
 ## glm(formula = PM_BMI_SR ~ gender_recode, family = "gaussian", 
 ##     data = data)
-## 
-## Deviance Residuals: 
-##     Min       1Q   Median       3Q      Max  
-## -18.206   -4.139   -1.006    2.922   42.337  
 ## 
 ## Coefficients:
 ##                   Estimate Std. Error t value            Pr(>|t|)    
@@ -174,10 +252,6 @@ summary(gender_bmi)
 ## Call:
 ## glm(formula = gender_recode ~ PM_BMI_SR, family = "binomial", 
 ##     data = data)
-## 
-## Deviance Residuals: 
-##     Min       1Q   Median       3Q      Max  
-## -1.5975  -1.0362  -0.9676   1.3031   1.5524  
 ## 
 ## Coefficients:
 ##              Estimate Std. Error z value            Pr(>|z|)    
@@ -217,6 +291,6 @@ We saw this in data work week 5 and the model assumptions lecture.
 plot(gender_bmi)
 ```
 
-![](cheat_sheet_files/figure-html/unnamed-chunk-9-1.png)<!-- -->![](cheat_sheet_files/figure-html/unnamed-chunk-9-2.png)<!-- -->![](cheat_sheet_files/figure-html/unnamed-chunk-9-3.png)<!-- -->![](cheat_sheet_files/figure-html/unnamed-chunk-9-4.png)<!-- -->
+![](cheat_sheet_files/figure-html/unnamed-chunk-11-1.png)<!-- -->![](cheat_sheet_files/figure-html/unnamed-chunk-11-2.png)<!-- -->![](cheat_sheet_files/figure-html/unnamed-chunk-11-3.png)<!-- -->![](cheat_sheet_files/figure-html/unnamed-chunk-11-4.png)<!-- -->
 
 
