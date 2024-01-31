@@ -314,8 +314,8 @@ epitab(gender_fv_table, method = "oddsratio")
 | --- | --- | Disease | --- | 
 | --- | --- | --- | --- | --- |
 | --- | --- | Yes  | No (REF) |
-| Exposure | Level 1 (REF) | a | b | 
-| --- | Level 2 | c | d | 
+| Exposure | Level 1 (REF) | b | a | 
+| --- | Level 2 | d | c | 
 
 
 ```r
