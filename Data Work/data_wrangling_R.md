@@ -1,5 +1,5 @@
 ---
-title: "Week 1 Data Work"
+title: "Data Wrangling"
 output:
   html_document:
     keep_md: yes
@@ -152,7 +152,7 @@ __R__
 
 
 ```r
-data <- read_csv("CANPTH_data_wrangling.csv")
+data <- read_csv("CANPATH_data_wrangling.csv")
 ```
 
 ```
