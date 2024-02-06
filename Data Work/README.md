@@ -5,7 +5,7 @@ This is the summary README file for the data work sections of this course.
 
 Week          | R Markdown | Stata Markdown
 ------------- | ----------------- | -------------
-RStudio (Week 1)      | [Week_1_data_work_R.md]()      | 
+RStudio (Week 1)      | [Into to RStudio](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/data_wrangling_R.md)      | 
 Data Wrangling (Week 2) | [Week_2_data_work_R.md](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/Week2_data_work_R.md)   | [Week_2_data_work_Stata.do](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/Week2_data_work_Stata.do)
 Data Visualization (Week 3) | [Week_3_data_work_R.md](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/Week3_data_work_R.md)   | [Week_3_data_work_Stata.do](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/Week3_data_work_Stata.do)
 Bias Adjustment (Week 4)  | [Week_4_data_work_R.md](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/Week10_data_work_R.md)   | [Coming Soon]()

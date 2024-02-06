@@ -46,12 +46,12 @@ In general, my opinion is that you should exploring these tools, what they can d
 
 Week |	Date |	Topic |	Data Work
 -----|-------|--------|-----------
-1	| January 10	| Intro/Epi Review 	| [Intro R/Stata](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/Week1_data_work_R.md)
+1	| January 10	| Intro/Epi Review 	| [Intro R/Stata](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/data_wrangling_R.md)
 2	| January 17	| Descriptive Epi and Study Design	| [Data Wrangling](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/Week2_data_work_R.md)
 3	| January 24	| Bias	| [Data Visualization](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/Week3_data_work_R.md)
 4	| January 31	| Confounding	| [Quantitative Bias Adjustment](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/Week10_data_work_R.md)
-5	| February 7	| Direct Acyclic Graphs (DAGs) | [Logistic Regression](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/Week4_data_work_R.md)
-6	| February 14	| Causal Inference |	[Causal Quartet - Coming Soon]()
+5	| February 7	| Direct Acyclic Graphs (DAGs) | 	[Causal Quartet](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/causal_quartet_R.md) 
+6	| February 14	| Causal Inference | [Logistic Regression](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/Week4_data_work_R.md)
 7	| February 21	| Reading Week	| 
 8	| February 28	| Epi Communication	| [Linear Regression](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/Week5_data_work_R.md)
 9	| March 6	| Overview of Statistical Models	| [Model Assumptions](https://github.com/walkabilly/chep801_usask/blob/main/Lecture_mis/Lecture_Regression1/Regression_AssumptionOLS.md)
