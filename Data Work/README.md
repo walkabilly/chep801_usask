@@ -5,11 +5,11 @@ This is the summary README file for the data work sections of this course.
 
 Week          | R Markdown | Stata Markdown
 ------------- | ----------------- | -------------
-RStudio (Week 1)      | [Into to RStudio](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/data_wrangling_R.md)      | 
-Data Wrangling (Week 2) | [Week_2_data_work_R.md](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/Week2_data_work_R.md)   | [Week_2_data_work_Stata.do](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/Week2_data_work_Stata.do)
-Data Visualization (Week 3) | [Week_3_data_work_R.md](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/Week3_data_work_R.md)   | [Week_3_data_work_Stata.do](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/Week3_data_work_Stata.do)
-Bias Adjustment (Week 4)  | [Week_4_data_work_R.md](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/Week10_data_work_R.md)   | [Coming Soon]()
-Logistic Regression (Week 5)  | [Causal Quartet](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/causal_quartet_R.md)   | [Coming Soon]()
+RStudio (Week 1)      | [Into to RStudio](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/intro_to_R.md)      | 
+Data Wrangling (Week 2) | [Data Wrangling](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/data_wrangling_R.md)   | [Week_2_data_work_Stata.do](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/Week2_data_work_Stata.do)
+Data Visualization (Week 3) | [Data Visualization](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/data_visualization_R.md)   | [Week_3_data_work_Stata.do](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/Week3_data_work_Stata.do)
+Bias Adjustment (Week 4)  | [Bias Analysis](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/bias_analysis_R.md)   | [Coming Soon]()
+Causal Inference (Week 5)  | [Causal Quartet](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/causal_quartet_R.md)   | [Coming Soon]()
 Average Treatment Effect (Week 6) | [Week_6_data_work_R.md](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/Week6_data_work_R.md) | [Coming Soon]()
 Linear Regression (Week 8)  | [Week_8_data_work_R.md](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/Week5_data_work_R.md)   | [Coming Soon]()
 Model Assumptions (Week 9) | [Week_9_data_work_R.md](https://github.com/walkabilly/chep801_usask/blob/main/Lecture_mis/Lecture_Regression1/Regression_AssumptionOLS.md) | [Coming Soon]()
