@@ -1,11 +1,11 @@
 ---
-title: "Week 7 Data Work"
+title: "Model Selection and  Assumptions"
 output:
       html_document:
         keep_md: true
 ---
 
-```{r setup, include=FALSE}
+```{r setup}
 knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
 library(sjPlot)
