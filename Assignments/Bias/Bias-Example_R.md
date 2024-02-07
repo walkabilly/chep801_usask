@@ -1,11 +1,13 @@
 ---
 title: "Assignment2_bias"
 output:
-      html_document:
-        keep_md: true
+  html_document:
+    keep_md: yes
+  pdf_document: default
 ---
 
 ## Objective of assignment 2 
+
 To perform simple analysis for selection bias and information bias using the categorical variables you have already created (physical activity)  
 
 We have 9 short questions (Question 1a-d and Question 2a-e) in the `Bias Assignment File`.
@@ -34,11 +36,8 @@ You will notice the header line turns into blue fonts when interpreted as header
     * More information if you are interested in hiding unnecessary messages: https://rmarkdown.rstudio.com/lesson-3.html  
 
 
-
-
-
-
 ## Now, lets begin example codes to prepare the assignment data and show example of bias analysis 
+
 The example codes also contain how to re-order categorical varaibles as pointed in Assignment 1.  
 
 ```r
@@ -52,7 +51,6 @@ library(tidyverse)
 library("knitr")
 library("epitools")
 ```
-
 
 
 First, lets load the data. Make sure to specify your own path to the data. 
@@ -610,7 +608,9 @@ table of selection probabilities</td></tr>
 
 
 Here is an example usage of `episensr`'s `selection` bias function.If all selection probabilities are 1.0 (no selection bias), we enter the `bias_params` (selection bias probability parameter) line in the command below as all 1.0,  and  the output look as follows. Note  that `observed` and `selection bias corrected` RR and OR are identical in the output, indicating no bias. The values in the `bias_params` argument should be between 0 and 1. 
+
 **The order of the selection probabilities in the `bias_params` is c(P_a, P_c, P_b, P_d). Also, the output table below has the outcome and exposure swapped (rows and columns transposed, showing the order of `a, c, b, d`)**
+
 For details, try entering `?selection` for help menu. 
 
 ```r
@@ -638,5 +638,6 @@ selection(matrix(c(434, 1094, 4937, 16263),
 ## Selection Bias Corrected Relative Risk: 1.282011
 ##    Selection Bias Corrected Odds Ratio: 1.306802
 ```
+
 #### You need to experiment a couple different values of the selection probabilites in `bias_parms` before working on the questions below, values between 0 and 1.  
 

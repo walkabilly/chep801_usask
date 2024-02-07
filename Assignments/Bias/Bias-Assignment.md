@@ -1,8 +1,9 @@
 ---
 title: "Bias Assignment"
 output:
-      html_document:
-        keep_md: true
+  html_document:
+    keep_md: yes
+  pdf_document: default
 ---
 
 
@@ -18,40 +19,30 @@ library("knitr")
 library("epitools")
 ```
 
-
-First, lets load the data. Make sure to specify your own path to the data. 
-
-```r
-data <- read_csv("/Users/dlf545/Dropbox/Teaching/USask/CHEP 801/chep801_usask/Data.csv")
-```
-
-```
-## Rows: 41187 Columns: 440
-## ── Column specification ────────────────────────────────────────────────────────
-## Delimiter: ","
-## chr   (5): ID, MSD11_PR, MSD11_REG, MSD11_ZONE, MSD11_CMA
-## dbl (425): ADM_STUDY_ID, SDC_GENDER, SDC_AGE_CALC, SDC_MARITAL_STATUS, SDC_E...
-## lgl  (10): DIS_MH_BIPOLAR_EVER, DIS_GEN_DS_EVER, DIS_GEN_SCA_EVER, DIS_GEN_T...
-## 
-## ℹ Use `spec()` to retrieve the full column specification for this data.
-## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
-```
-
-
 # Question 1a
-#### Enter the selection probabilites provided below into the `bias_params` line in the episens command  and show the output. You need to copy and paste the `selection` function of episens I wrote above, paste below, and enter the appropriate selection probabilities. THere is no need to edit anything else in the command.  
+
+#### Enter the selection probabilites provided below into the `bias_params` line in the episens command  and show the output. You need to copy and paste the `selection` function of episens I wrote above, paste below, and enter the appropriate selection probabilities. There is no need to edit anything else in the command.  
+
+```{}
+selection(matrix(c(434, 1094, 4937, 16263), 
+                 dimnames = list(c("Diabetes", "No Diabetes"), 
+                                 c("Low PA", "moderate/high PA"))
+                 , nrow = 2, byrow = TRUE),
+          bias_parms  = c(1, 1, 1, 1))
+```
 
   - Exposed (low PA) and Outcome (Diabetes) = 0.9
   - Exposed and no Outcome =0.6
   - Unexposed and Outcome = 0.8
   - Unexposed and no Outcome = 0.8
+  
 
 ```r
 #Enter your answer here 
 ```
 
-
 # Question 1b 
+
 #### Based on the output you generated, is there selection bias in the original RR?
 
 ```r
@@ -59,6 +50,7 @@ data <- read_csv("/Users/dlf545/Dropbox/Teaching/USask/CHEP 801/chep801_usask/Da
 ```
 
 # Question 1c 
+
 #### Another study on the same population found out that the selection probabitlies are actually as follows: 
   - Exposed (low PA) and Outcome (Diabetes) = 0.9
   - Exposed and no Outcome =0.9
@@ -71,18 +63,18 @@ data <- read_csv("/Users/dlf545/Dropbox/Teaching/USask/CHEP 801/chep801_usask/Da
 
 #### Run the `selection` command again (paste below) based on these updated probabilities by filling  `bias_parms`. Again, careful with the ordering of these values. 
 
-
-          
 # Question 1d
+
 Based on the output from Question 1c, answer if there is selection bias or not, and if not please explain why in one or two sentences.
 
 ```r
 #Enter your answer here 
 ```
 
-
 # Question 2 - Information bias 
+
 #### We will correct missclassificaiton of the exposure, PA variable. 
+
 Suppose that a subsequent validation study using these data show that people inaccurately reports physical activity status, with the following sensitivity and specificity of exposure classification among diabetes cases and non-cases.  
 
 
@@ -118,6 +110,7 @@ Table cell labels</td></tr>
 </tr>
 </tbody>
 </table>
+
   - Se_outcome: Sensitivity of exposure classification among outcome (i.e., extent of misclassification from a to c among outcome)  = 0.95 
   - Sp_outcome: Specificity of exposure classification among outcome (i.e., extent of misclassification from c to a among outcome)   =0.8 
   - Se_noOutcome: Sensitivity of exposure classification among no outcome (i.e., extent of misclassification from b to d among no outcome) = 0.95   
@@ -125,6 +118,7 @@ Table cell labels</td></tr>
   
   
 As a practice, we will plug in these classification metrics into the `misclassification` function in `episenser`, when there is no missclassification (i.e., all Se and Sp values are 1.0). The probabilities values entering the `bias_parms` line is *Se_outcome, Se_noOutcome, Sp_outcome, Sp_noOutcome*.   
+
 
 ```r
 misclassification(matrix(c(434, 1094, 4937, 16263), 
@@ -162,6 +156,7 @@ misclassification(matrix(c(434, 1094, 4937, 16263),
 
 
 # Question 2b
+
 #### Comparing `Misclassification Bias Corrected Relative Risk` and `Observed Relative Risk` (the latter is the crude - uncorrected association). Is there information bias? 
 
 ```r
@@ -169,6 +164,7 @@ misclassification(matrix(c(434, 1094, 4937, 16263),
 ```
 
 # Question 2c
+
 #### Is this differential or non-differential missclassification? Please provide 1 or 2 sentence of explanation. 
 
 ```r
@@ -177,8 +173,6 @@ misclassification(matrix(c(434, 1094, 4937, 16263),
 
 
 # Question 2d
-#### 
-
   - Sensitivity of exposure classification among outcome (i.e., extent of misclassification from a to c among outcome)  = 0.9
   - Specificity of exposure classification among outcome (i.e., extent of misclassification from c to a among outcome)   =0.9 
   - Sensitivity of exposure classification among no outcome (i.e., extent of misclassification from b to d among no outcome) = 0.5   
@@ -191,6 +185,7 @@ misclassification(matrix(c(434, 1094, 4937, 16263),
 ```
 
 # Question 2e
+
 #### Is this differential or non-differential missclassification (results of Question 2d)? Please provide 1 or 2 sentence of explanation. 
 
 ```r

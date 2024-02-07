@@ -15,23 +15,18 @@ library(ggdag)
 
 # Assignment - Directed Acyclic Graph (DAG)
 
-### The assignment consists Question 1a-d and Question 2 a-d. You are free to work in group  for question 2.   
+## The assignment consists Question 1a-d and Question 2 a-d. 
 
-### You might like to explore the use of the online DAG software to answer Question 2. 
+You might like to explore the use of the online DAG [daggity](http://www.dagitty.net/dags.html) software to answer Question 2. 
 
-http://www.dagitty.net/dags.html
-
-
-#### Question 1a-d   
-
+### Question 1a-d   
 
 First, select a peer-reviewed research paper that fits to your interest. The paper should be:   
 
 *   Etiologic study (not descriptive, not prediction) using one exposure variable. and,    
 *   Observational study (not randomized trial) and should not be an ecological study. 
 
-
-TO answer the questions below, you do not need to perform literature search to define causal association (direction of arrows) in your DAG. All information should come from the paper you picked and your substantive knowledge or common sense.    
+To answer the questions below, you do not need to perform literature search to define causal association (direction of arrows) in your DAG. All information should come from the paper you picked and your substantive knowledge or common sense.    
   
 * **Question 1a**   Describe the research question provided by the authors in one sentence.   
 * **Question 1b**   State the exposure and outcome variable of interest and confounder(s) in this paper.   
@@ -42,7 +37,7 @@ TO answer the questions below, you do not need to perform literature search to d
   \newpage   
   
 
-#### Question 2 a-d  
+### Question 2 a-d  
 
 In the daggity software, copy and paste the following code (staring from `dag{` to `}`) that will generate a DAG, with a focus on association between `Neighbourhood safety` (exposure)  and `Cardiovascular Disease` (outcome).  You need to paste into the `MOdel_code` section (right hand side, the third pane). You will see the DAG with 8 variables (nodes), as in the .pdf image file in the github page.  
 
