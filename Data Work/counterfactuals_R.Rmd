@@ -1,5 +1,5 @@
 ---
-title: "Week6_data_work_r"
+title: "Counterfactuals"
 output:
       html_document:
         keep_md: true
@@ -9,9 +9,7 @@ output:
 
 We only need two libraries today 
 
-```{r, include=FALSE}
-knitr::purl(input = "Week6_data_work_R.Rmd", output = "codesLab6.R",documentation = 0)
-
+```{r}
 library(tidyverse)
 library(ggplot2)
 ```
@@ -65,6 +63,7 @@ head(Y, 40) # display values
 
 
 We need to create a data frame with the three variables before running the model 
+
 ```{r}
 myData <- data.frame(Y, A, L)
 table(myData$Y)
@@ -74,6 +73,7 @@ table(myData$L)
 
 
 As usual, check the association between Y and L, A and L.  
+
 ```{r}
 epitools::epitab(myData$A, myData$Y, method = "oddsratio")$tab
 epitools::epitab(myData$L, myData$Y, method = "oddsratio")$tab
@@ -88,6 +88,7 @@ myData %>%  group_by(L, A, Y) %>% summarise(count = n())
 
 
 ##### Run the regression to capture the association between Y and A, and Y and L
+
 ```{r}
 regressResult <- glm(data=myData, Y~L + A,  family="binomial")
 
@@ -103,6 +104,7 @@ regressResult %>%  confint()  %>% exp %>%  round(2)
 
 
 We now set A=1 and A=0 to everyone in the data
+
 ```{r}
 myData_allExposed <- myData %>% mutate(A=1) 
 table(myData_allExposed$A)
@@ -112,6 +114,7 @@ table(myData_NotExposed$A)
 ```
 
 Generate marginal outcome and plot the distribution. Do you know why the histogram is so bimodal? 
+
 ```{r}
 pred_Ya_1 <- predict(regressResult, newdata =myData_allExposed, type = "response")
 hist(pred_Ya_1)
@@ -119,8 +122,10 @@ pred_Ya_0 <- predict(regressResult, newdata =myData_NotExposed, type = "response
 hist(pred_Ya_0)
 ```
 
-Lets calculate marginal outcome, had everyone exposed and not exposed 
-##### Be sure to know which measure corresponds to ATE, OR, and RR, and why the values differ. ALso check to see your analyssi correctly recovered the odds ratio you set during the data generation process. Report these values to combine with colleague's results. 
+#### Calculate marginal outcome, had everyone exposed and not exposed 
+
+Be sure to know which measure corresponds to ATE, OR, and RR, and why the values differ. ALso check to see your analysis correctly recovered the odds ratio you set during the data generation process. Report these values to combine with colleague's results. 
+
 ```{r}
 mean(pred_Ya_1) / mean(pred_Ya_0) # no CI for this 
 {mean(pred_Ya_1) / (1-mean(pred_Ya_1))} / {mean(pred_Ya_0)/(1-mean(pred_Ya_0))}
