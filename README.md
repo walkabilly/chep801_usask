@@ -51,15 +51,14 @@ Week |	Date |	Topic |	Data Work
 3	| January 24	| Bias	| [Data Visualization](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/data_visualization_R.md)
 4	| January 31	| Confounding	| [Quantitative Bias Adjustment](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/bias_analysis.md)
 5	| February 7	| Direct Acyclic Graphs (DAGs) | 	[Causal Quartet](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/causal_quartet_R.md) 
-6	| February 14	| Causal Inference | [Logistic Regression](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/Week4_data_work_R.md)
+6	| February 14	| Causal Inference | [Counterfactuals](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/counterfactuals_R.md)
 7	| February 21	| Reading Week	| 
-8	| February 28	| Epi Communication	| [Linear Regression](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/Week5_data_work_R.md)
-9	| March 6	| Overview of Statistical Models	| [Model Assumptions](https://github.com/walkabilly/chep801_usask/blob/main/Lecture_mis/Lecture_Regression1/Regression_AssumptionOLS.md)
-10	| March 13 | Model Assumptions, Diagnosis, and Fitting	| [Confounding](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/Week7_data_work_R.md)
-11	| March 20	| Interaction/Effect Measure Modification	| [Effect Measure Modification](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/Week8_data_work_R.md)
+8	| February 28	| Epi Communication	| [Logistic Regression](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/logistic_regression_R.md)
+9	| March 6	| Overview of Statistical Models | [Linear Regression](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/linear_regression_R.md)
+10	| March 13 | Model Assumptions, Diagnosis, and Fitting	| [Model Assumptions](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/model_selection_R.md)
+11	| March 20	| Interaction/Effect Measure Modification	| [Effect Measure Modification](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/interaction_effect_measure_modification.md)
 12	| March 27	| Spatial Statistics + Multilevel Modelling	| [Multilevel Modelling - Coming Soon]()
 13	| April 3	| Student Presentations	|
-
 * Subject to change depending on speed
 
 # Required Resources
