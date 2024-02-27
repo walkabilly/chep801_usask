@@ -1,4 +1,4 @@
-CHEP 801 Assignments
+## CHEP 801 Assignments
 
 This is the summary README file for the assignments sections of this course.
 
@@ -11,3 +11,8 @@ Logistic Regression – Focus on confounding |	[Assignment](https://github.com/w
 Linear Regression – Focus on effect measure modification |	[Assignment](https://github.com/walkabilly/chep801_usask/blob/main/Assignments/Linear%20Regression/Linear-Regression-Assignment.md) | [R](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/Week5_data_work_R.md) - [Stata - Coming Soon]()
 Epi Communication – Part 1 (One Pager)	|	[Assignment](https://github.com/walkabilly/chep801_usask/blob/main/Assignments/Epi%20Communication%201/Epi_Communication_Assignment.md) | 
 Epi Communication – Part 2 (Oral Presentation)	|	[Assignment](https://github.com/walkabilly/chep801_usask/blob/main/Assignments/Epi%20Communication%202/Epi_Communication_Assignment.md) | 
+
+## Assignment Feedback 
+
+1. [Data Wrangling Assignment](https://github.com/walkabilly/chep801_usask/blob/main/Assignments/Feedback/data_wrangling_feedback.md)
+2. [Bias Assignment](https://github.com/walkabilly/chep801_usask/blob/main/Assignments/Feedback/bias_feedback.md)
