@@ -12,14 +12,16 @@ library(tidyverse)
 ```
 
 ```
-## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.2 ──
-## ✔ ggplot2 3.4.0      ✔ purrr   0.3.5 
-## ✔ tibble  3.1.8      ✔ dplyr   1.0.10
-## ✔ tidyr   1.2.1      ✔ stringr 1.4.1 
-## ✔ readr   2.1.3      ✔ forcats 0.5.2 
+## ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+## ✔ dplyr     1.1.4     ✔ readr     2.1.5
+## ✔ forcats   1.0.0     ✔ stringr   1.5.1
+## ✔ ggplot2   3.4.4     ✔ tibble    3.2.1
+## ✔ lubridate 1.9.3     ✔ tidyr     1.3.1
+## ✔ purrr     1.0.2     
 ## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
 ## ✖ dplyr::filter() masks stats::filter()
 ## ✖ dplyr::lag()    masks stats::lag()
+## ℹ Use the conflicted package (<http://conflicted.r-lib.org/>) to force all conflicts to become errors
 ```
 
 ```r
@@ -27,7 +29,7 @@ library(sjPlot)
 ```
 
 ```
-## #refugeeswelcome
+## Learn more about sjPlot with 'browseVignettes("sjPlot")'.
 ```
 
 ```r
@@ -435,10 +437,6 @@ summary(model_t2_diab)
 ## glm(formula = bmi_recode ~ diabetes_t2, family = "gaussian", 
 ##     data = data_working)
 ## 
-## Deviance Residuals: 
-##     Min       1Q   Median       3Q      Max  
-## -17.277   -4.104   -0.843    2.902   32.723  
-## 
 ## Coefficients:
 ##              Estimate Std. Error t value Pr(>|t|)    
 ## (Intercept)  27.27663    0.03931  693.96   <2e-16 ***
@@ -690,7 +688,7 @@ backward$anova
 ```
 ##            Step Df   Deviance Resid. Df Resid. Dev      AIC
 ## 1               NA         NA     24534   870843.7 87612.85
-## 2 - fatty_liver  1 0.01643181     24535   870843.7 87610.85
+## 2 - fatty_liver  1 0.01643183     24535   870843.7 87610.85
 ## 3      - latinx  1 9.74340046     24536   870853.5 87609.12
 ```
 
@@ -709,7 +707,11 @@ backward$coefficients
 
 The final model using backward selection selects all of the variables except fatty liver disease. The forward and backward selection selected the same model in this case but that does not happen all of the time. We already ran the bivariable models and we can run the full model and compare. 
 
-## 2. Traditional confounding criteria, change-in-estimate 
+## 2. P value criteria in bivariable
+
+Some people use a p-value criteria of p < 0.02 in bivariable models and include those variables in the model, regardless of what happens in the multivariable model. If we did this we would just examine the variables and include everything except `latinx` and `fatty_liver`. 
+
+## 3. Traditional confounding criteria, change-in-estimate 
 
 Here we can compare the change in estimate from the bivariate model to a full model with all of the variables of interest. We can compare these here. 
 
@@ -731,10 +733,6 @@ summary(model_final)
 ## Call:
 ## glm(formula = bmi_recode ~ diabetes_t2 + age_45 + pa_cat + latinx + 
 ##     indigenous + black + fatty_liver, family = "gaussian", data = data_working)
-## 
-## Deviance Residuals: 
-##     Min       1Q   Median       3Q      Max  
-## -17.970   -4.039   -0.910    2.892   33.881  
 ## 
 ## Coefficients:
 ##                           Estimate Std. Error t value Pr(>|t|)    
@@ -801,11 +799,7 @@ Based on this criteria we would include variables were the model estimate (Beta 
 
 This is a different model from the the forward and backward model selection approaches. 
 
-## 2. P value criteria in bivariable
-
-Some people use a p-value criteria of p < 0.02 in bivariable models and include those variables in the model, regardless of what happens in the multivariable model. If we did this we would just examine the variables and include everything except `latinx` and `fatty_liver`. 
-
-## 3. Information criteria 
+## 4. Information criteria 
 
 Here we would suggest a few potential models then compare them. Here we can compare the models we had proposed and use AIC to compare them. Remember that these have to be nested models. 
 

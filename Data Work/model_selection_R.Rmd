@@ -269,7 +269,11 @@ backward$coefficients
 
 The final model using backward selection selects all of the variables except fatty liver disease. The forward and backward selection selected the same model in this case but that does not happen all of the time. We already ran the bivariable models and we can run the full model and compare. 
 
-## 2. Traditional confounding criteria, change-in-estimate 
+## 2. P value criteria in bivariable
+
+Some people use a p-value criteria of p < 0.02 in bivariable models and include those variables in the model, regardless of what happens in the multivariable model. If we did this we would just examine the variables and include everything except `latinx` and `fatty_liver`. 
+
+## 3. Traditional confounding criteria, change-in-estimate 
 
 Here we can compare the change in estimate from the bivariate model to a full model with all of the variables of interest. We can compare these here. 
 
@@ -297,11 +301,7 @@ Based on this criteria we would include variables were the model estimate (Beta 
 
 This is a different model from the the forward and backward model selection approaches. 
 
-## 2. P value criteria in bivariable
-
-Some people use a p-value criteria of p < 0.02 in bivariable models and include those variables in the model, regardless of what happens in the multivariable model. If we did this we would just examine the variables and include everything except `latinx` and `fatty_liver`. 
-
-## 3. Information criteria 
+## 4. Information criteria 
 
 Here we would suggest a few potential models then compare them. Here we can compare the models we had proposed and use AIC to compare them. Remember that these have to be nested models. 
 
