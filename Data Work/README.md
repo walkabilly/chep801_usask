@@ -15,4 +15,4 @@ This is the summary README file for the data work sections of this course.
 | Week 8 | Logistic Regression | [Logistic Regression](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/logistic_regression_R.md)   | [Coming Soon]()
 | Week 9 | Model Assumptions  | [Model Selection and Assumptions](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/model_selection_R.md) | [Coming Soon]()
 | Week 10 | Effect Modification | [Interaction and Effect Measure Modification](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/interaction_effect_measure_modification.md) | [Coming Soon]()
-| Week 11 | Multilevel Modeling | [Coming Soon]()  | [Coming Soon]()
+| Week 11 | Multilevel Modeling | [Multilevel Models](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/mlm_models.md)  | [Coming Soon]()
