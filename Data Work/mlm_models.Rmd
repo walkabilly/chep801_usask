@@ -1,0 +1,243 @@
+---
+title: "MLM Models"
+author: "Daniel Fuller"
+output:
+      html_document:
+        keep_md: true
+---
+
+```{r setup}
+knitr::opts_chunk$set(echo = FALSE)
+library(tidyverse)
+library(nlme)
+library(gtsummary)
+```
+
+## Multilevel Models
+
+###  Example Study
+
+We want to know how predictors at the individual level (level 1) and health region (level 2) influence body weight. We assume people in the same health region are correlated with each other. Once we clean all of the data we will have 97 health regions and 116937 individuals. 
+
+### Reading in the data
+
+```{r}
+cchs <- read_csv("https://github.com/walkabilly/chep801_usask/raw/main/Data%20Work/CCHS_2012.csv")
+```
+
+### Data cleaning
+
+```{r}
+cchs <- cchs %>% mutate(height = case_when(
+	hwtghtm > 8.0 ~ NA_real_,
+	TRUE ~ hwtghtm
+))
+
+cchs <- cchs %>% mutate(weight = case_when(
+	hwtgwtk > 900.0 ~ NA_real_,
+	TRUE ~ hwtgwtk
+))
+
+cchs <- cchs %>% mutate(bmi = case_when(
+	hwtgbmi > 900.0 ~ NA_real_,
+	TRUE ~ hwtgbmi
+))
+
+cchs$health_region <- as.factor(cchs$geodpmf)
+
+cchs <- cchs %>%
+	mutate(gender = case_when(
+		dhh_sex == 1 ~ "Man",
+		dhh_sex == 2 ~ "Woman",
+		TRUE ~ "NOT STATED"
+	))
+
+cchs <- cchs %>% 
+          group_by(health_region) %>%
+            mutate(
+              hosp = rnorm(n = health_region, mean = 4, sd = 2),
+              hospitals = mean(hosp)
+            )
+
+cchs <- cchs %>%
+	mutate(geogprv_name = case_when(
+		geogprv == 10 ~ "NFLD & LAB",
+		geogprv == 11 ~ "PEI",
+		geogprv == 12 ~ "NOVA SCOTIA",
+		geogprv == 13 ~ "NEW BRUNSWICK",
+		geogprv == 24 ~ "QUEBEC",
+		geogprv == 35 ~ "ONTARIO",
+		geogprv == 46 ~ "MANITOBA",
+		geogprv == 47 ~ "SASKATCHEWAN",
+		geogprv == 48 ~ "ALBERTA",
+		geogprv == 59 ~ "BRITISH COLUMBIA",
+		geogprv == 60 ~ "YUKON/NWT/NUNA",
+		geogprv == 96 ~ "NOT APPLICABLE",
+		geogprv == 97 ~ "DON'T KNOW",
+		geogprv == 98 ~ "REFUSAL",
+		TRUE ~ "NOT STATED"
+	))
+```
+
+### Removing missing data
+
+```{r}
+cchs <- cchs %>% drop_na()
+```
+
+## Association between height and weight
+
+```{r, message = FALSE, warning = FALSE}
+bmi <- ggplot(cchs, aes(x = height, y = weight)) + 
+        geom_point() + 
+        geom_smooth(method='lm', formula= y~x)
+plot(bmi)
+```
+
+## Variation between height and weight by health region
+
+```{r, message = FALSE, warning = FALSE}
+bmi_prov <- ggplot(cchs, aes(x = height, y = weight, colour = health_region, fill = health_region)) + 
+        geom_point() + 
+        geom_smooth(method='lm', formula= y~x) + theme(legend.position="none")
+plot(bmi_prov)
+```
+
+## Modelling intercepts
+
+Linear regression. Assumes only one intercept for the entire sample. 
+
+```{r}
+lm_1 <- lm(weight ~ 1, data = cchs)
+```
+
+Multil-level model. Assumes one intercept for each group. In our case health region, it could be people, neighbourhoods, etc. 
+
+```{r}
+lme_1 <- lme(weight ~ 1, random = ~ 1 | health_region, data = cchs)
+summary(lme_1)
+```
+
+1. Fixed effects. Our level 1 variables go here. In this case the ~ 1 means model only the intercept.  
+2. Random effects. The intercept is computed at the level of health region (nesting factor), and that health region is treated as a random variable.
+
+## Modelling intercepts
+
+```{r}
+lme_1 <- lme(weight ~ 1, random = ~ 1 | health_region, data = cchs)
+
+
+intercepts <- lme_1[["coefficients"]][["random"]][["health_region"]] + lme_1[["coefficients"]][["fixed"]][["(Intercept)"]]
+sort(intercepts) 
+```
+
+## Plot the distribution of intercepts
+
+```{r}
+bmi_prov <- ggplot() + 
+        geom_histogram(aes(intercepts))
+plot(bmi_prov)
+```
+
+## Intercept Model Intraclass correlation
+
+```{r}
+summary(lme_1)
+(2.320713^2/(2.320713^2 + 17.27456^2) )*100
+```
+
+~1.8% of the variance in weight is explained by health region. 
+
+## Plot regression diagnostics
+
+```{r, message = FALSE, warning = FALSE}
+plot(lme_1)
+```
+
+## Adding level 1 covariates
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
+lme_2 <- lme(weight ~ height + factor(gender), random = ~ 1 | health_region, data = cchs)
+summary(lme_2)
+```
+
+## Adding level 1 covariates
+
+We add height and gender as a predictor to the fixed portion of the model. Height is a significant predictor of weight (B = 73.19, t = 125.73). We see that gender was a significant predictor of weight (B = -4.86, t = -41.45).
+
+## Level 1 Covariates Intraclass correlation
+
+```{r}
+(2.102705^2/(2.102705^2 + 14.63517^2) )*100
+```
+
+## We can predict Level 2 intercepts using covariates
+
+- We can model the intercepts with other variables at the same level  
+- Health regions relevant variables  
+    - Number of hospitals per capita  
+    - Emergency wards  
+    - Number of health promotion programs per capita  
+
+## Adding level 2 covariates
+```{r}
+lme_3 <- lme(weight ~ height + factor(gender) + hospitals, random = ~ 1 | health_region, data = cchs)
+summary(lme_3)
+```
+
+## Adding level 2 covariates
+
+We add number of hospitals hospitals as a level 2 predictor. Note the degrees of freedom are the level 2 sample size. Number of hospitals is not associated with BMI. 
+
+## Level 2 Covariates Intraclass correlation
+
+```{r, message = FALSE, warning = FALSE}
+(2.104393^2/(2.104393^2 + 14.63517^2) )*100
+```
+
+## Random Intercepts
+
+```{r, message = FALSE, warning = FALSE}
+cchs$fitted_int <- predict(lme_3)
+
+lm <- lm(weight ~ height + health_region, data = cchs)
+cchs$fitted_lm <- predict(lm)
+
+cchs_small <- subset(cchs, geodpmf < 12000)
+
+bmi_prov_int <- ggplot(cchs_small, aes(x = height, y = weight, colour = health_region)) + 
+        geom_point() + 
+        geom_line(aes(y = fitted_lm, colour = health_region)) +
+        theme(legend.position="none") 
+plot(bmi_prov_int)
+```
+
+## Random slopes
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
+ctrl <- lmeControl(opt='optim')
+lme_4 <- lme(weight ~ height, random = ~ height | health_region, control=ctrl, data = cchs)
+summary(lme_4)
+```
+
+## Random slopes (Not a good example here)
+
+```{r, message = FALSE, warning = FALSE}
+cchs$fitted_slp <- predict(lme_4)
+
+lm_slp <- lm(weight ~ height*health_region, data = cchs)
+cchs$lm_slp <- predict(lm)
+
+cchs_small <- subset(cchs, geodpmf < 12000)
+
+bmi_prov_slp <- ggplot(cchs_small, aes(x = height, y = weight, colour = health_region, fill = health_region)) + 
+        geom_point() + 
+        geom_line(aes(y = lm_slp, colour = health_region)) +
+        theme(legend.position="none")
+plot(bmi_prov_slp)
+```
+
+
+## Great Ressources
+
+* [https://rpsychologist.com/r-guide-longitudinal-lme-lmer](https://rpsychologist.com/r-guide-longitudinal-lme-lmer)
+* [https://stats.idre.ucla.edu/other/mult-pkg/introduction-to-linear-mixed-models/](https://stats.idre.ucla.edu/other/mult-pkg/introduction-to-linear-mixed-models/)
+* Bingenheimer, J. B., Raudenbush, S. W. Statistical and Substantive Inferences in Public Health: Issues in the Application of Multilevel Models. Annu. Rev. Public Health. 2004. 25:53–77. [doi.org/10.1146/annurev.publhealth.25.050503.153925](doi.org/10.1146/annurev.publhealth.25.050503.153925)
