@@ -1,0 +1,326 @@
+---
+title: "Epi Communication 1"
+author: "Daniel Fuller"
+output:
+  html_document:
+    keep_md: yes
+  word_document: default
+  pdf_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(janitor)
+library(ggpubr)
+library(finalfit)
+library(sjPlot)
+library(gtsummary)
+library(knitr)
+library(flextable)
+```
+
+# Epi Communication Assignment 1
+
+```{r, echo = FALSE, warning = FALSE, message = FALSE}
+data <- read_csv("Data.csv")
+
+data <- select(data, PM_BMI_SR, SDC_GENDER, SMK_CIG_CUR_FREQ, PA_LEVEL_SHORT, ALC_CUR_FREQ, NUT_FRUITS_QTY, NUT_VEG_QTY, SDC_AGE_CALC, SDC_INCOME, WRK_STUDENT, SDC_EDU_LEVEL)
+
+data <- data %>% filter(complete.cases(.))
+```
+
+# Assignment 
+
+The following analysis uses the Can-Path Dataset available in Canvas.  
+
+One of your biostatistician staff has conducted an analysis examining the association between different social and behavioural factors on Body Mass Index using the Can-Path dataset. Your goal as a epidemiologist is to use the analysis provided and develop a one page communication report/document to communicate the beginning of health promotion strategy for your region. You can write text, develop an infographic, and use outside knowledge to support the development of your report. You can also use figures or tables that are available in the analysis as part of the one page document. 
+
+Example documents you could use for inspiration include: 
+
+- [Canada’s Guidance on Alcohol and Health](https://ccsa.ca/canadas-guidance-alcohol-and-health)
+- [Describing Epidemiologic Data](https://www.cdc.gov/eis/field-epi-manual/chapters/Describing-Epi-Data.html)
+- [Using Social Determinants of Health Data to Generate Value](https://hitconsultant.net/2018/06/08/social-determinants-of-health-2/)
+- [HIV Transmission from Mother to Child](https://www.nichd.nih.gov/newsroom/digital-media/infographics/HIV-AIDS)
+
+It is crucial when discussing obesity and weight status that we avoid adding to stigma as researchers and epidemiologists. There are a number of health consequences to weight stigma that we must attempt to avoid. At the same time, we need to work with people to try and improve health. Some resources here: 
+
+1. Puhl, R M., Wharton, C M. Weight Bias: A Primer for the Fitness Industry. Health & Fitness Journal. 2007; 11(3), p 7-11. [https://doi.org/10.1249/01.FIT.0000269060.03465.ab](https://doi.org/10.1249/01.FIT.0000269060.03465.ab)
+2. Phelan SM, Burgess DJ, Yeazel MW, Hellerstedt WL, Griffin JM, van Ryn M. Impact of weight bias and stigma on quality of care and outcomes for patients with obesity. Obes Rev. 2015;16(4):319-326. [https://doi.org/10.1111/obr.12266](https://doi.org/10.1111/obr.12266).
+3. Puhl RM, Himmelstein MS, Pearl RL. Weight stigma as a psychosocial contributor to obesity. Am Psychol. 2020;75(2):274-289. [https://doi.org/10.1037/amp0000538](https://doi.org/10.1037/amp0000538)
+
+### Outcome
+
+The outcome is BMI. The histogram and summary statistics of the BMI variable is below. 
+
+```{r, echo = FALSE}
+data <- filter(data, is.na(PM_BMI_SR) | PM_BMI_SR > 15)
+data <- filter(data, PM_BMI_SR < 50)
+```
+
+```{r, echo = FALSE}
+bmi_histo <- ggplot(data, aes(PM_BMI_SR)) + 
+              geom_histogram(bins = 45)
+plot(bmi_histo)
+
+summary(data$PM_BMI_SR)
+```
+
+### Behavioural Factors
+
+The behavioural factors included in the analysis are smoking, physical activity, alcohol consumption, and fruit and vegetable consumption. The descriptive statistics for the 
+
+#### SMK_CIG_CUR_FREQ  
+
+Variable outlining the smoking status of participants. 
+
+(0) Does not smoke currently  
+(1) Current occasional smoker  
+(2) Current daily smoker  
+(3) Never smoked  
+
+```{r, echo = FALSE}
+data <- data %>%
+          mutate(SMK_CIG_CUR_FREQ = case_when(
+            SMK_CIG_CUR_FREQ == 0 ~ "0_Does not smoke currently", 
+            SMK_CIG_CUR_FREQ == 1 ~ "1_Current occasional smoker", 
+            SMK_CIG_CUR_FREQ == 2 ~ "2_Current daily smoker", 
+            SMK_CIG_CUR_FREQ == -7 ~ "3_Never smoked"
+          ))
+```
+
+```{r, echo = FALSE}
+data %>%               
+  tabyl(SMK_CIG_CUR_FREQ) %>%      
+  adorn_pct_formatting()   
+```
+
+#### PA_LEVEL_SHORT   
+
+Variable outlining the physical activity level of participants. 
+
+(1) Low level of physical activity  
+(2) Moderate level of physical activity  
+(3) High level of physical activity  
+
+```{r, echo = FALSE}
+data <- data %>%
+          mutate(PA_LEVEL_SHORT = case_when(
+            PA_LEVEL_SHORT == 1 ~ "1_Low level of PA", 
+            PA_LEVEL_SHORT == 2 ~ "2_Moderate level of PA", 
+            PA_LEVEL_SHORT == 3 ~ "3_High level of PA"
+          ))
+
+data %>%               
+  tabyl(PA_LEVEL_SHORT) %>%      
+  adorn_pct_formatting()   
+```
+
+#### ALC_CUR_FREQ   
+
+Variable outlining the number (units are a bit all over the place) of alcoholic beverages consumed. 
+
+(0) Never  
+(1) Less than once a month  
+(2) About once a month  
+(3) 2 to 3 times a month  
+(4) Once a week  
+(5) 2 to 3 times a week  
+(6) 4 to 5 times a week  
+(7) 6 to 7 times a week  
+
+```{r, echo = FALSE}
+data$ALC_CUR_FREQ <- na_if(data$ALC_CUR_FREQ, -7)
+
+data <- data %>% filter(complete.cases(.))
+
+data <- data %>%
+          mutate(ALC_CUR_FREQ = case_when(
+            ALC_CUR_FREQ == 0 ~ "0_Never", 
+            ALC_CUR_FREQ == 1 ~ "1_Less than once a month", 
+            ALC_CUR_FREQ == 2 ~ "2_About once a month",
+            ALC_CUR_FREQ == 3 ~ "3_2 to 3 times a month", 
+            ALC_CUR_FREQ == 4 ~ "4_Once a week", 
+            ALC_CUR_FREQ == 5 ~ "5_2 to 3 times a week", 
+            ALC_CUR_FREQ == 6 ~ "6_4 to 5 times a week", 
+            ALC_CUR_FREQ == 7 ~ "7_6 to 7 times a week", 
+          ))
+```
+
+```{r, echo = FALSE}
+data %>%               
+  tabyl(ALC_CUR_FREQ) %>%      
+  adorn_pct_formatting()   
+```
+
+#### FRUIT_VEG   
+
+Count of the number of fruit and vegetables consumed per week. 
+
+```{r, echo = FALSE}
+data$FRUIT_VEG <- data$NUT_FRUITS_QTY + data$NUT_VEG_QTY
+```
+
+```{r, echo = FALSE}
+fv_histo <- ggplot(data, aes(FRUIT_VEG)) + 
+              geom_bar()
+plot(fv_histo)
+
+summary(data$FRUIT_VEG)
+```
+
+### Social and Demographic Factors
+
+The social and demographic factors included in the analysis are age, income category, student status, and education level. The descriptive statistics for these variables is below: 
+
+#### SDC_GENDER
+
+Variable representing the gender of participants. 
+
+(1)	Male
+(2)	Female
+
+```{r, echo = FALSE}
+data <- data %>%
+          mutate(SDC_GENDER = case_when(
+            SDC_GENDER == 1 ~ "Male", 
+            SDC_GENDER == 2 ~ "Female"
+          ))
+
+data %>%               
+  tabyl(SDC_GENDER) %>%      
+  adorn_pct_formatting()   
+```
+
+#### SDC_AGE_CALC 
+
+Age of the participant at the time of completing the survey. 
+
+```{r, echo = FALSE}
+summary(data$SDC_AGE_CALC) 
+```
+
+#### SDC_INCOME   
+
+Variable representing the income of participants. 
+
+(1)	Less than 10 000 $
+(2)	10 000 $ - 24 999 $
+(3)	25 000 $ - 49 999 $
+(4)	50 000 $ - 74 999 $
+(5)	75 000 $ - 99 999 $
+(6)	100 000 $ - 149 999 $
+(7)	150 000 $ - 199 999 $
+(8)	200 000 $ or more
+
+```{r, echo = FALSE}
+data <- data %>%
+          mutate(SDC_INCOME = case_when(
+            SDC_INCOME == 1 ~ "1_Less than 24 999$", 
+            SDC_INCOME == 2 ~ "1_Less than 24 999$", 
+            SDC_INCOME == 3 ~ "2_25 000$ - 49 999$",
+            SDC_INCOME == 4 ~ "3_50 000$ - 74 999$", 
+            SDC_INCOME == 5 ~ "4_75 000$ - 99 999$", 
+            SDC_INCOME == 6 ~ "5_100 000$ - 149 999$", 
+            SDC_INCOME == 7 ~ "6_150 000$ - 199 999$", 
+            SDC_INCOME == 8 ~ "7_200 000$ or more", 
+          ))
+
+data %>%               
+  tabyl(SDC_INCOME) %>%      
+  adorn_pct_formatting()   
+```
+
+#### WRK_STUDENT  
+
+Variable representing if a participant is a student or not. 
+
+(0)	Participant is not a student
+(1)	Participant is a student
+
+```{r, echo = FALSE}
+data %>%               
+  tabyl(WRK_STUDENT) %>%      
+  adorn_pct_formatting()   
+
+data$WRK_STUDENT <- as.factor(data$WRK_STUDENT)
+```
+
+#### SDC_EDU_LEVEL   
+
+Variable representing the education level of participants. 
+
+(0)	None
+(1)	Elementary school
+(2)	High school
+(3)	Trade, technical or vocational school, apprenticeship training or technical CEGEP
+(4)	Diploma from a community college, pre-university CEGEP or non-university certificate
+(5)	University certificate below bachelor's level
+(6)	Bachelor's degree
+(7)	Graduate degree (MSc, MBA, MD, PhD, etc.)
+
+```{r, echo = FALSE}
+data <- data %>%
+          mutate(SDC_EDU_LEVEL = case_when(
+            SDC_EDU_LEVEL == 0 ~ "1_Elementary school or less", 
+            SDC_EDU_LEVEL == 1 ~ "1_Elementary school or less", 
+            SDC_EDU_LEVEL == 2 ~ "2_High school",
+            SDC_EDU_LEVEL == 3 ~ "3_Trade, technical or vocational school", 
+            SDC_EDU_LEVEL == 4 ~ "4_Diploma from a community college", 
+            SDC_EDU_LEVEL == 5 ~ "5_University certificate below bachelor's level", 
+            SDC_EDU_LEVEL == 6 ~ "6_Bachelor's degree", 
+            SDC_EDU_LEVEL == 7 ~ "7_Graduate degree", 
+          ))
+data %>%               
+  tabyl(SDC_EDU_LEVEL) %>%      
+  adorn_pct_formatting()   
+```
+
+# Linear Regression
+
+## Behavioural Variables
+
+```{r, echo = FALSE}
+explanatory = c("SMK_CIG_CUR_FREQ", "PA_LEVEL_SHORT", "ALC_CUR_FREQ", "FRUIT_VEG", "SDC_AGE_CALC", "SDC_INCOME", "WRK_STUDENT", "SDC_EDU_LEVEL")
+dependent = 'PM_BMI_SR'
+bivariate_model <- data %>%
+  finalfit(dependent, explanatory)
+
+kable(bivariate_model, format = "pipe")
+```
+
+Below is the same model output but includes the model descriptive statistics
+
+```{r, echo = FALSE}
+behav_reg_model <- lm(PM_BMI_SR ~ SMK_CIG_CUR_FREQ + PA_LEVEL_SHORT + ALC_CUR_FREQ + FRUIT_VEG, data = data)
+
+behav_reg_model1 <- tbl_regression(behav_reg_model)
+
+behav_reg_model1 %>% as_kable()
+
+plot_model(behav_reg_model, type="est", vline.color="black")
+```
+
+## Social and Demographic Variables
+
+```{r, echo = FALSE}
+social_reg_model <- lm(PM_BMI_SR ~ SDC_GENDER + SDC_AGE_CALC + SDC_INCOME + WRK_STUDENT + SDC_EDU_LEVEL, data = data)
+
+social_reg_model1 <- tbl_regression(social_reg_model)
+
+social_reg_model1 %>% as_kable()
+
+plot_model(social_reg_model, type="est", vline.color="black")
+```
+
+## Full model 
+
+```{r, echo = FALSE}
+full_reg_model <- lm(PM_BMI_SR ~ SDC_GENDER + SDC_AGE_CALC + SDC_INCOME + WRK_STUDENT + SDC_EDU_LEVEL + SMK_CIG_CUR_FREQ + PA_LEVEL_SHORT + ALC_CUR_FREQ + FRUIT_VEG, data = data)
+
+full_reg_model1 <- tbl_regression(full_reg_model)
+
+full_reg_model1 %>% as_kable()
+
+plot_model(full_reg_model, type="est", vline.color="black")
+```
