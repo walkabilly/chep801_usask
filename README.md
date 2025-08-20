@@ -1,7 +1,7 @@
 ---
 output:
-  pdf_document: default
   html_document: default
+  pdf_document: default
 ---
 # CHEP 801.3: Epidemiology II	
 
@@ -40,25 +40,26 @@ In general, my opinion is that you should exploring these tools, what they can d
 
 * Can use AI tools for any or all parts of the work.
     * If you do you must cite your work (as above).
-    * If you do you must include a 500 word reflective essay about the experience as part of your self-evaluation.
+    * If you do you must include a 100 word reflective essay about the experience as part of your self-evaluation.
 * Be very careful with reference. Many of these tools just make up random references.
 * I will not use tools like [GPTZero](https://gptzero.me/faq#i-m-an-educator-who-has-f) to detect whether you have used AI tools or not. We are making a agreement to be honest with each other here. This is small class. We have that luxury. 
 
 Week |	Date |	Topic |	Data Work
 -----|-------|--------|-----------
-1	| January 10	| Intro/Epi Review 	| [Intro R/Stata](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/intro_to_R.md)
-2	| January 17	| Descriptive Epi and Study Design	| [Data Wrangling](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/data_wrangling_R.md)
-3	| January 24	| Bias	| [Data Visualization](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/data_visualization_R.md)
-4	| January 31	| Confounding	| [Quantitative Bias Adjustment](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/bias_analysis.md)
-5	| February 7	| Direct Acyclic Graphs (DAGs) | 	[Causal Quartet](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/causal_quartet_R.md) 
-6	| February 14	| Causal Inference | [Counterfactuals](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/counterfactuals_R.md)
-7	| February 21	| Reading Week	| 
-8	| February 28	| Epi Communication	| [Logistic Regression](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/logistic_regression_R.md)
-9	| March 6	| Overview of Statistical Models | [Linear Regression](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/linear_regression_R.md)
-10	| March 13 | Model Assumptions, Diagnosis, and Fitting	| [Model Assumptions](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/model_selection_R.md)
-11	| March 20	| Interaction/Effect Measure Modification	| [Effect Measure Modification](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/interaction_effect_measure_modification.md)
-12	| March 27	| Spatial Statistics + Multilevel Modelling	| [Multilevel Modelling - Coming Soon]()
-13	| April 3	| Student Presentations	|
+1	| September 10	| Intro/Epi Review 	| [Intro R/Stata](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/intro_to_R.md)
+2	| September 17	| Descriptive Epi and Study Design	| [Data Wrangling](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/data_wrangling_R.md)
+3	| September 24	| Bias	| [Data Visualization](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/data_visualization_R.md)
+4	| October 1	| Confounding	| [Quantitative Bias Adjustment](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/bias_analysis.md)
+5	| October 8	| Direct Acyclic Graphs (DAGs) | 	[Causal Quartet](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/causal_quartet_R.md) 
+6	| October 15	| Causal Inference | [Counterfactuals](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/counterfactuals_R.md)
+7	| October 22	| Missing Data	| [Coming Soon]
+8	| October 29	| Epi Communication	| [Logistic Regression](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/logistic_regression_R.md)
+9	| November 5	| Overview of Statistical Models | [Linear Regression](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/linear_regression_R.md)
+10	| November 12 | Reading Week  | 
+11	| November 19	| Interaction/Effect Measure Modification	| [Effect Measure Modification](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/interaction_effect_measure_modification.md)
+12	| November 26	| Machine Learning	| [Coming Soon]
+13	| December 3	| Special Topics	| [Coming Soon]
+13	| December 10	| Student Presentations	|
 * Subject to change depending on speed
 
 # Required Resources
@@ -95,37 +96,37 @@ Total	| 100%
 ## Evaluation Components
 ### Assignment 1:  Data Wrangling and Descriptive Statistics   
 Value: 		10% of final grade  
-Due Date: 	January 26, 2024  
-Description: 	Students will be expected to create an epidemiological plan for monitoring the impact of COVID-19 at the population-level using a data-driven approach. Assignment details, including a template and specific requirements, will be provided.  
+Due Date: 	September 26, 2025
+Description: 	Students will analyze a dataset and provide descriptive statistics in a report format.  
 
 ### Assignment 2:  Bias
 Value: 		15% of final grade  
-Due Date: 	February 9, 2024  
+Due Date: 	October 10, 2025 
 Description: 	Students will perform the detection and description of selection and information bias and evaluate the extent of bias.   
 
 ### Assignment 3:  DAG
 Value: 		15% of final grade  
-Due Date: 	March 1, 2024  
+Due Date: 	October 31, 2025
 Description: 	Students will structurally evaluate confounding and bias using Directed Acyclic Graph.   
 
 ### Assignment 4:  Epi communication 1
 Value: 		15% of final grade  
-Due Date: 	March 15, 2024 
+Due Date: November 14, 2025
 Description: 	Students will interpret and create a written communication document from the results of a regression analysis.   
 
 ### Assignment 5:  Logistic regression and confounding 
 Value: 		15% of final grade  
-Due Date: 	March 29, 2024  
+Due Date: 	November 28, 2025  
 Description: 	Students will perform model fitting and diagnosis for logistic regression, followed by the investigation, interpretation, and visualization of confounding.  
 
 ### Assignment 6:  Linear regression and effect measure modification
 Value: 		15% of final grade  
-Due Date: 	April 12, 2024  
+Due Date: 	December 12, 2024  
 Description:    Students will perform model fitting and diagnosis for linear regression, followed by the investigation, interpretation, and visualization of interaction and effect measure modification.   
 
 ### Assignment 7:  Epi communication 2
 Value: 		15% of final grade  
-Due Date:  April 3, 2024  
+Due Date:  December 10, 2024  
 Description: 	Students will present on an epidemiological topic of interest to them and provide critical information for communicating to different interest groups in public health.   
 
 ## Course Data
