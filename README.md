@@ -52,7 +52,7 @@ Week |	Date |	Topic |	Data Work
 4	| October 1	| Confounding	| [Quantitative Bias Adjustment](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/bias_analysis.md)
 5	| October 8	| Direct Acyclic Graphs (DAGs) | 	[Causal Quartet](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/causal_quartet_R.md) 
 6	| October 15	| Causal Inference | [Counterfactuals](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/counterfactuals_R.md)
-7	| October 22	| Missing Data	| [Coming Soon]
+7	| October 22	| Missing Data	| [Missing Data](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/missing_data.md)
 8	| October 29	| Epi Communication	| [Logistic Regression](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/logistic_regression_R.md)
 9	| November 5	| Overview of Statistical Models | [Linear Regression](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/linear_regression_R.md)
 10	| November 12 | Reading Week  | 
