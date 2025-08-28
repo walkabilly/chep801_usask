@@ -298,8 +298,8 @@ pre code {
   border-radius: 4px;
 }
 
-.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
-  content: "\e259";
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
   font-family: 'Glyphicons Halflings';
   display: inline-block;
   padding: 10px;
@@ -307,9 +307,16 @@ pre code {
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
-  content: "\e258";
-  font-family: 'Glyphicons Halflings';
+  content: "";
   border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
 }
 
 .tabset-dropdown > .nav-tabs > li.active {
@@ -401,7 +408,14 @@ predictor(s) of interest</p></li>
 between the outcome and exposure of interest using two approaches we
 learned in class:</p>
 <ul>
-<li>A DAG/theory based approach</li>
+<li>A DAG/theory based approach
+<ul>
+<li>Pick confounder variables from DAG first, list 4-5 confounders (or
+more if you want) in DAG. Do not pick Collider.</li>
+<li>Identify at least one variable that MUST stay in your model no
+matter what, because it is important from common sense or literature.
+Give 1-2 sentence explanation for retaining such variable(s).</li>
+</ul></li>
 <li>A data driven/model fit approach</li>
 </ul></li>
 <li><p>Conduct cross-tabulations of the outcome variable with
@@ -419,7 +433,14 @@ arrive at your final model.</p>
 </ul></li>
 <li><p>Evaluate the model and indicate if there are any issues with the
 reliability of the model, and if the model meets the assumptions of
-logistic regression. Use regression diagnostics.</p></li>
+logistic regression. Use regression diagnostics.</p>
+<ul>
+<li>For the rest of the variables you picked, use them to drop some (or
+all) using model selection, either using AIC, BIC, or likelihood ratio
+test. Remember, the likelihood ratio test can be only used for comparing
+nested models.</li>
+<li>Present 1 or two final models with appropriate conclusion.</li>
+</ul></li>
 </ol>
 </div>
 <div id="part-2---format-and-effort" class="section level2">
