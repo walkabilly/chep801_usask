@@ -7,7 +7,7 @@ output:
 
 
 
-```r
+``` r
 library(rstatix)
 library(tidyverse)
 library(pastecs)
@@ -19,7 +19,7 @@ options(scipen=999)
 
 
 
-```r
+``` r
 data <- read_csv("CANPATH_data_wrangling.csv")
 ```
 
@@ -43,7 +43,7 @@ Example
 __R__
 
 
-```r
+``` r
 glimpse(data)
 ```
 
@@ -68,7 +68,7 @@ All of the variables here currently coded as _dbl_ except `ID` which is _chr_. T
 __R__
 
 
-```r
+``` r
 data <- data %>%
 	mutate(gender_recode = case_when(
 		SDC_GENDER == 1 ~ "Male",
@@ -94,7 +94,7 @@ table(data$SDC_GENDER, data$gender_recode)
 __R__
 
 
-```r
+``` r
 summary(data$NUT_VEG_QTY)
 ```
 
@@ -103,7 +103,7 @@ summary(data$NUT_VEG_QTY)
 ##   0.000   2.000   2.000   2.672   3.000  35.000    2549
 ```
 
-```r
+``` r
 summary(data$NUT_FRUITS_QTY)
 ```
 
@@ -112,7 +112,7 @@ summary(data$NUT_FRUITS_QTY)
 ##   0.000   1.000   2.000   2.132   3.000  25.000    2426
 ```
 
-```r
+``` r
 ### No missing data the no weird codings for the numbers. Great! 
 
 data <- data %>%
@@ -126,7 +126,7 @@ summary(data$fruit_veg_tot)
 ##   0.000   3.000   4.000   4.816   6.000  55.000    2908
 ```
 
-```r
+``` r
 data <- data %>%
 	mutate(fruit_veg_cat = case_when(
 		fruit_veg_tot <= 7  ~ "Not Meeting Guidelines",
@@ -142,7 +142,7 @@ table(data$fruit_veg_cat)
 ##                   5237                  33042
 ```
 
-```r
+``` r
 data <- data %>%
 	mutate(fruit_veg_dic = case_when(
 		fruit_veg_tot <= 7 ~ 0,
@@ -206,7 +206,7 @@ table(data$fruit_veg_tot, data$fruit_veg_cat)
     * Including the new variables you have created
     
 
-```r
+``` r
 summary(data$PA_TOTAL_SHORT)
 ```
 
@@ -215,7 +215,7 @@ summary(data$PA_TOTAL_SHORT)
 ##       0     600    1782    2574    3732   19278    6763
 ```
 
-```r
+``` r
 data <- data %>%
 	mutate(pa_cat = case_when(
 		PA_TOTAL_SHORT < 600  ~ "Low Activity",
@@ -232,7 +232,7 @@ data <- data %>%
 There are __MANY__ different ways to do this in R. There is no one best way. 
 
 
-```r
+``` r
 ## First we need to make sure we get the variables recoded and organized
 
 ### Example with gender where we already recoded
@@ -245,7 +245,7 @@ fruit_veg_table <- bind_rows(table(data$fruit_veg_cat), prop.table(table(data$fr
 ### 7. Are there missing data?
 
 
-```r
+``` r
 summary(data$fruit_veg_tot)
 ```
 
@@ -258,7 +258,7 @@ summary(data$fruit_veg_tot)
     * Interpret the 2*2 table result
 
 
-```r
+``` r
 gender_fv_table <- table(data$gender_recode, data$fruit_veg_cat)
 gender_fv_table
 ```
@@ -270,7 +270,7 @@ gender_fv_table
 ##   Male                 1233                  12829
 ```
 
-```r
+``` r
 epitab(gender_fv_table, method = "oddsratio")
 ```
 
@@ -318,7 +318,7 @@ epitab(gender_fv_table, method = "oddsratio")
 | --- | Level 2 | d | c | 
 
 
-```r
+``` r
 gender_fv_table <- table(data$gender_recode, data$fruit_veg_cat)
 gender_fv_table
 ```
@@ -330,7 +330,7 @@ gender_fv_table
 ##   Male                 1233                  12829
 ```
 
-```r
+``` r
 epitab(gender_fv_table, method = "oddsratio", rev = "columns") ## Here we flip the columns around to get the right answer for males. 
 ```
 

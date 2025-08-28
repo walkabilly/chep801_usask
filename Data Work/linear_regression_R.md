@@ -352,10 +352,6 @@ summary(model_t2_diab)
 ## glm(formula = bmi_recode ~ diabetes_t2, family = "gaussian", 
 ##     data = data_working)
 ## 
-## Deviance Residuals: 
-##     Min       1Q   Median       3Q      Max  
-## -17.355   -4.125   -0.857    2.936   32.645  
-## 
 ## Coefficients:
 ##              Estimate Std. Error t value Pr(>|t|)    
 ## (Intercept)  27.35524    0.03732  733.08   <2e-16 ***
@@ -467,10 +463,6 @@ summary(model_final)
 ## glm(formula = bmi_recode ~ diabetes_t2 + age_45 + pa_cat + latinx + 
 ##     indigenous + black + fatty_liver, family = "gaussian", data = data_working)
 ## 
-## Deviance Residuals: 
-##     Min       1Q   Median       3Q      Max  
-## -17.970   -4.039   -0.910    2.892   33.881  
-## 
 ## Coefficients:
 ##                           Estimate Std. Error t value Pr(>|t|)    
 ## (Intercept)               28.27826    0.07809 362.136  < 2e-16 ***
@@ -581,5 +573,7 @@ plot(model_final)
 ```
 
 ![](linear_regression_R_files/figure-html/unnamed-chunk-13-1.png)<!-- -->![](linear_regression_R_files/figure-html/unnamed-chunk-13-2.png)<!-- -->![](linear_regression_R_files/figure-html/unnamed-chunk-13-3.png)<!-- -->![](linear_regression_R_files/figure-html/unnamed-chunk-13-4.png)<!-- -->
+
+
 
 
