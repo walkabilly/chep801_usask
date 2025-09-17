@@ -7,14 +7,14 @@ output:
 ---
 
 
-```r
+``` r
 knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
 library(pastecs)
 library(knitr)
 ```
 
-# Logistic Regression Assignment
+# Logistic Regression Assignment - Focus on Confounding
 
 ## General instructions
 
@@ -44,9 +44,10 @@ Your task in this analysis is to determine which variables should be included in
 3. Assess potential confounding variables on the relationship between the outcome and exposure of interest using two approaches we learned in class:  
 
     * A DAG/theory based approach
-        * Pick confounder variables from DAG first, list 4-5 confounders (or more if you want) in DAG. Do not pick Collider.
-        * Identify at least one variable that MUST stay in your model no matter what, because it is important from common sense or literature. Give 1-2 sentence explanation for retaining such variable(s).
-    * A data driven/model fit approach  
+        * Pick confounder variables from DAG first, list 2-3 confounders (or more if you want) in DAG. Do not pick Collider.
+        * Identify at least one variable that MUST stay in your model no matter what, because it is important based on your DAG. Give 1-2 sentence explanation for retaining such variable(s).
+    * A data driven/model fit approach
+        * Use a data drive approach to examine if the 2-3 coufounders you identified are confounders. This approach can be based on the change in association between exposure and outcome method or some other criteria related to the association between the confounder and the exposure and outcome. 
 
 4. Conduct cross-tabulations of the outcome variable with categorical predictors.
 
@@ -60,7 +61,7 @@ Your task in this analysis is to determine which variables should be included in
 6. Evaluate the model and indicate if there are any issues with the reliability of the model, and if the model meets the assumptions of logistic regression. Use regression diagnostics. 
 
     * For the rest of the variables you picked, use them to drop some (or all) using model selection, either using AIC, BIC, or likelihood ratio test. Remember, the likelihood ratio test can be only used for comparing nested models.
-    * Present 1 or two final models with appropriate conclusion.
+    * Present one or two final models with appropriate conclusion.
 
 ## Part 2 - Format and Effort 
 
