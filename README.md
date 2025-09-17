@@ -58,7 +58,7 @@ __Requirements__
 
 Week |	Date |	Topic |	Data Work
 -----|-------|--------|-----------
-1	| September 10	| Intro/Epi Review 	| [Intro R/Stata](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/intro_to_R.md)
+1	| September 10	| Intro/Epi Review 	| [Intro R](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/intro_to_R.md)
 2	| September 17	| Descriptive Epi and Study Design	| [Data Wrangling](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/data_wrangling_R.md)
 3	| September 24	| Bias	| [Data Visualization](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/data_visualization_R.md)
 4	| October 1	| Confounding	| [Quantitative Bias Adjustment](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/bias_analysis.md)
@@ -87,11 +87,7 @@ Textbooks are available on reserve at the Health Sciences library or you may wis
 
 ## Other Required Materials
 
-Use of a statistical software program (Stata, R) is required for this course. 
-
-Course examples will be provided in Stata and R. Statistical software, including Stata, is available in the health sciences computer lab for all students with a valid USask NSID and password. 
-
-Remote access: students can access statistical software programs, including Stata, using the virtual computer laboratory https://vlab.usask.ca/EricomXml/accessportal/start.html#/login
+Use of a statistical software program R is required for this course. Course examples will be provided in R.
 
 ## Grading Scheme
 Assignment | Grade
@@ -100,7 +96,7 @@ Assignment | Grade
 [Bias](https://github.com/walkabilly/chep801_usask/blob/main/Assignments/Bias/Bias-Assignment.md) |	15%
 [DAG (Directed Acyclic Graphs)](https://github.com/walkabilly/chep801_usask/blob/main/Assignments/DAGs/DAG_Assignment.md) |	15%
 [Logistic Regression – Focus on confounding](https://github.com/walkabilly/chep801_usask/blob/main/Assignments/Logistic%20Regression/Logistic-Regression-Assignment.md) |	15%
-[Logistic Regression – Focus on effect measure modification]() | 15%
+[Linear Regression – Focus on effect modification](github.com/walkabilly/chep801_usask/blob/main/Assignments/Linear Regression/Linear-Rfegression-Assignment.md) | 15%
 [Epi Communication](https://github.com/walkabilly/chep801_usask/blob/main/Assignments/Epi%20Communication%201/Epi_Communication_Assignment.md) – Part 1 (One Pager)	| 15%
 [Epi Communication](https://github.com/walkabilly/chep801_usask/blob/main/Assignments/Epi%20Communication%202/Epi_Communication_Assignment.md) – Part 2 (Oral Presentation)	| 15%
 Total	| 100%
