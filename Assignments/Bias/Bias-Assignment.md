@@ -6,7 +6,8 @@ output:
   pdf_document: default
 ---
 
-```{r setup, message=FALSE, warning=FALSE}
+
+``` r
 knitr::opts_chunk$set(echo = TRUE)
 # load the episenr package after installation. This needs to be done every time you analyse
 library("episensr") #you can quote or unquote, but need quote when using install.package, but not when using library, don't ask me why
@@ -35,14 +36,16 @@ selection(matrix(c(434, 1094, 4937, 16263),
   - Unexposed and Outcome = 0.8
   - Unexposed and no Outcome = 0.8
   
-```{r}
+
+``` r
 #Enter your answer here 
 ```
 
 # Question 1b 
 
 #### Based on the output you generated, is there selection bias in the original RR?
-```{r}
+
+``` r
 #Enter your answer here 
 ```
 
@@ -54,7 +57,8 @@ selection(matrix(c(434, 1094, 4937, 16263),
   - Unexposed and Outcome = 0.8
   - Unexposed and no Outcome = 0.8
   
-```{r}
+
+``` r
 #Enter your answer here 
 ```
 
@@ -64,7 +68,8 @@ selection(matrix(c(434, 1094, 4937, 16263),
 
 Based on the output from Question 1c, answer if there is selection bias or not, and if not please explain why in one or two sentences.
 
-```{r}
+
+``` r
 #Enter your answer here 
 ```
 
@@ -74,7 +79,8 @@ Based on the output from Question 1c, answer if there is selection bias or not, 
 
 Suppose that a subsequent validation study using these data show that people inaccurately reports physical activity status, with the following sensitivity and specificity of exposure classification among diabetes cases and non-cases.  
 
-```{r}
+
+``` r
 # Lines below just creates example tables 
 contingencyTable <- data.frame(Outcome_Yes = c("a", "c"), Outcome_No = c("b", "d"))
 rownames(contingencyTable) <- c("Exposure_yes", "Exposure_No")
@@ -82,8 +88,30 @@ rownames(contingencyTable) <- c("Exposure_yes", "Exposure_No")
 contingencyTable %>% 
   addHtmlTableStyle(css.cell = c("width: 140;","width: 140;")) %>% 
   htmlTable(caption = "Table cell labels") 
-
 ```
+
+<table class='gmisc_table' style='border-collapse: collapse; margin-top: 1em; margin-bottom: 1em;' >
+<thead>
+<tr><td colspan='3' style='text-align: left;'>
+Table cell labels</td></tr>
+<tr><th style='border-bottom: 1px solid grey; border-top: 2px solid grey;'></th>
+<th style='font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>Outcome_Yes</th>
+<th style='font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;'>Outcome_No</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style='text-align: left;'>Exposure_yes</td>
+<td style='width: 140; text-align: center;'>a</td>
+<td style='width: 140; text-align: center;'>b</td>
+</tr>
+<tr>
+<td style='border-bottom: 2px solid grey; text-align: left;'>Exposure_No</td>
+<td style='width: 140; border-bottom: 2px solid grey; text-align: center;'>c</td>
+<td style='width: 140; border-bottom: 2px solid grey; text-align: center;'>d</td>
+</tr>
+</tbody>
+</table>
 
   - Se_outcome: Sensitivity of exposure classification among outcome (i.e., extent of misclassification from a to c among outcome)  = 0.95 
   - Sp_outcome: Specificity of exposure classification among outcome (i.e., extent of misclassification from c to a among outcome)   =0.8 
@@ -93,7 +121,8 @@ contingencyTable %>%
   
 As a practice, we will plug in these classification metrics into the `misclassification` function in `episenser`, when there is no missclassification (i.e., all Se and Sp values are 1.0). The probabilities values entering the `bias_parms` line is *Se_outcome, Se_noOutcome, Sp_outcome, Sp_noOutcome*.   
 
-```{r}
+
+``` r
 misclass(matrix(c(434, 1094, 4937, 16263), 
                  dimnames = list(c("Diabetes", "No Diabetes"), 
                                  c("Low PA", "moderate/high PA")), 
@@ -102,10 +131,50 @@ misclass(matrix(c(434, 1094, 4937, 16263),
           bias_parms  = c(1.0, 1.0, 1.0, 1.0))
 ```
 
+```
+## 
+```
+
+```
+## ── Observed data ───────────────────────────────────────────────────────────────
+```
+
+```
+## • Outcome: Diabetes
+```
+
+```
+## • Comparing: Low PA vs. moderate/high PA
+```
+
+```
+## 
+```
+
+```
+##             Low PA moderate/high PA
+## Diabetes       434             1094
+## No Diabetes   4937            16263
+##                                      2.5%    97.5%
+## Observed Relative Risk: 1.282011 1.152043 1.426642
+##    Observed Odds Ratio: 1.306802 1.164072 1.467033
+```
+
+```
+## ── Bias-adjusted measures ──
+```
+
+```
+##                                                              2.5%    97.5%
+## Misclassification Bias Corrected Relative Risk: 1.282011                  
+##    Misclassification Bias Corrected Odds Ratio: 1.306802 1.164072 1.467033
+```
+
 # Question 2a
 #### Now, perform bias sensitivity analysis based on the imperfect classification accuracies provided above (values of sensitivities and specificities), by updating the four values in the `bias_parms` line. Show the output below. 
 
-```{r}
+
+``` r
 #Enter your answer here 
 ```
 
@@ -113,14 +182,16 @@ misclass(matrix(c(434, 1094, 4937, 16263),
 # Question 2b
 
 #### Comparing `Misclassification Bias Corrected Relative Risk` and `Observed Relative Risk` (the latter is the crude - uncorrected association). Is there information bias? 
-```{r}
+
+``` r
 #Enter your answer here 
 ```
 
 # Question 2c
 
 #### Is this differential or non-differential missclassification? Please provide 1 or 2 sentence of explanation. 
-```{r}
+
+``` r
 #Enter your answer here 
 ```
 
@@ -132,13 +203,15 @@ misclass(matrix(c(434, 1094, 4937, 16263),
   - Specificity of exposure classification among no outcome (i.e., extent of misclassification from  d to b among no outcome) = 0.9   
 
 
-```{r}
+
+``` r
 #Enter your answer here 
 ```
 
 # Question 2e
 
 #### Is this differential or non-differential missclassification (results of Question 2d)? Please provide 1 or 2 sentence of explanation. 
-```{r}
+
+``` r
 #Enter your answer here 
 ```
