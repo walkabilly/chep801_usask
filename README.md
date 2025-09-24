@@ -96,7 +96,7 @@ Assignment | Grade
 [Bias](https://github.com/walkabilly/chep801_usask/blob/main/Assignments/Bias/Bias-Assignment.md) |	15%
 [DAG (Directed Acyclic Graphs)](https://github.com/walkabilly/chep801_usask/blob/main/Assignments/DAGs/DAG_Assignment.md) |	15%
 [Logistic Regression – Focus on confounding](https://github.com/walkabilly/chep801_usask/blob/main/Assignments/Logistic%20Regression/Logistic-Regression-Assignment.md) |	15%
-[Linear Regression – Focus on effect modification](github.com/walkabilly/chep801_usask/blob/main/Assignments/Linear Regression/Linear-Rfegression-Assignment.md) | 15%
+[Linear Regression – Focus on effect modification](https://github.com/walkabilly/chep801_usask/blob/main/Assignments/Linear%20Regression/Linear-Regression-Assignment.md) | 15%
 [Epi Communication](https://github.com/walkabilly/chep801_usask/blob/main/Assignments/Epi%20Communication%201/Epi_Communication_Assignment.md) – Part 1 (One Pager)	| 15%
 [Epi Communication](https://github.com/walkabilly/chep801_usask/blob/main/Assignments/Epi%20Communication%202/Epi_Communication_Assignment.md) – Part 2 (Oral Presentation)	| 15%
 Total	| 100%
