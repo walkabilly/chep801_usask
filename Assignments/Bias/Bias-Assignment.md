@@ -53,7 +53,7 @@ selection(matrix(c(434, 1094, 4937, 16263),
 
 #### Another study on the same population found out that the selection probabitlies are actually as follows: 
   - Exposed (low PA) and Outcome (Diabetes) = 0.9
-  - Exposed and no Outcome =0.9
+  - Exposed and no Outcome = 0.9
   - Unexposed and Outcome = 0.8
   - Unexposed and no Outcome = 0.8
   
@@ -113,8 +113,8 @@ Table cell labels</td></tr>
 </tbody>
 </table>
 
-  - Se_outcome: Sensitivity of exposure classification among outcome (i.e., extent of misclassification from a to c among outcome)  = 0.95 
-  - Sp_outcome: Specificity of exposure classification among outcome (i.e., extent of misclassification from c to a among outcome)   =0.8 
+  - Se_outcome: Sensitivity of exposure classification among outcome (i.e., extent of misclassification from a to c among outcome) = 0.95 
+  - Sp_outcome: Specificity of exposure classification among outcome (i.e., extent of misclassification from c to a among outcome) = 0.8 
   - Se_noOutcome: Sensitivity of exposure classification among no outcome (i.e., extent of misclassification from b to d among no outcome) = 0.95   
   - Sp_noOutcome: Specificity of exposure classification among no outcome (i.e., extent of misclassification from  d to b among no outcome) = 0.8   
   
@@ -198,8 +198,8 @@ misclass(matrix(c(434, 1094, 4937, 16263),
 
 # Question 2d
   - Sensitivity of exposure classification among outcome (i.e., extent of misclassification from a to c among outcome)  = 0.9
-  - Specificity of exposure classification among outcome (i.e., extent of misclassification from c to a among outcome)   =0.9 
-  - Sensitivity of exposure classification among no outcome (i.e., extent of misclassification from b to d among no outcome) = 0.5   
+  - Specificity of exposure classification among outcome (i.e., extent of misclassification from c to a among outcome)   = 0.9 
+  - Sensitivity of exposure classification among no outcome (i.e., extent of misclassification from b to d among no outcome) = 0.8   
   - Specificity of exposure classification among no outcome (i.e., extent of misclassification from  d to b among no outcome) = 0.9   
 
 
