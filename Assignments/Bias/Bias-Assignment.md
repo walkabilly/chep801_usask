@@ -199,7 +199,7 @@ misclass(matrix(c(434, 1094, 4937, 16263),
 # Question 2d
   - Sensitivity of exposure classification among outcome (i.e., extent of misclassification from a to c among outcome)  = 0.9
   - Specificity of exposure classification among outcome (i.e., extent of misclassification from c to a among outcome)   = 0.9 
-  - Sensitivity of exposure classification among no outcome (i.e., extent of misclassification from b to d among no outcome) = 0.8   
+  - Sensitivity of exposure classification among no outcome (i.e., extent of misclassification from b to d among no outcome) = 0.5   
   - Specificity of exposure classification among no outcome (i.e., extent of misclassification from  d to b among no outcome) = 0.9   
 
 
