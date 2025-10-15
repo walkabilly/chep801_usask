@@ -7,44 +7,44 @@ output:
 
 ### Simulating counterfactual outcomes with 1 confounder variable   
 
-We only need two libraries today 
+We only need three libraries today 
 
 
-```r
+``` r
 library(tidyverse)
 ```
 
 ```
 ## ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
-## ✔ dplyr     1.1.4     ✔ readr     2.1.4
-## ✔ forcats   1.0.0     ✔ stringr   1.5.0
-## ✔ ggplot2   3.4.4     ✔ tibble    3.2.1
-## ✔ lubridate 1.9.2     ✔ tidyr     1.3.0
-## ✔ purrr     1.0.2     
+## ✔ dplyr     1.1.4     ✔ readr     2.1.5
+## ✔ forcats   1.0.0     ✔ stringr   1.5.2
+## ✔ ggplot2   4.0.0     ✔ tibble    3.3.0
+## ✔ lubridate 1.9.4     ✔ tidyr     1.3.1
+## ✔ purrr     1.1.0     
 ## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
 ## ✖ dplyr::filter() masks stats::filter()
 ## ✖ dplyr::lag()    masks stats::lag()
 ## ℹ Use the conflicted package (<http://conflicted.r-lib.org/>) to force all conflicts to become errors
 ```
 
-```r
+``` r
 library(ggplot2)
+library(gtsummary)
 ```
 
 
 We will generate variables whose name follows the lecture material, specifically:    
   
-  *A*: Binary exposure    
-  *L*: Binary confounder   
-  *Y*: Binary outcome (observed outcome)    
-
+  * *A*: Binary exposure    
+  * *L*: Binary confounder   
+  * *Y*: Binary outcome (observed outcome)    
   
 Note that the confounder variable is first generated, from which the exposure and the outcome are generated. Thus, the variable L is a common cause, rather than common effect (collider).  
 
 #### Be sure to check to see if the positivity assumption is met in your data. 
 
 
-```r
+``` r
 # Set see to get same results within the same computer 
 set.seed(1)
 
@@ -63,7 +63,7 @@ table(L)
 ## 270 230
 ```
 
-```r
+``` r
 # Then binary exposure, partially based on the status of confounder 
 A=runif(N, max=(1+L))
 A <- ifelse(A > 0.4, 0, 1)
@@ -76,7 +76,7 @@ table(A)
 ## 344 156
 ```
 
-```r
+``` r
 # QUickly check the association of A and L
 epitools::epitab(A, L, method = "oddsratio")$tab
 ```
@@ -88,7 +88,7 @@ epitools::epitab(A, L, method = "oddsratio")$tab
 ##         1 110 0.4074074  46 0.2 0.3636364 0.2427488 0.5447254 6.665396e-07
 ```
 
-```r
+``` r
 table(A, L)
 ```
 
@@ -102,7 +102,7 @@ table(A, L)
 
 If there is no zero-cell across A and L, proceed to the next step, creating *Y*. 
 
-```r
+``` r
 # Create a third variable (fake confounder) from the outcome and exposure  
 theta = -1 + 0.3*A + -0.4*L  # Generate logit of outcome
 prob <- 1/(1+exp(-theta))  # convert logit values into probabilities
@@ -120,7 +120,7 @@ head(Y, 40) # display values
 We need to create a data frame with the three variables before running the model 
 
 
-```r
+``` r
 myData <- data.frame(Y, A, L)
 table(myData$Y)
 ```
@@ -131,7 +131,7 @@ table(myData$Y)
 ## 370 130
 ```
 
-```r
+``` r
 table(myData$A)
 ```
 
@@ -141,7 +141,7 @@ table(myData$A)
 ## 344 156
 ```
 
-```r
+``` r
 table(myData$L)
 ```
 
@@ -155,7 +155,7 @@ table(myData$L)
 As usual, check the association between Y and L, A and L.  
 
 
-```r
+``` r
 epitools::epitab(myData$A, myData$Y, method = "oddsratio")$tab
 ```
 
@@ -166,7 +166,7 @@ epitools::epitab(myData$A, myData$Y, method = "oddsratio")$tab
 ##         1 105 0.2837838 51 0.3923077  1.629295 1.072274 2.475676 0.02749075
 ```
 
-```r
+``` r
 epitools::epitab(myData$L, myData$Y, method = "oddsratio")$tab
 ```
 
@@ -180,7 +180,7 @@ epitools::epitab(myData$L, myData$Y, method = "oddsratio")$tab
 
 Check the disttribution of L, A, Y and calculate inverse weights if you like 
 
-```r
+``` r
 myData %>%  group_by(L, A, Y) %>% summarise(count = n()) 
 ```
 
@@ -209,7 +209,7 @@ myData %>%  group_by(L, A, Y) %>% summarise(count = n())
 ##### Run the regression to capture the association between Y and A, and Y and L
 
 
-```r
+``` r
 regressResult <- glm(data=myData, Y~L + A,  family="binomial")
 
 
@@ -222,7 +222,7 @@ coefficients(regressResult) %>%  round(2)
 ##       -0.89       -0.66        0.34
 ```
 
-```r
+``` r
 regressResult %>%  confint() %>% round(2)
 ```
 
@@ -237,36 +237,24 @@ regressResult %>%  confint() %>% round(2)
 ## A           -0.09   0.77
 ```
 
-```r
+``` r
 # Show the results - odds ratio scale
-coefficients(regressResult) %>%  exp %>% round(2)
+lm_basic <- tbl_regression(regressResult)
+lm_basic %>% as_kable()
 ```
 
-```
-## (Intercept)           L           A 
-##        0.41        0.52        1.41
-```
 
-```r
-regressResult %>%  confint()  %>% exp %>%  round(2)
-```
 
-```
-## Waiting for profiling to be done...
-```
-
-```
-##             2.5 % 97.5 %
-## (Intercept)  0.30   0.56
-## L            0.34   0.79
-## A            0.91   2.16
-```
+|**Characteristic** | **log(OR)** | **95% CI**  | **p-value** |
+|:------------------|:-----------:|:-----------:|:-----------:|
+|L                  |    -0.66    | -1.1, -0.23 |    0.003    |
+|A                  |    0.34     | -0.09, 0.77 |    0.12     |
 
 
 We now set A=1 and A=0 to everyone in the data
 
 
-```r
+``` r
 myData_allExposed <- myData %>% mutate(A=1) 
 table(myData_allExposed$A)
 ```
@@ -277,7 +265,7 @@ table(myData_allExposed$A)
 ## 500
 ```
 
-```r
+``` r
 myData_NotExposed <- myData %>% mutate(A=0) 
 table(myData_NotExposed$A)
 ```
@@ -291,15 +279,15 @@ table(myData_NotExposed$A)
 Generate marginal outcome and plot the distribution. Do you know why the histogram is so bimodal? 
 
 
-```r
-pred_Ya_1 <- predict(regressResult, newdata =myData_allExposed, type = "response")
+``` r
+pred_Ya_1 <- predict(regressResult, newdata = myData_allExposed, type = "response")
 hist(pred_Ya_1)
 ```
 
 ![](counterfactuals_R_files/figure-html/unnamed-chunk-9-1.png)<!-- -->
 
-```r
-pred_Ya_0 <- predict(regressResult, newdata =myData_NotExposed, type = "response")
+``` r
+pred_Ya_0 <- predict(regressResult, newdata = myData_NotExposed, type = "response")
 hist(pred_Ya_0)
 ```
 
@@ -307,10 +295,10 @@ hist(pred_Ya_0)
 
 #### Calculate marginal outcome, had everyone exposed and not exposed 
 
-Be sure to know which measure corresponds to ATE, OR, and RR, and why the values differ. ALso check to see your analysis correctly recovered the odds ratio you set during the data generation process. Report these values to combine with colleague's results. 
+Be sure to know which measure corresponds to ATE, OR, and RR, and why the values differ. Also check to see your analysis correctly recovered the odds ratio you set during the data generation process. Report these values to combine with colleague's results. 
 
 
-```r
+``` r
 mean(pred_Ya_1) / mean(pred_Ya_0) # no CI for this 
 ```
 
@@ -318,7 +306,7 @@ mean(pred_Ya_1) / mean(pred_Ya_0) # no CI for this
 ## [1] 1.277803
 ```
 
-```r
+``` r
 {mean(pred_Ya_1) / (1-mean(pred_Ya_1))} / {mean(pred_Ya_0)/(1-mean(pred_Ya_0))}
 ```
 
@@ -326,7 +314,7 @@ mean(pred_Ya_1) / mean(pred_Ya_0) # no CI for this
 ## [1] 1.399434
 ```
 
-```r
+``` r
 mean(pred_Ya_1) - mean(pred_Ya_0)
 ```
 

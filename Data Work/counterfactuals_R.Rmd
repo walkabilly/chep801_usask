@@ -7,20 +7,20 @@ output:
 
 ### Simulating counterfactual outcomes with 1 confounder variable   
 
-We only need two libraries today 
+We only need three libraries today 
 
 ```{r}
 library(tidyverse)
 library(ggplot2)
+library(gtsummary)
 ```
 
 
 We will generate variables whose name follows the lecture material, specifically:    
   
-  *A*: Binary exposure    
-  *L*: Binary confounder   
-  *Y*: Binary outcome (observed outcome)    
-
+  * *A*: Binary exposure    
+  * *L*: Binary confounder   
+  * *Y*: Binary outcome (observed outcome)    
   
 Note that the confounder variable is first generated, from which the exposure and the outcome are generated. Thus, the variable L is a common cause, rather than common effect (collider).  
 
@@ -98,8 +98,8 @@ coefficients(regressResult) %>%  round(2)
 regressResult %>%  confint() %>% round(2)
 
 # Show the results - odds ratio scale
-coefficients(regressResult) %>%  exp %>% round(2)
-regressResult %>%  confint()  %>% exp %>%  round(2)
+lm_basic <- tbl_regression(regressResult)
+lm_basic %>% as_kable()
 ```
 
 
@@ -116,15 +116,15 @@ table(myData_NotExposed$A)
 Generate marginal outcome and plot the distribution. Do you know why the histogram is so bimodal? 
 
 ```{r}
-pred_Ya_1 <- predict(regressResult, newdata =myData_allExposed, type = "response")
+pred_Ya_1 <- predict(regressResult, newdata = myData_allExposed, type = "response")
 hist(pred_Ya_1)
-pred_Ya_0 <- predict(regressResult, newdata =myData_NotExposed, type = "response")
+pred_Ya_0 <- predict(regressResult, newdata = myData_NotExposed, type = "response")
 hist(pred_Ya_0)
 ```
 
 #### Calculate marginal outcome, had everyone exposed and not exposed 
 
-Be sure to know which measure corresponds to ATE, OR, and RR, and why the values differ. ALso check to see your analysis correctly recovered the odds ratio you set during the data generation process. Report these values to combine with colleague's results. 
+Be sure to know which measure corresponds to ATE, OR, and RR, and why the values differ. Also check to see your analysis correctly recovered the odds ratio you set during the data generation process. Report these values to combine with colleague's results. 
 
 ```{r}
 mean(pred_Ya_1) / mean(pred_Ya_0) # no CI for this 
