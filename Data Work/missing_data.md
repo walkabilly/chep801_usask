@@ -14,10 +14,10 @@ library(tidyverse)
 ```
 ## ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
 ## ✔ dplyr     1.1.4     ✔ readr     2.1.5
-## ✔ forcats   1.0.0     ✔ stringr   1.5.1
-## ✔ ggplot2   3.5.1     ✔ tibble    3.2.1
+## ✔ forcats   1.0.0     ✔ stringr   1.5.2
+## ✔ ggplot2   3.5.2     ✔ tibble    3.3.0
 ## ✔ lubridate 1.9.4     ✔ tidyr     1.3.1
-## ✔ purrr     1.0.4     
+## ✔ purrr     1.1.0     
 ## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
 ## ✖ dplyr::filter() masks stats::filter()
 ## ✖ dplyr::lag()    masks stats::lag()
@@ -124,13 +124,13 @@ is.infinite(y)
 
 The test is.finite() it TRUE if the value is numeric and not NA, NaN, Inf or -Inf.
 
-| value |	is.na |	is.nan |	is.infinite |	is.finite |
-| ----- | ------ | ------ | ------ |
-| 1 	| FALSE |	FALSE |	FALSE |	TRUE
-| NA 	| TRUE |	FALSE |	FALSE |	FALSE
-| NaN |	TRUE |	TRUE |	FALSE |	FALSE
-| Inf |	FALSE |	FALSE |	TRUE |	FALSE
-| -Inf |	FALSE |	FALSE |	TRUE |	FALSE
+ value |	is.na |	is.nan |	is.infinite |	is.finite 
+ ----- | ------ | ------ | ------ 
+ 1 	| FALSE |	FALSE |	FALSE |	TRUE
+ NA 	| TRUE |	FALSE |	FALSE |	FALSE
+ NaN |	TRUE |	TRUE |	FALSE |	FALSE
+ Inf |	FALSE |	FALSE |	TRUE |	FALSE
+ -Inf |	FALSE |	FALSE |	TRUE |	FALSE
 
 ## Missing data analysis
 
@@ -146,7 +146,7 @@ missing_table
 ## # A tibble: 195 × 3
 ##    variable                       n_miss pct_miss
 ##    <chr>                           <int>    <num>
-##  1 DIS_MH_BIPOLAR_EVER             41171    100. 
+##  1 DIS_MH_BIPOLAR_EVER             41171    100.0
 ##  2 DIS_GEN_DS_EVER                 41143     99.9
 ##  3 DIS_GEN_AIS_EVER                41143     99.9
 ##  4 DIS_GEN_HEMOPHILIA_EVER         41143     99.9

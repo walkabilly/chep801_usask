@@ -47,13 +47,13 @@ is.infinite(y)
 
 The test is.finite() it TRUE if the value is numeric and not NA, NaN, Inf or -Inf.
 
-| value |	is.na |	is.nan |	is.infinite |	is.finite |
-| ----- | ------ | ------ | ------ |
-| 1 	| FALSE |	FALSE |	FALSE |	TRUE
-| NA 	| TRUE |	FALSE |	FALSE |	FALSE
-| NaN |	TRUE |	TRUE |	FALSE |	FALSE
-| Inf |	FALSE |	FALSE |	TRUE |	FALSE
-| -Inf |	FALSE |	FALSE |	TRUE |	FALSE
+ value |	is.na |	is.nan |	is.infinite |	is.finite 
+ ----- | ------ | ------ | ------ 
+ 1 	| FALSE |	FALSE |	FALSE |	TRUE
+ NA 	| TRUE |	FALSE |	FALSE |	FALSE
+ NaN |	TRUE |	TRUE |	FALSE |	FALSE
+ Inf |	FALSE |	FALSE |	TRUE |	FALSE
+ -Inf |	FALSE |	FALSE |	TRUE |	FALSE
 
 ## Missing data analysis
 
