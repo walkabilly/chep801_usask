@@ -69,7 +69,7 @@ Week |	Date |	Topic |	Data Work
 9	| November 5	| Overview of Statistical Models | [Logistic Regression](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/logistic_regression_R.md)
 10	| November 12 | Reading Week  | 
 11	| November 19	| Interaction/Effect Measure Modification	| [Effect Measure Modification](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/interaction_effect_measure_modification.md)
-12	| November 26	| Mediation	| [Coming Soon]
+12	| November 26	| Mediation	| [Mediation Analysis](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/mediation.md)
 13	| December 3	| Special Topics	| [Coming Soon]
 13	| December 10	| Student Presentations	|
 * Subject to change depending on speed
