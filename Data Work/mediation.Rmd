@@ -5,91 +5,13 @@ output:
         keep_md: true
 ---
 
-
-``` r
+```{r}
 library(knitr)
 library(gtsummary)
 library(mediation)
-```
-
-```
-## Loading required package: MASS
-```
-
-```
-## 
-## Attaching package: 'MASS'
-```
-
-```
-## The following object is masked from 'package:gtsummary':
-## 
-##     select
-```
-
-```
-## Loading required package: Matrix
-```
-
-```
-## Loading required package: mvtnorm
-```
-
-```
-## Loading required package: sandwich
-```
-
-```
-## mediation: Causal Mediation Analysis
-## Version: 4.5.1
-```
-
-``` r
 library(ggdag)
-```
-
-```
-## 
-## Attaching package: 'ggdag'
-```
-
-```
-## The following object is masked from 'package:stats':
-## 
-##     filter
-```
-
-``` r
 library(dagitty)
 library(tidyverse)
-```
-
-```
-## Warning: package 'ggplot2' was built under R version 4.5.2
-```
-
-```
-## Warning: package 'readr' was built under R version 4.5.2
-```
-
-```
-## ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
-## ✔ dplyr     1.1.4     ✔ readr     2.1.6
-## ✔ forcats   1.0.1     ✔ stringr   1.6.0
-## ✔ ggplot2   4.0.1     ✔ tibble    3.3.0
-## ✔ lubridate 1.9.4     ✔ tidyr     1.3.1
-## ✔ purrr     1.2.0
-```
-
-```
-## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
-## ✖ tidyr::expand() masks Matrix::expand()
-## ✖ dplyr::filter() masks ggdag::filter(), stats::filter()
-## ✖ dplyr::lag()    masks stats::lag()
-## ✖ tidyr::pack()   masks Matrix::pack()
-## ✖ dplyr::select() masks MASS::select(), gtsummary::select()
-## ✖ tidyr::unpack() masks Matrix::unpack()
-## ℹ Use the conflicted package (<http://conflicted.r-lib.org/>) to force all conflicts to become errors
 ```
 
 ## Mediation
@@ -101,28 +23,8 @@ The key difference between mediation and moderation is that mediation is about t
 
 ### Read in the data
 
-
-``` r
+```{r}
 data <- read_csv("CANPATH_data.csv")
-```
-
-```
-## Warning: One or more parsing issues, call `problems()` on your data frame for details,
-## e.g.:
-##   dat <- vroom(...)
-##   problems(dat)
-```
-
-```
-## Rows: 41187 Columns: 440
-## ── Column specification ────────────────────────────────────────────────────────
-## Delimiter: ","
-## chr   (5): ID, MSD11_PR, MSD11_REG, MSD11_ZONE, MSD11_CMA
-## dbl (425): ADM_STUDY_ID, SDC_GENDER, SDC_AGE_CALC, SDC_MARITAL_STATUS, SDC_E...
-## lgl  (10): DIS_MH_BIPOLAR_EVER, DIS_GEN_DS_EVER, DIS_GEN_SCA_EVER, DIS_GEN_T...
-## 
-## ℹ Use `spec()` to retrieve the full column specification for this data.
-## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 ```
 
 #### Variable selection
@@ -145,8 +47,7 @@ We have created a DAG and identified that the following factors are associated w
 
 Let's simplify the dataset so we are not working with so many variables. 
 
-
-``` r
+```{r}
 data <- data %>% dplyr::select(DIS_DIAB_TYPE, PM_BMI_SR, PA_LEVEL_SHORT, SDC_AGE_CALC, PA_TOTAL_SHORT)
 ```
 
@@ -156,25 +57,11 @@ We can recode people who are less than 10 and greater than 60 to values of 10 an
 
 **Physical Activity**
 
-
-``` r
+```{r}
 pa_histogram <- ggplot(data, aes(PA_TOTAL_SHORT)) +
                   geom_histogram()
 plot(pa_histogram)
-```
 
-```
-## `stat_bin()` using `bins = 30`. Pick better value `binwidth`.
-```
-
-```
-## Warning: Removed 6763 rows containing non-finite outside the scale range
-## (`stat_bin()`).
-```
-
-![](mediation_files/figure-html/unnamed-chunk-4-1.png)<!-- -->
-
-``` r
 ## Recoding PA to make it more interpretable. Converting to a 10unit change rather than a one unit change.
 
 data$PA_TOTAL_SHORT <- data$PA_TOTAL_SHORT/100
@@ -182,15 +69,9 @@ data$PA_TOTAL_SHORT <- data$PA_TOTAL_SHORT/100
 summary(data$PA_TOTAL_SHORT)
 ```
 
-```
-##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
-##    0.00    6.00   17.82   25.74   37.32  192.78    6763
-```
-
 **BMI**
 
-
-``` r
+```{r}
 data <- data %>%
           mutate(bmi_recode = case_when(
             PM_BMI_SR < 10 ~ 10, 
@@ -198,46 +79,19 @@ data <- data %>%
             TRUE ~ PM_BMI_SR
           ))
 summary(data$bmi_recode)
-```
 
-```
-##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
-##   10.00   23.38   26.58   27.55   30.55   60.00   11976
-```
-
-``` r
 bmi_recode_histogram <- ggplot(data = data, aes(bmi_recode)) +
                   geom_histogram()
 plot(bmi_recode_histogram)
 ```
 
-```
-## `stat_bin()` using `bins = 30`. Pick better value `binwidth`.
-```
-
-```
-## Warning: Removed 11976 rows containing non-finite outside the scale range
-## (`stat_bin()`).
-```
-
-![](mediation_files/figure-html/unnamed-chunk-5-1.png)<!-- -->
-
 #### Preparing predictor variables
 
 **Diabetes**
 
-
-``` r
+```{r}
 table(data$DIS_DIAB_TYPE)
-```
 
-```
-## 
-##    -7     1     2     3 
-## 36807   315  2160   425
-```
-
-``` r
 data <- data %>%
 	mutate(diabetes_t2 = case_when(
     DIS_DIAB_TYPE == 2 ~ 1,
@@ -248,33 +102,13 @@ data <- data %>%
 table(data$diabetes_t2)
 ```
 
-```
-## 
-##     0     1 
-## 36807  2160
-```
-
 **Age**
 
-
-``` r
+```{r}
 glimpse(data$SDC_AGE_CALC)
-```
 
-```
-##  num [1:41187] 47 57 62 58 64 40 36 63 58 60 ...
-```
-
-``` r
 summary(data$SDC_AGE_CALC) ### Lots of NAs! 
-```
 
-```
-##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-##   30.00   43.00   52.00   51.48   60.00   74.00
-```
-
-``` r
 data <- data %>%
 	mutate(age_45 = case_when(
 	  SDC_AGE_CALC >= 45.00 ~ "Over 45",
@@ -284,15 +118,8 @@ data <- data %>%
 table(data$age_45)
 ```
 
-```
-## 
-##  Over 45 Under 45 
-##    29639    11548
-```
-
 ### Drop Na
-
-``` r
+```{r}
 data <- data %>% drop_na()
 ```
 
@@ -300,33 +127,15 @@ data <- data %>% drop_na()
 
 We suspect that diabetes is a mediator in the association between physical activity and BMI. We want to examine this. Our DAG would look like this
 
-
-``` r
+```{r}
 mediator_dag <- dagitty("dag{
 E -> O
 E -> M
 M -> O
 }")
 tidy_dagitty(mediator_dag)
-```
-
-```
-## # A DAG with 3 nodes and 3 edges
-## #
-## # A tibble: 4 × 8
-##   name          x      y direction to         xend   yend circular
-##   <chr>     <dbl>  <dbl> <fct>     <chr>     <dbl>  <dbl> <lgl>   
-## 1 E     -5.01e- 1  0.289 ->        M      5.01e- 1  0.289 FALSE   
-## 2 E     -5.01e- 1  0.289 ->        O     -5.95e-10 -0.578 FALSE   
-## 3 M      5.01e- 1  0.289 ->        O     -5.95e-10 -0.578 FALSE   
-## 4 O     -5.95e-10 -0.578 <NA>      <NA>  NA        NA     FALSE
-```
-
-``` r
 ggdag(mediator_dag, layout = "circle") + theme_dag() + coord_flip()
 ```
-
-![](mediation_files/figure-html/unnamed-chunk-9-1.png)<!-- -->
 
 
 ## Mediation analysis 
@@ -362,174 +171,47 @@ Bootstrapping takes a large number of samples from our data and runs the analysi
 
 The mediation model is a model that considers our mediator of interest `diabetes` as the outcome and our exposure of interest `physical activity` as the predictor. We can also include covariates in this model if the chose. We will include `SDC_AGE_CALC` as a covariate. 
 
-
-``` r
+```{r, warning=FALSE}
 mediator_model <- glm(diabetes_t2 ~ PA_TOTAL_SHORT, data = data, family = binomial(link = "probit"))
 summary(mediator_model)
-```
 
-```
-## 
-## Call:
-## glm(formula = diabetes_t2 ~ PA_TOTAL_SHORT, family = binomial(link = "probit"), 
-##     data = data)
-## 
-## Coefficients:
-##                  Estimate Std. Error z value Pr(>|z|)    
-## (Intercept)    -1.5993228  0.0179846 -88.928   <2e-16 ***
-## PA_TOTAL_SHORT -0.0008323  0.0005023  -1.657   0.0975 .  
-## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-## 
-## (Dispersion parameter for binomial family taken to be 1)
-## 
-##     Null deviance: 10745  on 26075  degrees of freedom
-## Residual deviance: 10742  on 26074  degrees of freedom
-## AIC: 10746
-## 
-## Number of Fisher Scoring iterations: 5
-```
-
-``` r
 multi_table <- tbl_regression(mediator_model, exponentiate = TRUE) 
 
 multi_table %>% as_kable()
 ```
 
-
-
-|**Characteristic** | **exp(Beta)** | **95% CI** | **p-value** |
-|:------------------|:-------------:|:----------:|:-----------:|
-|PA_TOTAL_SHORT     |     1.00      | 1.00, 1.00 |    0.10     |
-
 ### Outcome Model 
 
 The outcome model is a model that considers our mediator of interest `diabetes` as the outcome and our exposure of interest `physical activity` as the predictor. We can also include covariates in this model if the chose. We will include `SDC_AGE_CALC` as a covariate. 
 
-
-``` r
+```{r, warning=FALSE}
 #data$diabetes_t2 <- as.factor(data$diabetes_t2)
 
 outcome_model <- lm(bmi_recode ~ PA_TOTAL_SHORT + diabetes_t2, data = data)
 summary(outcome_model)
-```
 
-```
-## 
-## Call:
-## lm(formula = bmi_recode ~ PA_TOTAL_SHORT + diabetes_t2, data = data)
-## 
-## Residuals:
-##     Min      1Q  Median      3Q     Max 
-## -17.585  -4.092  -0.902   2.940  34.231 
-## 
-## Coefficients:
-##                 Estimate Std. Error t value Pr(>|t|)    
-## (Intercept)    27.696320   0.052929  523.27   <2e-16 ***
-## PA_TOTAL_SHORT -0.015356   0.001417  -10.84   <2e-16 ***
-## diabetes_t2     2.956194   0.166885   17.71   <2e-16 ***
-## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-## 
-## Residual standard error: 6.014 on 26073 degrees of freedom
-## Multiple R-squared:  0.01642,	Adjusted R-squared:  0.01634 
-## F-statistic: 217.6 on 2 and 26073 DF,  p-value: < 2.2e-16
-```
-
-``` r
 multi_table <- tbl_regression(outcome_model) 
 
 multi_table %>% as_kable()
 ```
 
-
-
-|**Characteristic** | **Beta** |  **95% CI**  | **p-value** |
-|:------------------|:--------:|:------------:|:-----------:|
-|PA_TOTAL_SHORT     |  -0.02   | -0.02, -0.01 |   <0.001    |
-|diabetes_t2        |   3.0    |   2.6, 3.3   |   <0.001    |
-
 ### Mediation Model 
 
 The outcome model is a model that considers our mediator of interest `diabetes` as the outcome and our exposure of interest `physical activity` as the predictor. We can also include covariates in this model if the chose. We will include `SDC_AGE_CALC` as a covariate. 
 
-
-``` r
+```{r, warning=FALSE}
 mediation_model <- mediate(mediator_model, outcome_model, treat = "PA_TOTAL_SHORT", mediator = "diabetes_t2", boot = TRUE, sims = 500)
-```
 
-```
-## Running nonparametric bootstrap
-```
-
-``` r
 summary(mediation_model)
-```
 
-```
-## 
-## Causal Mediation Analysis 
-## 
-## Nonparametric Bootstrap Confidence Intervals with the Percentile Method
-## 
-##                   Estimate 95% CI Lower 95% CI Upper p-value    
-## ACME            0.01575820  -0.01183003   0.01063997   0.956    
-## ADE            -0.01535558  -0.01779247  -0.01288291  <2e-16 ***
-## Total Effect    0.00040262  -0.02748004  -0.00416719   0.004 ** 
-## Prop. Mediated 39.13912053  -2.43384499   0.43086484   0.952    
-## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-## 
-## Sample Size Used: 26076 
-## 
-## 
-## Simulations: 500
-```
-
-``` r
 plot(mediation_model)
 ```
 
-![](mediation_files/figure-html/unnamed-chunk-12-1.png)<!-- -->
-
-
-``` r
+```{r, warning=FALSE, error = FALSE}
 mediation_table <- tbl_regression(mediation_model) 
-```
 
-```
-## ! `broom::tidy()` failed to tidy the model.
-```
-
-```
-## ✔ `tidy_parameters()` used instead.
-```
-
-```
-## ℹ Add `tidy_fun = broom.helpers::tidy_parameters` to quiet these messages.
-```
-
-```
-## ✖ Unable to identify the list of variables.
-## 
-## This is usually due to an error calling `stats::model.frame(x)`or `stats::model.matrix(x)`.
-## It could be the case if that type of model does not implement these methods.
-## Rarely, this error may occur if the model object was created within
-## a functional programming framework (e.g. using `lappy()`, `purrr::map()`, etc.).
-```
-
-``` r
 mediation_table %>% as_kable()
 ```
-
-
-
-|**Characteristic** | **Beta** |  **95% CI**  | **p-value** |
-|:------------------|:--------:|:------------:|:-----------:|
-|ACME               |   0.02   | -0.01, 0.01  |    >0.9     |
-|ADE                |  -0.02   | -0.02, -0.01 |   <0.001    |
-|Total Effect       |   0.00   | -0.03, 0.00  |    0.004    |
-|Prop. Mediated     |    39    |  -2.4, 0.43  |    >0.9     |
 
 ### Model interpretation
 
@@ -562,21 +244,11 @@ The outcome model is a model that considers our mediator of interest `diabetes` 
 
 Once analysts have estimated mediation effects, they should always explore how robust their finding is to the ignorability assumption. The `medsens()` function allows analysts to conduct sensitivity analyses for mediation effects. Next, we provide a demonstration of the functionality for the sensitivity analysis. Currently, mediation can conduct sensitivity analyses for the continuous–continuous case, the binary–continuous case, and the continuous–binary case. Make sure to use `lm` rather than `glm` for linear models.
 
-
-``` r
+```{r}
 sens_analysis <- medsens(mediation_model, sims = 500)
-```
 
-```
-## Warning in rho^2 * (1 - r.sq.m): Recycling array of length 1 in vector-array arithmetic is deprecated.
-##   Use c() or as.vector() instead.
-```
-
-``` r
 plot(sens_analysis)
 ```
-
-![](mediation_files/figure-html/unnamed-chunk-14-1.png)<!-- -->
 
 ## Mediation possibility
 
