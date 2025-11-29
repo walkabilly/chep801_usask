@@ -15,6 +15,6 @@ Week |	Topic |	Data Work
 9	|  Overview of Statistical Models | [Logistic Regression](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/logistic_regression_R.md)
 10	|  Reading Week  | 
 11	|  Interaction/Effect Measure Modification	| [Effect Measure Modification](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/interaction_effect_measure_modification.md)
-12	|  Mediation	| [Coming Soon]
+12	|  Mediation	| [Mediation](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/mediation.md)
 13	|  Special Topics	| [Coming Soon]
 13	|  Student Presentations	|
