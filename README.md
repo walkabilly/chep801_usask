@@ -3,6 +3,7 @@ output:
   html_document: default
   pdf_document: default
 ---
+
 # CHEP 801.3: Epidemiology II	
 
 This course is intended to build upon the foundational knowledge gained in CHEP 800 (Epidemiology) and CHEP 805 (Biostatistics) – building upon topics of bias, epidemiologic study design, inferential and descriptive statistics, and statistical model building. Course topics include: causation, bias, multivariable modelling, effect measure modification, mediation, study design, and “new” techniques in epidemiology (machine learning and predictive modelling). Methods of instruction will feature lectures and interactive lab sessions focused on the application of methods using the R statistical programming language. Focus will be on the understanding of modern epidemiological practice and analytical skills in order to conduct independent public health practice and research. 
@@ -58,20 +59,19 @@ __Requirements__
 
 Week |	Date |	Topic |	Data Work
 -----|-------|--------|-----------
-1	| September 10	| Intro/Epi Review 	| [Intro R](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/intro_to_R.md)
-2	| September 17	| Descriptive Epi and Study Design	| [Data Wrangling](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/data_wrangling_R.md)
-3	| September 24	| Bias	| [Data Visualization](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/data_visualization_R.md)
-4	| October 1	| Confounding	| [Quantitative Bias Adjustment](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/bias_analysis.md)
-5	| October 8	| Direct Acyclic Graphs (DAGs) | 	[Causal Quartet](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/causal_quartet_R.md) 
-6	| October 15	| Causal Inference | [Counterfactuals](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/counterfactuals_R.md)
-7	| October 22	| Missing Data	| [Missing Data](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/missing_data.md)
-8	| October 29	| Epi Communication	| [No Data Work]
-9	| November 5	| Overview of Statistical Models | [Logistic Regression](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/logistic_regression_R.md)
-10	| November 12 | Reading Week  | 
-11	| November 19	| Interaction/Effect Measure Modification	| [Effect Measure Modification](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/interaction_effect_measure_modification.md)
-12	| November 26	| Mediation	| [Mediation Analysis](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/mediation.md)
-13	| December 3	| Special Topics	| [Coming Soon]
-13	| December 10	| Student Presentations	|
+1	| September 9	| Intro/Epi Review 	| [Intro R](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/intro_to_R.md)
+2	| September 16	| Descriptive Epi and Study Design	| [Data Wrangling](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/data_wrangling_R.md)
+3	| September 23	| Bias	| [Data Visualization](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/data_visualization_R.md)
+4	| September 29 (Proposed)	| Confounding	| [Quantitative Bias Adjustment](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/bias_analysis.md)
+5	| October 14	| Direct Acyclic Graphs (DAGs) | 	[Causal Quartet](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/causal_quartet_R.md) 
+6	| October 21	| Causal Inference | [Counterfactuals](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/counterfactuals_R.md)
+7	| October 28	| Missing Data	| [Missing Data](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/missing_data.md)
+8	| November 4	| Epi Communication	| [No Data Work]
+9	| November 11 | Reading Week  | 
+10	| November 18	| Overview of Statistical Models | [Logistic Regression](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/logistic_regression_R.md)
+11	| November 25	| Interaction/Effect Measure Modification	| [Effect Measure Modification](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/interaction_effect_measure_modification.md)
+12	| December 2	| Mediation	| [Mediation Analysis](https://github.com/walkabilly/chep801_usask/blob/main/Data%20Work/mediation.md)
+13	| December 9	| Student Presentations	|
 * Subject to change depending on speed
 
 # Required Resources
