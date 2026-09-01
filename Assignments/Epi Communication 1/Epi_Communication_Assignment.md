@@ -18,14 +18,20 @@ output:
 
 The following analysis uses the Can-Path Dataset available in Canvas.  
 
-One of your biostatistician staff has conducted an analysis examining the association between different social and behavioural factors on Body Mass Index using the Can-Path dataset. Your goal as a epidemiologist is to use the analysis provided and develop a one page communication report/document to communicate the beginning of health promotion strategy for your region. You can write text, develop an infographic, and use outside knowledge to support the development of your report. You can also use figures or tables that are available in the analysis as part of the one page document. 
+One of your biostatistician staff has conducted an analysis examining the association between different social and behavioural factors on Body Mass Index using the Can-Path dataset. Your goal as a epidemiologist is to use the analysis provided and develop one of the following 
 
-Example documents you could use for inspiration include: 
-
-- [Canada’s Guidance on Alcohol and Health](https://ccsa.ca/canadas-guidance-alcohol-and-health)
-- [Describing Epidemiologic Data](https://www.cdc.gov/eis/field-epi-manual/chapters/Describing-Epi-Data.html)
-- [Using Social Determinants of Health Data to Generate Value](https://hitconsultant.net/2018/06/08/social-determinants-of-health-2/)
-- [HIV Transmission from Mother to Child](https://www.nichd.nih.gov/newsroom/digital-media/infographics/HIV-AIDS)
+1. A one page communication report/document to communicate the beginning of health promotion strategy for your region. You can write text, develop an infographic, and use outside knowledge to support the development of your report. You can also use figures or tables that are available in the analysis as part of the one page document. 
+    * Example documents you could use for inspiration include: 
+        * [Canada’s Guidance on Alcohol and Health](https://ccsa.ca/canadas-guidance-alcohol-and-health)
+        * [Describing Epidemiologic Data](https://www.cdc.gov/eis/field-epi-manual/chapters/Describing-Epi-Data.html)
+        * [Using Social Determinants of Health Data to Generate Value](https://hitconsultant.net/2018/06/08/social-determinants-of-health-2/)
+        * [HIV Transmission from Mother to Child](https://www.nichd.nih.gov/newsroom/digital-media/infographics/HIV-AIDS)
+2. A 60 second short form video explaining the evidence that is presented in the analysis document. The video should be intended for a general audience in an accessible format (think a tiktok style video)
+    * Example videos you could use for inspiration include: 
+        * [Arthritis and Weight Change](https://www.youtube.com/shorts/eY16nTtPz-c)
+        * [Smoking Cessation](https://www.youtube.com/shorts/7mVcanA7xUg)
+        * [Anxiety](https://www.youtube.com/shorts/voViMILpvws)
+        * [How to improve mental health](https://www.youtube.com/shorts/DpTwMI9iJms)
 
 It is crucial when discussing obesity and weight status that we avoid adding to stigma as researchers and epidemiologists. There are a number of health consequences to weight stigma that we must attempt to avoid. At the same time, we need to work with people to try and improve health. Some resources here: 
 
@@ -284,6 +290,16 @@ Below is the same model output but includes the model descriptive statistics
 |6_4 to 5 times a week       |   -1.3   | -1.6, -0.90  |   <0.001    |
 |7_6 to 7 times a week       |   -1.0   | -1.4, -0.63  |   <0.001    |
 |FRUIT_VEG                   |  -0.11   | -0.14, -0.08 |   <0.001    |
+
+```
+## Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
+## ℹ Please use `linewidth` instead.
+## ℹ The deprecated feature was likely used in the sjPlot package.
+##   Please report the issue at <https://github.com/strengejacke/sjPlot/issues>.
+## This warning is displayed once per session.
+## Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
+## generated.
+```
 
 ![](Epi_Communication_Assignment_files/figure-html/unnamed-chunk-17-1.png)<!-- -->
 
