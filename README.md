@@ -104,37 +104,37 @@ Total	| 100%
 ## Evaluation Components
 ### Assignment 1:  Data Wrangling and Descriptive Statistics   
 Value: 		10% of final grade  
-Due Date: 	September 26, 2025
+Due Date: 	September 25, 2026
 Description: 	Students will analyze a dataset and provide descriptive statistics in a report format.  
 
 ### Assignment 2:  Bias
 Value: 		15% of final grade  
-Due Date: 	October 10, 2025 
+Due Date: 	October 9, 2026      
 Description: 	Students will perform the detection and description of selection and information bias and evaluate the extent of bias.   
 
 ### Assignment 3:  DAG
 Value: 		15% of final grade  
-Due Date: 	October 31, 2025
+Due Date: 	October 23, 2026    
 Description: 	Students will structurally evaluate confounding and bias using Directed Acyclic Graph.   
 
 ### Assignment 4:  Epi communication 1
 Value: 		15% of final grade  
-Due Date: November 14, 2025
+Due Date: November 7, 2026     
 Description: 	Students will interpret and create a written communication document from the results of a regression analysis.   
 
 ### Assignment 5:  Logistic regression and confounding 
 Value: 		15% of final grade  
-Due Date: 	November 28, 2025  
+Due Date: 	November 21, 2026    
 Description: 	Students will perform model fitting and diagnosis for logistic regression, followed by the investigation, interpretation, and visualization of confounding.  
 
 ### Assignment 6:  Linear regression and effect measure modification
 Value: 		15% of final grade  
-Due Date: 	December 12, 2024  
+Due Date: 	December 6, 2026   
 Description:    Students will perform model fitting and diagnosis for linear regression, followed by the investigation, interpretation, and visualization of interaction and effect measure modification.   
 
 ### Assignment 7:  Epi communication 2
 Value: 		15% of final grade  
-Due Date:  December 10, 2024  
+Due Date:  December 9, 2026    
 Description: 	Students will present on an epidemiological topic of interest to them and provide critical information for communicating to different interest groups in public health.   
 
 ## Course Data
