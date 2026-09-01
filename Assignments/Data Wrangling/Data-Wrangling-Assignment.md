@@ -1,12 +1,13 @@
 ---
 title: "Data Wrangling Assignment"
 output:
-      html_document:
-        keep_md: true
+  html_document:
+    keep_md: yes
+  pdf_document: default
 ---
 
 
-```r
+``` r
 knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
 library(pastecs)
@@ -18,11 +19,6 @@ library(knitr)
 ## General instructions
 
 You must submit the following. 
-
-**Stata**
-
-* Stata Do File using Stata Markdown format
-* Report in HTML or PDF from generated Stata Markdown file
 
 **R**
 

@@ -1,9 +1,9 @@
 ---
 title: "Data Wrangling Assignment"
 output:
-  pdf_document: default
   html_document:
     keep_md: yes
+  pdf_document: default
 ---
 
 ```{r setup, include=TRUE, warning=FALSE, message=FALSE}
@@ -18,11 +18,6 @@ library(knitr)
 ## General instructions
 
 You must submit the following. 
-
-**Stata**
-
-* Stata Do File using Stata Markdown format
-* Report in HTML or PDF from generated Stata Markdown file
 
 **R**
 

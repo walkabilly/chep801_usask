@@ -2,10 +2,10 @@
 title: "Epi Communication 1"
 author: "Daniel Fuller"
 output:
+  pdf_document: default
+  word_document: default
   html_document:
     keep_md: yes
-  word_document: default
-  pdf_document: default
 ---
 
 ```{r setup, include=FALSE}
