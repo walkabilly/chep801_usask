@@ -119,17 +119,17 @@ Description: 	Students will structurally evaluate confounding and bias using Dir
 
 ### Assignment 4:  Epi communication 1
 Value: 		15% of final grade  
-Due Date: November 7, 2026     
+Due Date: November 6, 2026     
 Description: 	Students will interpret and create a written communication document from the results of a regression analysis.   
 
 ### Assignment 5:  Logistic regression and confounding 
 Value: 		15% of final grade  
-Due Date: 	November 21, 2026    
+Due Date: 	November 20, 2026    
 Description: 	Students will perform model fitting and diagnosis for logistic regression, followed by the investigation, interpretation, and visualization of confounding.  
 
 ### Assignment 6:  Linear regression and effect measure modification
 Value: 		15% of final grade  
-Due Date: 	December 6, 2026   
+Due Date: 	December 4, 2026   
 Description:    Students will perform model fitting and diagnosis for linear regression, followed by the investigation, interpretation, and visualization of interaction and effect measure modification.   
 
 ### Assignment 7:  Epi communication 2
