@@ -151,7 +151,7 @@ summarize price
 __R__
 
 
-```r
+``` r
 data <- read_csv("CANPATH_data_wrangling.csv")
 ```
 
@@ -166,7 +166,7 @@ data <- read_csv("CANPATH_data_wrangling.csv")
 ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 ```
 
-```r
+``` r
 glimpse(data)
 ```
 

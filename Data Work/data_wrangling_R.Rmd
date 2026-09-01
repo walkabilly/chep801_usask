@@ -142,16 +142,18 @@ epitab(gender_fv_table, method = "oddsratio")
 
 #### Epitab expects
 
+|  |  |  | | 
+--- | --- | --- | ---
 | --- | --- | Disease | --- | 
-| --- | --- | --- | --- | --- |
 | --- | --- | No (REF) | Yes |
 | Exposure | Level 1 (REF) | a | b | 
 | --- | Level 2 | c | d | 
 
 #### We gave it 
 
+|  |  |  |  | 
+--- | --- | --- | ---
 | --- | --- | Disease | --- | 
-| --- | --- | --- | --- | --- |
 | --- | --- | Yes  | No (REF) |
 | Exposure | Level 1 (REF) | b | a | 
 | --- | Level 2 | d | c | 

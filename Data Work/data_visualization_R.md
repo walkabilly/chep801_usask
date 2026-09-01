@@ -22,18 +22,19 @@ ggplot2 is built on things called *geoms* which represent different types of plo
 #### Histograms
 
 
-```r
+``` r
 pa_histo <- ggplot(data, aes(PA_TOTAL_SHORT)) + 
               geom_histogram()
 plot(pa_histo)
 ```
 
 ```
-## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+## `stat_bin()` using `bins = 30`. Pick better value `binwidth`.
 ```
 
 ```
-## Warning: Removed 6763 rows containing non-finite values (`stat_bin()`).
+## Warning: Removed 6763 rows containing non-finite outside the scale range
+## (`stat_bin()`).
 ```
 
 ![](data_visualization_R_files/figure-html/unnamed-chunk-1-1.png)<!-- -->
@@ -41,14 +42,15 @@ plot(pa_histo)
 Here *ggplot2* is gives us a warning because the binwidth might not be appropriate. We can pick another binwidth. 
 
 
-```r
+``` r
 pa_histo_bin_100 <- ggplot(data, aes(PA_TOTAL_SHORT)) + 
               geom_histogram(binwidth = 100)
 plot(pa_histo_bin_100)
 ```
 
 ```
-## Warning: Removed 6763 rows containing non-finite values (`stat_bin()`).
+## Warning: Removed 6763 rows containing non-finite outside the scale range
+## (`stat_bin()`).
 ```
 
 ![](data_visualization_R_files/figure-html/unnamed-chunk-2-1.png)<!-- -->
@@ -58,7 +60,7 @@ plot(pa_histo_bin_100)
 People get stuck in R making bar graphs because they are used to Excel and only have the mean value of a given column then making the bar graph from that mean column. It's always questionnable whether you should be making a bar graph, but if you really need to here is how you can do it in R. 
 
 
-```r
+``` r
 # Recoding income here so we can see the levels more easily
 
 data <- data %>%
@@ -110,7 +112,7 @@ table(data$SDC_INCOME, data$income_recode)
 ```
 
 
-```r
+``` r
 bar_income <- ggplot(data, aes(income_recode)) + 
                 geom_bar() + 
                 labs(x = "Income Categories") + 
@@ -123,7 +125,7 @@ plot(bar_income)
 #### Single variable boxplots
 
 
-```r
+``` r
 boxplot <- ggplot(data, aes(PA_TOTAL_SHORT)) + 
               geom_boxplot() + 
               coord_flip()  # Here we add coord_flip function to make the boxplot more as we would expect
@@ -131,7 +133,8 @@ plot(boxplot)
 ```
 
 ```
-## Warning: Removed 6763 rows containing non-finite values (`stat_boxplot()`).
+## Warning: Removed 6763 rows containing non-finite outside the scale range
+## (`stat_boxplot()`).
 ```
 
 ![](data_visualization_R_files/figure-html/unnamed-chunk-5-1.png)<!-- -->
@@ -141,14 +144,15 @@ plot(boxplot)
 Scatterplots plot the relationship between two variables. There are lots of things we can do and we will build a plot sequentially. We are going to plot the relationship between age and physical activity (two continuous variables). 
 
 
-```r
+``` r
 scatter_plot <- ggplot(data, aes(x = SDC_AGE_CALC, y = PA_TOTAL_SHORT)) + 
                   geom_point()
 plot(scatter_plot)
 ```
 
 ```
-## Warning: Removed 6763 rows containing missing values (`geom_point()`).
+## Warning: Removed 6763 rows containing missing values or values outside the scale range
+## (`geom_point()`).
 ```
 
 ![](data_visualization_R_files/figure-html/unnamed-chunk-6-1.png)<!-- -->
@@ -160,7 +164,7 @@ Common things you will see with a scatter plot including the following
 Here we add another *geom* on top of the *geom_point* to start building our plot. We will use *geom_smooth* to add a line. The default in R is a lowess smoother. You can also add a linear regression line. I'm also changing the colour so we can see the difference between the two lines. It's best to use hexcodes for colours but we can also just use words. 
 
 
-```r
+``` r
 scatter_plot_line <- ggplot(data, aes(x = SDC_AGE_CALC, y = PA_TOTAL_SHORT)) + 
                   geom_point() + 
                   geom_smooth(colour = "red") + 
@@ -173,7 +177,8 @@ plot(scatter_plot_line)
 ```
 
 ```
-## Warning: Removed 6763 rows containing non-finite values (`stat_smooth()`).
+## Warning: Removed 6763 rows containing non-finite outside the scale range
+## (`stat_smooth()`).
 ```
 
 ```
@@ -181,11 +186,13 @@ plot(scatter_plot_line)
 ```
 
 ```
-## Warning: Removed 6763 rows containing non-finite values (`stat_smooth()`).
+## Warning: Removed 6763 rows containing non-finite outside the scale range
+## (`stat_smooth()`).
 ```
 
 ```
-## Warning: Removed 6763 rows containing missing values (`geom_point()`).
+## Warning: Removed 6763 rows containing missing values or values outside the scale range
+## (`geom_point()`).
 ```
 
 ![](data_visualization_R_files/figure-html/unnamed-chunk-7-1.png)<!-- -->
@@ -193,7 +200,7 @@ plot(scatter_plot_line)
 #### Changing the variable names
 
 
-```r
+``` r
 scatter_plot_variables <- ggplot(data, aes(x = SDC_AGE_CALC, y = PA_TOTAL_SHORT)) + 
                   geom_point() + 
                   geom_smooth(colour = "red") + 
@@ -207,7 +214,8 @@ plot(scatter_plot_variables)
 ```
 
 ```
-## Warning: Removed 6763 rows containing non-finite values (`stat_smooth()`).
+## Warning: Removed 6763 rows containing non-finite outside the scale range
+## (`stat_smooth()`).
 ```
 
 ```
@@ -215,11 +223,13 @@ plot(scatter_plot_variables)
 ```
 
 ```
-## Warning: Removed 6763 rows containing non-finite values (`stat_smooth()`).
+## Warning: Removed 6763 rows containing non-finite outside the scale range
+## (`stat_smooth()`).
 ```
 
 ```
-## Warning: Removed 6763 rows containing missing values (`geom_point()`).
+## Warning: Removed 6763 rows containing missing values or values outside the scale range
+## (`geom_point()`).
 ```
 
 ![](data_visualization_R_files/figure-html/unnamed-chunk-8-1.png)<!-- -->
@@ -229,7 +239,7 @@ plot(scatter_plot_variables)
 We can use *alpha* to change the shading of the points. This lets use quickly avoid overplotting with lots of overlapping points. We need to play with this a bit. A good place to start is 0.5 and go from there. I ended up at 0.2 which I think shows the mass of data points and avoids too much emphasis on the outlier points. 
 
 
-```r
+``` r
 scatter_plot_alpha <- ggplot(data, aes(x = SDC_AGE_CALC, y = PA_TOTAL_SHORT)) + 
                   geom_point(alpha = 0.2) + 
                   geom_smooth(colour = "red") + 
@@ -243,7 +253,8 @@ plot(scatter_plot_alpha)
 ```
 
 ```
-## Warning: Removed 6763 rows containing non-finite values (`stat_smooth()`).
+## Warning: Removed 6763 rows containing non-finite outside the scale range
+## (`stat_smooth()`).
 ```
 
 ```
@@ -251,11 +262,13 @@ plot(scatter_plot_alpha)
 ```
 
 ```
-## Warning: Removed 6763 rows containing non-finite values (`stat_smooth()`).
+## Warning: Removed 6763 rows containing non-finite outside the scale range
+## (`stat_smooth()`).
 ```
 
 ```
-## Warning: Removed 6763 rows containing missing values (`geom_point()`).
+## Warning: Removed 6763 rows containing missing values or values outside the scale range
+## (`geom_point()`).
 ```
 
 ![](data_visualization_R_files/figure-html/unnamed-chunk-9-1.png)<!-- -->
@@ -265,7 +278,7 @@ plot(scatter_plot_alpha)
 One of the best things about ggplot2 is the ability to easily *group_by* like we would do with data wrangling. We do this by adding groupings (colouring by a variable) or facets (creating separate plots). Here we want to group by gender to see if there are visual differences between genders in the age-PA association. 
 
 
-```r
+``` r
 # Recoding gender here so we can see the man/women in the plot instead of 1 and 2
 
 data <- data %>%
@@ -277,7 +290,7 @@ data <- data %>%
 
 Colouring by gender
 
-```r
+``` r
 scatter_plot_gender <- ggplot(data, aes(x = SDC_AGE_CALC, y = PA_TOTAL_SHORT, colour = gender_recode)) + 
                   geom_point(alpha = 0.2) + 
                   labs(x = "Age", y = "Physical Activity", fill = "Gender") 
@@ -285,14 +298,20 @@ plot(scatter_plot_gender)
 ```
 
 ```
-## Warning: Removed 6763 rows containing missing values (`geom_point()`).
+## Ignoring unknown labels:
+## • fill : "Gender"
+```
+
+```
+## Warning: Removed 6763 rows containing missing values or values outside the scale range
+## (`geom_point()`).
 ```
 
 ![](data_visualization_R_files/figure-html/unnamed-chunk-11-1.png)<!-- -->
 
 Faceting by gender
 
-```r
+``` r
 scatter_plot_gender <- ggplot(data, aes(x = SDC_AGE_CALC, y = PA_TOTAL_SHORT)) + 
                   geom_point(alpha = 0.2) + 
                   labs(x = "Age", y = "Physical Activity") +
@@ -301,7 +320,8 @@ plot(scatter_plot_gender)
 ```
 
 ```
-## Warning: Removed 6763 rows containing missing values (`geom_point()`).
+## Warning: Removed 6763 rows containing missing values or values outside the scale range
+## (`geom_point()`).
 ```
 
 ![](data_visualization_R_files/figure-html/unnamed-chunk-12-1.png)<!-- -->
@@ -318,7 +338,7 @@ There are two themes I use regularly; *classic* and *bw*. Classic provides a cle
 **Black and White Theme**
 
 
-```r
+``` r
 scatter_plot_bw <- ggplot(data, aes(x = SDC_AGE_CALC, y = PA_TOTAL_SHORT, colour = gender_recode)) + 
                   geom_point(alpha = 0.2) + 
                   labs(x = "Age", y = "Physical Activity", colour = "Gender") +
@@ -327,7 +347,8 @@ plot(scatter_plot_bw)
 ```
 
 ```
-## Warning: Removed 6763 rows containing missing values (`geom_point()`).
+## Warning: Removed 6763 rows containing missing values or values outside the scale range
+## (`geom_point()`).
 ```
 
 ![](data_visualization_R_files/figure-html/unnamed-chunk-13-1.png)<!-- -->
@@ -335,7 +356,7 @@ plot(scatter_plot_bw)
 **Classic Theme**
 
 
-```r
+``` r
 scatter_plot_classic <- ggplot(data, aes(x = SDC_AGE_CALC, y = PA_TOTAL_SHORT, colour = gender_recode)) + 
                   geom_point(alpha = 0.2) + 
                   labs(x = "Age", y = "Physical Activity", colour = "Gender") +
@@ -344,7 +365,8 @@ plot(scatter_plot_classic)
 ```
 
 ```
-## Warning: Removed 6763 rows containing missing values (`geom_point()`).
+## Warning: Removed 6763 rows containing missing values or values outside the scale range
+## (`geom_point()`).
 ```
 
 ![](data_visualization_R_files/figure-html/unnamed-chunk-14-1.png)<!-- -->
@@ -354,7 +376,7 @@ plot(scatter_plot_classic)
 There are lots of default colours in R. The basic functions are *scale_colour* and *scale_fill*. We didn't talk about this much but colour and fill are different based what you are filling. If we go back to the gender colouring we can use different functions to change the colours. The colour brewer colours [https://colorbrewer2.org/](https://colorbrewer2.org/) using *scale_colour_brewer* or *scale_fill_brewer* for sensible default colours. 
 
 
-```r
+``` r
 scatter_plot_gender_brewer <- ggplot(data, aes(x = SDC_AGE_CALC, y = PA_TOTAL_SHORT, colour = gender_recode)) + 
                   geom_point(alpha = 0.2) + 
                   scale_colour_manual(values = c("#E69F00", "#56B4E9")) +
@@ -363,7 +385,8 @@ plot(scatter_plot_gender_brewer)
 ```
 
 ```
-## Warning: Removed 6763 rows containing missing values (`geom_point()`).
+## Warning: Removed 6763 rows containing missing values or values outside the scale range
+## (`geom_point()`).
 ```
 
 ![](data_visualization_R_files/figure-html/unnamed-chunk-15-1.png)<!-- -->

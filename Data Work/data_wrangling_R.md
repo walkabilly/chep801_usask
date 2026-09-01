@@ -99,7 +99,7 @@ summary(data$NUT_VEG_QTY)
 ```
 
 ```
-##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.     NAs 
 ##   0.000   2.000   2.000   2.672   3.000  35.000    2549
 ```
 
@@ -108,7 +108,7 @@ summary(data$NUT_FRUITS_QTY)
 ```
 
 ```
-##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.     NAs 
 ##   0.000   1.000   2.000   2.132   3.000  25.000    2426
 ```
 
@@ -122,7 +122,7 @@ summary(data$fruit_veg_tot)
 ```
 
 ```
-##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.     NAs 
 ##   0.000   3.000   4.000   4.816   6.000  55.000    2908
 ```
 
@@ -211,7 +211,7 @@ summary(data$PA_TOTAL_SHORT)
 ```
 
 ```
-##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.     NAs 
 ##       0     600    1782    2574    3732   19278    6763
 ```
 
@@ -250,7 +250,7 @@ summary(data$fruit_veg_tot)
 ```
 
 ```
-##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.     NAs 
 ##   0.000   3.000   4.000   4.816   6.000  55.000    2908
 ```
 
