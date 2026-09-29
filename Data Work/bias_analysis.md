@@ -8,7 +8,7 @@ output:
 ## Bias Analysis
 
 
-```r
+``` r
 knitr::opts_chunk$set(echo = TRUE)
 library(ggdag)
 library(episensr) 
@@ -16,31 +16,6 @@ library(htmlTable)
 library(tidyverse)
 library(knitr)
 library(epitools)
-```
-
-### Loading the data
-
-```r
-data <- read_csv("Data.csv")
-```
-
-```
-## Warning: One or more parsing issues, call `problems()` on your data frame for details,
-## e.g.:
-##   dat <- vroom(...)
-##   problems(dat)
-```
-
-```
-## Rows: 41187 Columns: 440
-## ── Column specification ────────────────────────────────────────────────────────
-## Delimiter: ","
-## chr   (5): ID, MSD11_PR, MSD11_REG, MSD11_ZONE, MSD11_CMA
-## dbl (425): ADM_STUDY_ID, SDC_GENDER, SDC_AGE_CALC, SDC_MARITAL_STATUS, SDC_E...
-## lgl  (10): DIS_MH_BIPOLAR_EVER, DIS_GEN_DS_EVER, DIS_GEN_SCA_EVER, DIS_GEN_T...
-## 
-## ℹ Use `spec()` to retrieve the full column specification for this data.
-## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 ```
 
 ### Bias analysis 
@@ -66,7 +41,7 @@ The various episensr functions return an object which is a list containing the i
 The 2X2 table is provided as a matrix and selection probabilities given with the argument bias_parms, a vector with the 4 probabilities (guided by the participation rates in cases and controls) in the following order: among cases exposed, among cases unexposed, among noncases exposed, and among noncases unexposed. The output shows the observed 2X2 table and the observed odds ratio (and relative risk), followed by the corrected ones.
 
 
-```r
+``` r
 # Lines below just creates example tables 
 contingencyTable <- data.frame(Outcome_Yes = c("a", "c"), Outcome_No = c("b", "d"))
 rownames(contingencyTable) <- c("Exposure_yes", "Exposure_No")
@@ -102,7 +77,7 @@ Table cell labels</td></tr>
 </table>
 
 
-```r
+``` r
 probTable %>% 
   addHtmlTableStyle(css.cell = c("width: 140;","width: 140;")) %>% 
   htmlTable(caption = "Table of selection probabilities") 
@@ -142,7 +117,7 @@ Here is an example usage of `episensr`'s `selection` bias function.If all select
 ### Stang paper assuming no bias
 
 
-```r
+``` r
 stang_no_bias <- selection(matrix(c(136, 107, 297, 165),
                           dimnames = list(c("UM+", "UM-"), c("Mobile+", "Mobile-")),
                           nrow = 2, byrow = TRUE),
@@ -151,18 +126,39 @@ stang_no_bias
 ```
 
 ```
-## --Observed data-- 
-##          Outcome: UM+ 
-##        Comparing: Mobile+ vs. Mobile- 
 ## 
+```
+
+```
+## ── Observed data ───────────────────────────────────────────────────────────────
+```
+
+```
+## • Outcome: UM+
+```
+
+```
+## • Comparing: Mobile+ vs. Mobile-
+```
+
+```
+## 
+```
+
+```
 ##     Mobile+ Mobile-
 ## UM+     136     107
 ## UM-     297     165
-## 
 ##                                        2.5%     97.5%
 ## Observed Relative Risk: 0.7984287 0.6518303 0.9779975
 ##    Observed Odds Ratio: 0.7061267 0.5143958 0.9693215
-## ---
+```
+
+```
+## ── Bias-adjusted measures ──
+```
+
+```
 ##                                                  
 ## Selection Bias Corrected Relative Risk: 0.7984287
 ##    Selection Bias Corrected Odds Ratio: 0.7061267
@@ -177,7 +173,7 @@ In the Stang paper there are substantial difference in participation rates betwe
 So we can adjust the estimates by response rate, to try and understand the impact of selection bias. 
 
 
-```r
+``` r
 stang <- selection(matrix(c(136, 107, 297, 165),
                           dimnames = list(c("UM+", "UM-"), c("Mobile+", "Mobile-")),
                           nrow = 2, byrow = TRUE),
@@ -186,18 +182,35 @@ stang
 ```
 
 ```
-## --Observed data-- 
-##          Outcome: UM+ 
-##        Comparing: Mobile+ vs. Mobile- 
+## ── Observed data ───────────────────────────────────────────────────────────────
+```
+
+```
+## • Outcome: UM+
+```
+
+```
+## • Comparing: Mobile+ vs. Mobile-
+```
+
+```
 ## 
+```
+
+```
 ##     Mobile+ Mobile-
 ## UM+     136     107
 ## UM-     297     165
-## 
 ##                                        2.5%     97.5%
 ## Observed Relative Risk: 0.7984287 0.6518303 0.9779975
 ##    Observed Odds Ratio: 0.7061267 0.5143958 0.9693215
-## ---
+```
+
+```
+## ── Bias-adjusted measures ──
+```
+
+```
 ##                                                 
 ## Selection Bias Corrected Relative Risk: 1.483780
 ##    Selection Bias Corrected Odds Ratio: 1.634608
@@ -213,7 +226,7 @@ We can play with this a bit a do some senstivity analyses. What if they probabli
 
 
 
-```r
+``` r
 stang_sensitivity <- selection(matrix(c(136, 107, 297, 165),
                           dimnames = list(c("UM+", "UM-"), c("Mobile+", "Mobile-")),
                           nrow = 2, byrow = TRUE),
@@ -222,18 +235,35 @@ stang_sensitivity
 ```
 
 ```
-## --Observed data-- 
-##          Outcome: UM+ 
-##        Comparing: Mobile+ vs. Mobile- 
+## ── Observed data ───────────────────────────────────────────────────────────────
+```
+
+```
+## • Outcome: UM+
+```
+
+```
+## • Comparing: Mobile+ vs. Mobile-
+```
+
+```
 ## 
+```
+
+```
 ##     Mobile+ Mobile-
 ## UM+     136     107
 ## UM-     297     165
-## 
 ##                                        2.5%     97.5%
 ## Observed Relative Risk: 0.7984287 0.6518303 0.9779975
 ##    Observed Odds Ratio: 0.7061267 0.5143958 0.9693215
-## ---
+```
+
+```
+## ── Bias-adjusted measures ──
+```
+
+```
 ##                                                  
 ## Selection Bias Corrected Relative Risk: 0.7244325
 ##    Selection Bias Corrected Odds Ratio: 0.6385188
@@ -246,31 +276,48 @@ Misclassification bias can be assessed with the function misclassification. Conf
 Similar to the selection bias example we can input the sensivity and specificity of the measures in the `bias_parms` function. Here were are saying they are 1 (ie., perfect measures).
 
 
-```r
-misclassification(matrix(c(126, 92, 71, 224),
+``` r
+misclass(matrix(c(126, 92, 71, 224),
                          dimnames = list(c("Case", "Control"),
                                          c("Smoking +", "Smoking - ")),
                          nrow = 2, byrow = TRUE),
-                  type = "outcome",
+                  type = "exposure",
                   bias_parms = c(1, 1, 1, 1))
 ```
 
 ```
-## --Observed data-- 
-##          Outcome: Case 
-##        Comparing: Smoking + vs. Smoking -  
+## ── Observed data ───────────────────────────────────────────────────────────────
+```
+
+```
+## • Outcome: Case
+```
+
+```
+## • Comparing: Smoking + vs. Smoking -
+```
+
+```
 ## 
+```
+
+```
 ##         Smoking + Smoking - 
 ## Case          126         92
 ## Control        71        224
-## 
 ##                                      2.5%    97.5%
 ## Observed Relative Risk: 2.196866 1.796016 2.687181
 ##    Observed Odds Ratio: 4.320882 2.958402 6.310846
-## ---
-##                                                         
-## Misclassification Bias Corrected Relative Risk: 2.196866
-##    Misclassification Bias Corrected Odds Ratio: 4.320882
+```
+
+```
+## ── Bias-adjusted measures ──
+```
+
+```
+##                                                              2.5%    97.5%
+## Misclassification Bias Corrected Relative Risk: 2.196866                  
+##    Misclassification Bias Corrected Odds Ratio: 4.320882 2.958402 6.310846
 ```
 
 Now, let’s say the sensitivity of self-reported smoking is 94% and specificity is 97%, for both the case and control groups. From the [Chu et al.](https://doi.org/10.1016/j.annepidem.2006.04.001) paper.
@@ -278,8 +325,8 @@ Now, let’s say the sensitivity of self-reported smoking is 94% and specificity
 > The corrected OR increases to 5.02, which is 21% [= (4.02 − 3.32)/3.32] greater than the uncorrected OR. For this example, the nondifferential misclassification causes a notable bias toward the null, even for the very high Se and Sp. Furthermore, the 95% interval for the corrected OR is widened to (3.28 to 7.69), which is 10% [= (7.69/3.28)/(6.31/2.96) − 1] wider than the 95% interval for the uncorrected OR.
 
 
-```r
-misclassification(matrix(c(126, 92, 71, 224),
+``` r
+misclass(matrix(c(126, 92, 71, 224),
                          dimnames = list(c("Case", "Control"),
                                          c("Smoking +", "Smoking - ")),
                          nrow = 2, byrow = TRUE),
@@ -288,18 +335,35 @@ misclassification(matrix(c(126, 92, 71, 224),
 ```
 
 ```
-## --Observed data-- 
-##          Outcome: Case 
-##        Comparing: Smoking + vs. Smoking -  
+## ── Observed data ───────────────────────────────────────────────────────────────
+```
+
+```
+## • Outcome: Case
+```
+
+```
+## • Comparing: Smoking + vs. Smoking -
+```
+
+```
 ## 
+```
+
+```
 ##         Smoking + Smoking - 
 ## Case          126         92
 ## Control        71        224
-## 
 ##                                      2.5%    97.5%
 ## Observed Relative Risk: 2.196866 1.796016 2.687181
 ##    Observed Odds Ratio: 4.320882 2.958402 6.310846
-## ---
+```
+
+```
+## ── Bias-adjusted measures ──
+```
+
+```
 ##                                                              2.5%    97.5%
 ## Misclassification Bias Corrected Relative Risk: 2.377254                  
 ##    Misclassification Bias Corrected Odds Ratio: 5.024508 3.282534 7.690912
@@ -311,116 +375,151 @@ Here we have the relative risk and OR for various probabilities accounting for m
 
 ##### Non-differential missclassification
 
-```r
+``` r
+set.seed(100)
+
  probsens(matrix(c(126, 92, 71, 224),
     dimnames = list(c("Case", "Control"), c("Smoke+", "Smoke-")), nrow = 2, byrow = TRUE),
     type = "exposure",
-    reps = 20000,
-    seca.parms = list("trapezoidal", c(.75, .85, .95, 1)),
-    spca.parms = list("trapezoidal", c(.75, .85, .95, 1)))
+    reps = 1000,
+    seca = list("trapezoidal", c(.75, .85, .95, 1)),
+    spca = list("trapezoidal", c(.75, .85, .95, 1)))
 ```
 
 ```
-## Chosen prior Se/Sp distributions lead to 55 negative adjusted counts which were discarded.
+## ℹ Calculating observed measures
 ```
 
 ```
-## --Observed data-- 
-##          Outcome: Case 
-##        Comparing: Smoke+ vs. Smoke- 
+## ⠙ Assign probability distributions✔ Assign probability distributions [7ms]
+## ⠙ Simple bias analysis✔ Simple bias analysis [5ms]
+## ⠙ Incorporating random error                             ! Chosen Se/Sp distributions lead to 4 impossible values which were discarded.
+## ⠙ Incorporating random error✔ Incorporating random error [10ms]
 ## 
+## ── Observed data ───────────────────────────────────────────────────────────────
+## • Outcome: Case
+## • Comparing: Smoke+ vs. Smoke-
+```
+
+```
 ##         Smoke+ Smoke-
 ## Case       126     92
 ## Control     71    224
-## 
 ##                                       2.5%    97.5%
 ##  Observed Relative Risk: 2.196866 1.796016 2.687181
 ##     Observed Odds Ratio: 4.320882 2.958402 6.310846
-## ---
-##                                                  Median 2.5th percentile
-##            Relative Risk -- systematic error:  2.837336         2.367349
-##               Odds Ratio -- systematic error:  7.798096         5.046733
-## Relative Risk -- systematic and random error:  2.848993         2.148550
-##    Odds Ratio -- systematic and random error:  7.952874         4.280031
-##                                               97.5th percentile
-##            Relative Risk -- systematic error:          3.745682
-##               Odds Ratio -- systematic error:         36.495609
-## Relative Risk -- systematic and random error:          4.011928
-##    Odds Ratio -- systematic and random error:         38.294476
+```
+
+```
+## ── Bias-adjusted measures ──
+```
+
+```
+##                                       Median      p2.5     p97.5
+## Relative Risk -- systematic error:  2.811296  2.363242  3.757891
+##                       total error:  2.839520  2.117552  4.161556
+##    Odds Ratio -- systematic error:  7.607217  5.038172 33.850653
+##                       total error:  7.856940  4.094738 38.911717
 ```
 
 ##### Non-differential missclassification
 
-```r
+``` r
+set.seed(100)
+
 probsens(matrix(c(45, 94, 257, 945),
     dimnames = list(c("BC+", "BC-"), c("Smoke+", "Smoke-")), nrow = 2, byrow = TRUE),
     type = "exposure",
-    reps = 20000,
-    seca.parms = list("trapezoidal", c(.75, .85, .95, 1)),
-    seexp.parms = list("trapezoidal", c(.7, .8, .9, .95)),
-    spca.parms = list("trapezoidal", c(.75, .85, .95, 1)),
-    spexp.parms = list("trapezoidal", c(.7, .8, .9, .95)),
-    corr.se = .8,
-    corr.sp = .8)
+    reps = 1000,
+    seca = list("trapezoidal", c(.75, .85, .95, 1)),
+    seexp = list("trapezoidal", c(.7, .8, .9, .95)),
+    spca = list("trapezoidal", c(.75, .85, .95, 1)),
+    spexp = list("trapezoidal", c(.7, .8, .9, .95)),
+    corr_se = .8,
+    corr_sp = .8)
 ```
 
 ```
-## Chosen prior Se/Sp distributions lead to 4417 negative adjusted counts which were discarded.
+## ℹ Calculating observed measures
 ```
 
 ```
-## --Observed data-- 
-##          Outcome: BC+ 
-##        Comparing: Smoke+ vs. Smoke- 
+## ⠙ Assign probability distributions✔ Assign probability distributions [4ms]
+## ⠙ Simple bias analysis✔ Simple bias analysis [5ms]
+## ⠙ Incorporating random error                             ! Chosen Se/Sp distributions lead to 237 impossible values which were discarded.
+## ⠙ Incorporating random error✔ Incorporating random error [9ms]
 ## 
+## ── Observed data ───────────────────────────────────────────────────────────────
+## • Outcome: BC+
+## • Comparing: Smoke+ vs. Smoke-
+```
+
+```
 ##     Smoke+ Smoke-
 ## BC+     45     94
 ## BC-    257    945
-## 
 ##                                       2.5%    97.5%
 ##  Observed Relative Risk: 1.646999 1.182429 2.294094
 ##     Observed Odds Ratio: 1.760286 1.202457 2.576898
-## ---
-##                                                  Median 2.5th percentile
-##            Relative Risk -- systematic error:  2.914722         1.689526
-##               Odds Ratio -- systematic error:  3.528499         1.815519
-## Relative Risk -- systematic and random error:  2.978228         1.536538
-##    Odds Ratio -- systematic and random error:  3.623369         1.632743
-##                                               97.5th percentile
-##            Relative Risk -- systematic error:         10.216576
-##               Odds Ratio -- systematic error:         53.870702
-## Relative Risk -- systematic and random error:         10.512527
-##    Odds Ratio -- systematic and random error:         53.821351
+```
+
+```
+## ── Bias-adjusted measures ──
+```
+
+```
+##                                       Median      p2.5     p97.5
+## Relative Risk -- systematic error:  2.852781  1.818970  9.989526
+##                       total error:  2.949319  1.445876 10.371698
+##    Odds Ratio -- systematic error:  3.408745  1.978004 47.682809
+##                       total error:  3.549758  1.506608 70.880713
 ```
 
 Now, let’s say the sensitivity of self-reported smoking is 85% and specificity is 87%, for both the case and control groups. 
 
 
-```r
-misclassification(matrix(c(126, 92, 71, 224),
+``` r
+misclass(matrix(c(126, 92, 71, 224),
                          dimnames = list(c("Case", "Control"),
                                          c("Smoking +", "Smoking - ")),
                          nrow = 2, byrow = TRUE),
-                  type = "outcome",
+                  type = "exposure",
                   bias_parms = c(0.85, 0.85, 0.87, 0.87))
 ```
 
 ```
-## --Observed data-- 
-##          Outcome: Case 
-##        Comparing: Smoking + vs. Smoking -  
+## ── Observed data ───────────────────────────────────────────────────────────────
+```
+
+```
+## • Outcome: Case
+```
+
+```
+## • Comparing: Smoking + vs. Smoking -
+```
+
+```
 ## 
+```
+
+```
 ##         Smoking + Smoking - 
 ## Case          126         92
 ## Control        71        224
-## 
 ##                                      2.5%    97.5%
 ## Observed Relative Risk: 2.196866 1.796016 2.687181
 ##    Observed Odds Ratio: 4.320882 2.958402 6.310846
-## ---
-##                                                         
-## Misclassification Bias Corrected Relative Risk: 3.162445
-##    Misclassification Bias Corrected Odds Ratio: 8.399786
+```
+
+```
+## ── Bias-adjusted measures ──
+```
+
+```
+##                                                                2.5%     97.5%
+## Misclassification Bias Corrected Relative Risk:  3.021155                    
+##    Misclassification Bias Corrected Odds Ratio:  9.066669  4.737558 17.351656
 ```
 
 ## Other forms of bias analysis

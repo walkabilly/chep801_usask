@@ -17,11 +17,6 @@ library(knitr)
 library(epitools)
 ```
 
-### Loading the data
-```{r}
-data <- read_csv("Data.csv")
-```
-
 ### Bias analysis 
 
 The bias analysis work presented here and included in the `episensr` package is based on the FREE book below. For the purpose of this course we being very applied but there is an entire field of work dedicated to this area. 
@@ -120,11 +115,11 @@ Misclassification bias can be assessed with the function misclassification. Conf
 Similar to the selection bias example we can input the sensivity and specificity of the measures in the `bias_parms` function. Here were are saying they are 1 (ie., perfect measures).
 
 ```{r}
-misclassification(matrix(c(126, 92, 71, 224),
+misclass(matrix(c(126, 92, 71, 224),
                          dimnames = list(c("Case", "Control"),
                                          c("Smoking +", "Smoking - ")),
                          nrow = 2, byrow = TRUE),
-                  type = "outcome",
+                  type = "exposure",
                   bias_parms = c(1, 1, 1, 1))
 ```
 
@@ -133,7 +128,7 @@ Now, let’s say the sensitivity of self-reported smoking is 94% and specificity
 > The corrected OR increases to 5.02, which is 21% [= (4.02 − 3.32)/3.32] greater than the uncorrected OR. For this example, the nondifferential misclassification causes a notable bias toward the null, even for the very high Se and Sp. Furthermore, the 95% interval for the corrected OR is widened to (3.28 to 7.69), which is 10% [= (7.69/3.28)/(6.31/2.96) − 1] wider than the 95% interval for the uncorrected OR.
 
 ```{r}
-misclassification(matrix(c(126, 92, 71, 224),
+misclass(matrix(c(126, 92, 71, 224),
                          dimnames = list(c("Case", "Control"),
                                          c("Smoking +", "Smoking - ")),
                          nrow = 2, byrow = TRUE),
@@ -147,36 +142,40 @@ Here we have the relative risk and OR for various probabilities accounting for m
 
 ##### Non-differential missclassification
 ```{r}
+set.seed(100)
+
  probsens(matrix(c(126, 92, 71, 224),
     dimnames = list(c("Case", "Control"), c("Smoke+", "Smoke-")), nrow = 2, byrow = TRUE),
     type = "exposure",
-    reps = 20000,
-    seca.parms = list("trapezoidal", c(.75, .85, .95, 1)),
-    spca.parms = list("trapezoidal", c(.75, .85, .95, 1)))
+    reps = 1000,
+    seca = list("trapezoidal", c(.75, .85, .95, 1)),
+    spca = list("trapezoidal", c(.75, .85, .95, 1)))
 ```
 
 ##### Non-differential missclassification
 ```{r}
+set.seed(100)
+
 probsens(matrix(c(45, 94, 257, 945),
     dimnames = list(c("BC+", "BC-"), c("Smoke+", "Smoke-")), nrow = 2, byrow = TRUE),
     type = "exposure",
-    reps = 20000,
-    seca.parms = list("trapezoidal", c(.75, .85, .95, 1)),
-    seexp.parms = list("trapezoidal", c(.7, .8, .9, .95)),
-    spca.parms = list("trapezoidal", c(.75, .85, .95, 1)),
-    spexp.parms = list("trapezoidal", c(.7, .8, .9, .95)),
-    corr.se = .8,
-    corr.sp = .8)
+    reps = 1000,
+    seca = list("trapezoidal", c(.75, .85, .95, 1)),
+    seexp = list("trapezoidal", c(.7, .8, .9, .95)),
+    spca = list("trapezoidal", c(.75, .85, .95, 1)),
+    spexp = list("trapezoidal", c(.7, .8, .9, .95)),
+    corr_se = .8,
+    corr_sp = .8)
 ```
 
 Now, let’s say the sensitivity of self-reported smoking is 85% and specificity is 87%, for both the case and control groups. 
 
 ```{r}
-misclassification(matrix(c(126, 92, 71, 224),
+misclass(matrix(c(126, 92, 71, 224),
                          dimnames = list(c("Case", "Control"),
                                          c("Smoking +", "Smoking - ")),
                          nrow = 2, byrow = TRUE),
-                  type = "outcome",
+                  type = "exposure",
                   bias_parms = c(0.85, 0.85, 0.87, 0.87))
 ```
 
