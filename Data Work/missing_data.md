@@ -13,11 +13,11 @@ library(tidyverse)
 
 ```
 ## ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
-## ✔ dplyr     1.1.4     ✔ readr     2.1.5
-## ✔ forcats   1.0.0     ✔ stringr   1.5.2
-## ✔ ggplot2   3.5.2     ✔ tibble    3.3.0
-## ✔ lubridate 1.9.4     ✔ tidyr     1.3.1
-## ✔ purrr     1.1.0     
+## ✔ dplyr     1.2.1     ✔ readr     2.2.0
+## ✔ forcats   1.0.1     ✔ stringr   1.6.0
+## ✔ ggplot2   4.0.3     ✔ tibble    3.3.1
+## ✔ lubridate 1.9.5     ✔ tidyr     1.3.2
+## ✔ purrr     1.2.2     
 ## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
 ## ✖ dplyr::filter() masks stats::filter()
 ## ✖ dplyr::lag()    masks stats::lag()
@@ -222,7 +222,7 @@ data <- data %>% select(!(logical_cols))
 ##   data %>% select(all_of(logical_cols))
 ## 
 ## See <https://tidyselect.r-lib.org/reference/faq-external-vector.html>.
-## This warning is displayed once every 8 hours.
+## This warning is displayed once per session.
 ## Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
 ## generated.
 ```
@@ -271,6 +271,37 @@ When we are thinking about missing data mechanism, an upset plot can help us vis
 
 ``` r
 gg_miss_upset(data, order.by = "freq", nsets = 10)
+```
+
+```
+## Warning: `aes_string()` was deprecated in ggplot2 3.0.0.
+## ℹ Please use tidy evaluation idioms with `aes()`.
+## ℹ See also `vignette("ggplot2-in-packages")` for more information.
+## ℹ The deprecated feature was likely used in the UpSetR package.
+##   Please report the issue at <https://github.com/hms-dbmi/UpSetR/issues>.
+## This warning is displayed once per session.
+## Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
+## generated.
+```
+
+```
+## Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
+## ℹ Please use `linewidth` instead.
+## ℹ The deprecated feature was likely used in the UpSetR package.
+##   Please report the issue at <https://github.com/hms-dbmi/UpSetR/issues>.
+## This warning is displayed once per session.
+## Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
+## generated.
+```
+
+```
+## Warning: The `size` argument of `element_line()` is deprecated as of ggplot2 3.4.0.
+## ℹ Please use the `linewidth` argument instead.
+## ℹ The deprecated feature was likely used in the UpSetR package.
+##   Please report the issue at <https://github.com/hms-dbmi/UpSetR/issues>.
+## This warning is displayed once per session.
+## Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
+## generated.
 ```
 
 ![](missing_data_files/figure-html/unnamed-chunk-11-1.png)<!-- -->
@@ -355,7 +386,7 @@ summary(data$PA_TOTAL_SHORT)
 ```
 
 ```
-##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.     NAs 
 ##       0     600    1782    2574    3732   19278    6763
 ```
 
@@ -491,7 +522,7 @@ summary(data_pa_imp$PA_TOTAL_SHORT)
 ```
 
 ```
-##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.     NAs 
 ##       0     600    1782    2574    3732   19278    6763
 ```
 
@@ -530,7 +561,7 @@ summary(data_pa_imp$DIS_ASTHMA_EVER)
 ```
 
 ```
-##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.     NAs 
 ##  0.0000  0.0000  0.0000  0.2039  0.0000  2.0000    1228
 ```
 
