@@ -231,6 +231,28 @@ univ_table <- data_working %>%
 univ_table %>% as_kable()
 ```
 
+## Forward variable selection
+
+```{r}
+# Full model
+mod_full <- glm(diabetes_t2 ~ bmi_overweight + age_45 + pa_cat + latinx + indigenous + black + fatty_liver, data = data_working, family = "binomial")
+
+data_working <- model.frame(mod_full, data = data_working) |>
+          na.omit()
+
+# Null model
+mod0 <- glm(diabetes_t2 ~ 1, data = data_working, family = "binomial")
+
+# Backward selection
+mod_forward <- step(
+  mod0,
+  scope = list(lower = mod0, upper = mod_full),
+  direction = "forward"
+)
+
+summary(mod_forward)
+```
+
 ### Percent change
 
 ### Another way to assess for confounding effect 

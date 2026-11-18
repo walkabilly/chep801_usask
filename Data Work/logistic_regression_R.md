@@ -450,6 +450,114 @@ univ_table %>% as_kable()
 |No                  |        |   —    |     —      |             |
 |Yes                 |        |  2.05  | 1.33, 3.03 |   <0.001    |
 
+## Forward variable selection
+
+
+``` r
+# Full model
+mod_full <- glm(diabetes_t2 ~ bmi_overweight + age_45 + pa_cat + latinx + indigenous + black + fatty_liver, data = data_working, family = "binomial")
+
+data_working <- model.frame(mod_full, data = data_working) |>
+          na.omit()
+
+# Null model
+mod0 <- glm(diabetes_t2 ~ 1, data = data_working, family = "binomial")
+
+# Backward selection
+mod_forward <- step(
+  mod0,
+  scope = list(lower = mod0, upper = mod_full),
+  direction = "forward"
+)
+```
+
+```
+## Start:  AIC=10089.95
+## diabetes_t2 ~ 1
+## 
+##                  Df Deviance     AIC
+## + age_45          1   9887.9  9891.9
+## + bmi_overweight  1   9943.8  9947.8
+## + pa_cat          2  10059.5 10065.5
+## + black           1  10081.3 10085.3
+## <none>               10088.0 10090.0
+## + latinx          1  10086.7 10090.7
+## + fatty_liver     1  10087.6 10091.6
+## + indigenous      1  10087.9 10091.9
+## 
+## Step:  AIC=9891.94
+## diabetes_t2 ~ age_45
+## 
+##                  Df Deviance    AIC
+## + bmi_overweight  1   9761.7 9767.7
+## + pa_cat          2   9854.6 9862.6
+## + black           1   9879.2 9885.2
+## <none>                9887.9 9891.9
+## + latinx          1   9887.0 9893.0
+## + fatty_liver     1   9887.4 9893.4
+## + indigenous      1   9887.8 9893.8
+## 
+## Step:  AIC=9767.73
+## diabetes_t2 ~ age_45 + bmi_overweight
+## 
+##               Df Deviance    AIC
+## + pa_cat       2   9735.1 9745.1
+## + black        1   9752.2 9760.2
+## <none>             9761.7 9767.7
+## + latinx       1   9761.0 9769.0
+## + fatty_liver  1   9761.0 9769.0
+## + indigenous   1   9761.7 9769.7
+## 
+## Step:  AIC=9745.12
+## diabetes_t2 ~ age_45 + bmi_overweight + pa_cat
+## 
+##               Df Deviance    AIC
+## + black        1   9725.5 9737.5
+## <none>             9735.1 9745.1
+## + latinx       1   9734.5 9746.5
+## + fatty_liver  1   9734.5 9746.5
+## + indigenous   1   9735.0 9747.0
+## 
+## Step:  AIC=9737.54
+## diabetes_t2 ~ age_45 + bmi_overweight + pa_cat + black
+## 
+##               Df Deviance    AIC
+## <none>             9725.5 9737.5
+## + latinx       1   9724.8 9738.8
+## + fatty_liver  1   9725.0 9739.0
+## + indigenous   1   9725.5 9739.5
+```
+
+``` r
+summary(mod_forward)
+```
+
+```
+## 
+## Call:
+## glm(formula = diabetes_t2 ~ age_45 + bmi_overweight + pa_cat + 
+##     black, family = "binomial", data = data_working)
+## 
+## Coefficients:
+##                           Estimate Std. Error z value Pr(>|z|)    
+## (Intercept)               -3.01510    0.07536 -40.007  < 2e-16 ***
+## age_45Under 45            -1.05052    0.08577 -12.248  < 2e-16 ***
+## bmi_overweightOverweight   0.71004    0.06818  10.414  < 2e-16 ***
+## pa_cat2_Moderate Activity -0.13054    0.07083  -1.843  0.06531 .  
+## pa_cat3_High Activity     -0.35979    0.07107  -5.062 4.14e-07 ***
+## blackYes                   0.67014    0.19925   3.363  0.00077 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 10088.0  on 24542  degrees of freedom
+## Residual deviance:  9725.5  on 24537  degrees of freedom
+## AIC: 9737.5
+## 
+## Number of Fisher Scoring iterations: 6
+```
+
 ### Percent change
 
 ### Another way to assess for confounding effect 
@@ -496,7 +604,7 @@ chest_plot(results)
 ## `height` was translated to `width`.
 ```
 
-![](logistic_regression_R_files/figure-html/unnamed-chunk-11-1.png)<!-- -->
+![](logistic_regression_R_files/figure-html/unnamed-chunk-12-1.png)<!-- -->
 According to % change in coefficient of physical activity, none of the included variables is considered a confounder. 
 
 #### Model diagnostics
@@ -543,7 +651,6 @@ summary(model_final)
 ## 
 ##     Null deviance: 10088.0  on 24542  degrees of freedom
 ## Residual deviance:  9724.1  on 24534  degrees of freedom
-##   (14849 observations deleted due to missingness)
 ## AIC: 9742.1
 ## 
 ## Number of Fisher Scoring iterations: 6
@@ -601,7 +708,7 @@ plot_model(model_final, type="est")
 ## generated.
 ```
 
-![](logistic_regression_R_files/figure-html/unnamed-chunk-12-1.png)<!-- -->
+![](logistic_regression_R_files/figure-html/unnamed-chunk-13-1.png)<!-- -->
 
 
 ``` r
@@ -680,7 +787,6 @@ summary(model_interaction)
 ## 
 ##     Null deviance: 10088.0  on 24542  degrees of freedom
 ## Residual deviance:  9723.3  on 24533  degrees of freedom
-##   (14849 observations deleted due to missingness)
 ## AIC: 9743.3
 ## 
 ## Number of Fisher Scoring iterations: 11
@@ -710,8 +816,8 @@ table(data_working$black, data_working$fatty_liver)
 ```
 ##      
 ##          No   Yes
-##   No  35926   223
-##   Yes   512     6
+##   No  24054   153
+##   Yes   332     4
 ```
 
 We wanted to run the interaction term but we have a very small cell size in Black=yes and Fatty liver=yes so our model is not happy. The estimate of -10 is a big red flag. The OR would be 4.539993\times 10^{-5} a implausibly small OR. So no interaction I guess. 
@@ -729,13 +835,13 @@ In the saved model result `model_final` we have a bunch of nice information we c
 effect_plot(model_final, pred = black, interval = TRUE) ## Black 
 ```
 
-![](logistic_regression_R_files/figure-html/unnamed-chunk-15-1.png)<!-- -->
+![](logistic_regression_R_files/figure-html/unnamed-chunk-16-1.png)<!-- -->
 
 ``` r
 effect_plot(model_final, pred = pa_cat, interval = TRUE) ## Physical Activity 
 ```
 
-![](logistic_regression_R_files/figure-html/unnamed-chunk-15-2.png)<!-- -->
+![](logistic_regression_R_files/figure-html/unnamed-chunk-16-2.png)<!-- -->
 
 Our plots show us that there is likely a different between the three levels of PA but we don't a statistical test to examine that difference. They look different visually but the confidence intervals overlap. 
 
@@ -765,7 +871,7 @@ From the regression result we know there is a difference between low activity an
 plot(pa_cat_emm, comparisons = TRUE)
 ```
 
-![](logistic_regression_R_files/figure-html/unnamed-chunk-17-1.png)<!-- -->
+![](logistic_regression_R_files/figure-html/unnamed-chunk-18-1.png)<!-- -->
 
 
 
