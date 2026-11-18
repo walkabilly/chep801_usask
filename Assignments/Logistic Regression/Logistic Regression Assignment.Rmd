@@ -47,6 +47,8 @@ Your task in this analysis is to determine which variables should be included in
 
 5. Evaluate the model and indicate if there are any issues with the reliability of the model, and if the model meets the assumptions of logistic regression. Use regression diagnostics.
 
+    * [Code available here](https://github.com/walkabilly/chep801_usask/blob/main/Lecture_mis/Lecture_Regression1/Regression_AssumptionOLS.md)
+
 ## Part 2 - Format and Effort 
 
 ### General Formatting
