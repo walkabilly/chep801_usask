@@ -36,24 +36,17 @@ Your task in this analysis is to determine which variables should be included in
 3. Assess potential confounding variables on the relationship between the outcome and exposure of interest using two approaches we learned in class:  
 
     * A DAG based approach
-        * Pick confounder variables from DAG first, list 2-3 confounders (or more if you want) in DAG. Do not pick Collider.
+        * Pick confounder variables from DAG first, list 2-3 confounders (or more if you want) in DAG.
         * Identify at least one variable that MUST stay in your model no matter what, because it is important based on your DAG. Give 1-2 sentence explanation for retaining such variable(s).
     * A data driven/model fit approach
         * Use a data drive approach (e.g., p < 0.2, percent change in outcome p value) to examine if the 2-3 coufounders you identified are confounders. This approach can be based on the change in association between exposure and outcome method or some other criteria related to the association between the confounder and the exposure and outcome. 
 
-4. Conduct cross-tabulations of the outcome variable with categorical predictors.
-
-    * Are you concerned about any of the cell sizes?  
-
-5. Identify and fit the best model evaluating the association between your exposure and outcome of interest. Describe why you included/excluded predictors and how you compared between models to arrive at your final model.  
+4. Identify and fit the best model evaluating the association between your exposure and outcome of interest. Describe why you included/excluded predictors and how you compared between models to arrive at your final model.  
 
     * Insert your model output below. 
     * Interpret each of the coefficients and odds ratios.   
 
-6. Evaluate the model and indicate if there are any issues with the reliability of the model, and if the model meets the assumptions of logistic regression. Use regression diagnostics. 
-
-    * For the rest of the variables you picked, use them to drop some (or all) using model selection, either using AIC, BIC, or likelihood ratio test. Remember, the likelihood ratio test can be only used for comparing nested models.
-    * Present one or two final models with appropriate conclusion.
+5. Evaluate the model and indicate if there are any issues with the reliability of the model, and if the model meets the assumptions of logistic regression. Use regression diagnostics.
 
 ## Part 2 - Format and Effort 
 
