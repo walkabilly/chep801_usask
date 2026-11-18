@@ -13,10 +13,11 @@ library(finalfit)
 library(knitr)
 library(jtools)
 library(marginaleffects)
+library(chest)
 library(lindia)
 library(emmeans)
 library(gtsummary)
-data <- read_csv("Data.csv")
+data <- read_csv("CANPATH_data.csv")
 ```
 
 ### 1. Logistic Regression
@@ -229,6 +230,22 @@ univ_table <- data_working %>%
 
 univ_table %>% as_kable()
 ```
+
+### Percent change
+
+### Another way to assess for confounding effect 
+
+```{r, warning=FALSE}
+vlist <- c("age_45", "pa_cat" , "latinx", "indigenous", "black" , "fatty_liver")
+results <- chest_glm(crude = "diabetes_t2 ~ bmi_overweight", xlist = vlist, family = "binomial",
+          data = data_working, indicate = TRUE)
+results
+```
+
+```{r, warning=FALSE}
+chest_plot(results)
+```
+According to % change in coefficient of physical activity, none of the included variables is considered a confounder. 
 
 #### Model diagnostics
 

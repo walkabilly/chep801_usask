@@ -35,7 +35,7 @@ We have created a DAG and identified that the following factors are associated w
 Let's simplify the dataset so we are not working with so many variables. 
 
 
-```r
+``` r
 data_working <- select(data, "DIS_DIAB_TYPE", "PM_BMI_SR", "SDC_AGE_CALC", "PA_LEVEL_SHORT", "SDC_EB_ABORIGINAL", "SDC_EB_LATIN", "SDC_EB_BLACK", "DIS_LIVER_FATTY_EVER")
 
 rm(data) ### Remove the old data from working memory
@@ -46,7 +46,7 @@ rm(data) ### Remove the old data from working memory
 Let's look at the outcome variable, recode, and drop observations that are not relevant. We know that the GLM function needs a 0/1 variable and we want to recode that way now so we don't need to change it after. We also know we want to keep our gestational diabetes variable because we need it later. 
 
 
-```r
+``` r
 table(data_working$DIS_DIAB_TYPE)
 ```
 
@@ -56,7 +56,7 @@ table(data_working$DIS_DIAB_TYPE)
 ## 36807   315  2160   425
 ```
 
-```r
+``` r
 data_working <- data_working %>%
 	mutate(diabetes_t2 = case_when(
     DIS_DIAB_TYPE == 2 ~ 1,
@@ -76,7 +76,7 @@ table(data_working$diabetes_t2, data_working$DIS_DIAB_TYPE)
 ##   1     0     0  2160     0
 ```
 
-```r
+``` r
 data_working <- data_working %>%
 	mutate(diabetes_gestat = case_when(
     DIS_DIAB_TYPE == 3 ~ 1,
@@ -97,7 +97,7 @@ For logistic regression in the case of a cross-section study we want the outcome
 **BMI overweight**
 
 
-```r
+``` r
 glimpse(data_working$PM_BMI_SR)
 ```
 
@@ -105,16 +105,16 @@ glimpse(data_working$PM_BMI_SR)
 ##  num [1:39392] NA 28.3 25.5 44.8 NA ...
 ```
 
-```r
+``` r
 summary(data_working$PM_BMI_SR) ### Lots of NAs! 
 ```
 
 ```
-##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.     NAs 
 ##    8.86   23.34   26.58   27.53   30.52   69.40   11124
 ```
 
-```r
+``` r
 data_working <- data_working %>%
 	mutate(bmi_overweight = case_when(
 	  PM_BMI_SR >= 25.00 ~ "Overweight",
@@ -133,7 +133,7 @@ table(data_working$bmi_overweight)
 **Age**
 
 
-```r
+``` r
 glimpse(data_working$SDC_AGE_CALC)
 ```
 
@@ -141,7 +141,7 @@ glimpse(data_working$SDC_AGE_CALC)
 ##  num [1:39392] 47 57 62 64 40 36 63 58 60 41 ...
 ```
 
-```r
+``` r
 summary(data_working$SDC_AGE_CALC) ### Lots of NAs! 
 ```
 
@@ -150,7 +150,7 @@ summary(data_working$SDC_AGE_CALC) ### Lots of NAs!
 ##    30.0    43.0    52.0    51.5    60.0    74.0
 ```
 
-```r
+``` r
 data_working <- data_working %>%
 	mutate(age_45 = case_when(
 	  SDC_AGE_CALC >= 45.00 ~ "Over 45",
@@ -169,7 +169,7 @@ table(data_working$age_45)
 **Physical Activity**
 
 
-```r
+``` r
 glimpse(data_working$PA_LEVEL_SHORT)
 ```
 
@@ -177,7 +177,7 @@ glimpse(data_working$PA_LEVEL_SHORT)
 ##  num [1:39392] 3 1 NA NA NA 3 1 NA 3 3 ...
 ```
 
-```r
+``` r
 table(data_working$PA_LEVEL_SHORT)
 ```
 
@@ -187,7 +187,7 @@ table(data_working$PA_LEVEL_SHORT)
 ##  9538 10606 13140
 ```
 
-```r
+``` r
 data_working <- data_working %>%
 	mutate(pa_cat = case_when(
 		PA_LEVEL_SHORT == 1 ~ "1_Low Activity",
@@ -209,7 +209,7 @@ table(data_working$pa_cat, data_working$PA_LEVEL_SHORT)
 **Racialized**
 
 
-```r
+``` r
 table(data_working$SDC_EB_ABORIGINAL)
 ```
 
@@ -219,7 +219,7 @@ table(data_working$SDC_EB_ABORIGINAL)
 ## 35331  1351
 ```
 
-```r
+``` r
 table(data_working$SDC_EB_LATIN)
 ```
 
@@ -229,7 +229,7 @@ table(data_working$SDC_EB_LATIN)
 ## 36221   451
 ```
 
-```r
+``` r
 table(data_working$SDC_EB_BLACK)
 ```
 
@@ -239,7 +239,7 @@ table(data_working$SDC_EB_BLACK)
 ## 36149   518
 ```
 
-```r
+``` r
 ### Latinx
 
 data_working <- data_working %>%
@@ -258,7 +258,7 @@ table(data_working$SDC_EB_LATIN, data_working$latinx)
 ##   1     0   451
 ```
 
-```r
+``` r
 ### Indigenous
 
 data_working <- data_working %>%
@@ -277,7 +277,7 @@ table(data_working$SDC_EB_ABORIGINAL, data_working$indigenous)
 ##   1     0  1351
 ```
 
-```r
+``` r
 ### Black
 
 data_working <- data_working %>%
@@ -299,7 +299,7 @@ table(data_working$SDC_EB_BLACK, data_working$black)
 **Fatty liver disease**
 
 
-```r
+``` r
 table(data_working$DIS_LIVER_FATTY_EVER)
 ```
 
@@ -309,7 +309,7 @@ table(data_working$DIS_LIVER_FATTY_EVER)
 ##  50 199
 ```
 
-```r
+``` r
 data_working <- data_working %>%
 	mutate(fatty_liver = case_when(
 		DIS_LIVER_FATTY_EVER == 1 ~ "Yes",
@@ -339,7 +339,7 @@ table(data_working$fatty_liver)
 We want to start by doing bivariable regression on the outcome and each variable. This can a be a bit of a process if we have lots of variables. Here we are using the `glm` (General Linear Model) function. 
 
 
-```r
+``` r
 table(data_working$diabetes_t2, data_working$bmi_overweight)
 ```
 
@@ -350,7 +350,7 @@ table(data_working$diabetes_t2, data_working$bmi_overweight)
 ##   1            349       1144
 ```
 
-```r
+``` r
 model_weight <- glm(diabetes_t2 ~ bmi_overweight, data = data_working, family = "binomial")
 summary(model_weight)
 ```
@@ -360,10 +360,6 @@ summary(model_weight)
 ## Call:
 ## glm(formula = diabetes_t2 ~ bmi_overweight, family = "binomial", 
 ##     data = data_working)
-## 
-## Deviance Residuals: 
-##     Min       1Q   Median       3Q      Max  
-## -0.3680  -0.3680  -0.3680  -0.2598   2.6100  
 ## 
 ## Coefficients:
 ##                          Estimate Std. Error z value Pr(>|z|)    
@@ -382,7 +378,7 @@ summary(model_weight)
 ## Number of Fisher Scoring iterations: 6
 ```
 
-```r
+``` r
 exp(cbind(coef(model_weight), confint(model_weight))) ## Old school way
 ```
 
@@ -396,7 +392,7 @@ exp(cbind(coef(model_weight), confint(model_weight))) ## Old school way
 ## bmi_overweightOverweight 2.04175987 1.80871009 2.31048759
 ```
 
-```r
+``` r
 model_weight_table <- tbl_regression(model_weight, exponentiate = TRUE) 
 
 model_weight_table %>% as_kable()
@@ -415,7 +411,7 @@ There are advantages and disadvantages to different was to display models. The `
 We always want to look at all of the bivariate associations for each independent variable. We can do this quickly with the final fit package. For now ignore the multivariable model results. We just want to look at the bivariable. 
 
 
-```r
+``` r
 univ_table <- data_working %>%
   select(diabetes_t2, bmi_overweight, age_45, pa_cat, latinx, indigenous, black, fatty_liver) %>%
   tbl_uvregression(
@@ -454,6 +450,55 @@ univ_table %>% as_kable()
 |No                  |        |   —    |     —      |             |
 |Yes                 |        |  2.05  | 1.33, 3.03 |   <0.001    |
 
+### Percent change
+
+### Another way to assess for confounding effect 
+
+
+``` r
+vlist <- c("age_45", "pa_cat" , "latinx", "indigenous", "black" , "fatty_liver")
+results <- chest_glm(crude = "diabetes_t2 ~ bmi_overweight", xlist = vlist, family = "binomial",
+          data = data_working, indicate = TRUE)
+```
+
+```
+##  2 out of 7 3 out of 7 4 out of 7 5 out of 7 6 out of 7 7 out of 7
+```
+
+``` r
+results
+```
+
+```
+## $data
+##         variables      est       lb       ub      Change            p     n
+## 1           Crude 2.158486 1.892494 2.469171          NA 8.018021e-30 24543
+## 2        + age_45 2.064424 1.809215 2.362566 -4.35779505 1.714371e-26 24543
+## 3        + pa_cat 2.028837 1.777641 2.322315 -1.72379210 3.068753e-25 24543
+## 4         + black 2.034081 1.782148 2.328429  0.25844063 2.146154e-25 24543
+## 5   + fatty_liver 2.035133 1.783051 2.329659  0.05173910 1.999638e-25 24543
+## 6    + indigenous 2.034673 1.782628 2.329157 -0.02260274 2.089042e-25 24543
+## 7        + latinx 2.034330 1.782327 2.328765 -0.01687220 2.144693e-25 24543
+## 
+## $fun
+## [1] "chest_glm"
+## 
+## $family
+## [1] "binomial"
+```
+
+
+``` r
+chest_plot(results)
+```
+
+```
+## `height` was translated to `width`.
+```
+
+![](logistic_regression_R_files/figure-html/unnamed-chunk-11-1.png)<!-- -->
+According to % change in coefficient of physical activity, none of the included variables is considered a confounder. 
+
 #### Model diagnostics
 
 We are not going to get into model selection at this point in the course (more on that later). For now, we want to get as much info as we can about our models. We will work on visualizing the results of the logistic regression, estimating marginal means, and saving predicted values. 
@@ -461,7 +506,7 @@ We are not going to get into model selection at this point in the course (more o
 Let's run our final model with all variables. We are going to assume here that we have a solid DAG for this study design and model. 
 
 
-```r
+``` r
 model_final <- glm(diabetes_t2 ~ bmi_overweight + 
                                   age_45 + 
                                   pa_cat + 
@@ -479,10 +524,6 @@ summary(model_final)
 ## glm(formula = diabetes_t2 ~ bmi_overweight + age_45 + pa_cat + 
 ##     latinx + indigenous + black + fatty_liver, family = "binomial", 
 ##     data = data_working)
-## 
-## Deviance Residuals: 
-##     Min       1Q   Median       3Q      Max  
-## -0.6721  -0.4094  -0.2901  -0.2454   2.9792  
 ## 
 ## Coefficients:
 ##                           Estimate Std. Error z value Pr(>|z|)    
@@ -508,7 +549,7 @@ summary(model_final)
 ## Number of Fisher Scoring iterations: 6
 ```
 
-```r
+``` r
 multi_table <- tbl_regression(model_final, exponentiate = TRUE) 
 
 multi_table %>% as_kable()
@@ -541,7 +582,7 @@ multi_table %>% as_kable()
 |No                  |   —    |     —      |             |
 |Yes                 |  1.30  | 0.64, 2.36 |     0.4     |
 
-```r
+``` r
 plot_model(model_final, type="est")
 ```
 
@@ -550,10 +591,20 @@ plot_model(model_final, type="est")
 ##   Use `ci_method="wald"` for faster computation of CIs.
 ```
 
-![](logistic_regression_R_files/figure-html/unnamed-chunk-10-1.png)<!-- -->
+```
+## Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
+## ℹ Please use `linewidth` instead.
+## ℹ The deprecated feature was likely used in the sjPlot package.
+##   Please report the issue at <https://github.com/strengejacke/sjPlot/issues>.
+## This warning is displayed once per session.
+## Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
+## generated.
+```
+
+![](logistic_regression_R_files/figure-html/unnamed-chunk-12-1.png)<!-- -->
 
 
-```r
+``` r
 tbl_univ_multi <- tbl_merge(list(univ_table, multi_table))
 
 tbl_univ_multi %>% as_kable()
@@ -591,7 +642,7 @@ When we visually compare the ORs for `Black` and `Fatty Liver` we see that there
 Let's check if there is a interaction between those variables 
 
 
-```r
+``` r
 model_interaction <- glm(diabetes_t2 ~ bmi_overweight + 
                                   age_45 + 
                                   pa_cat + 
@@ -609,10 +660,6 @@ summary(model_interaction)
 ## glm(formula = diabetes_t2 ~ bmi_overweight + age_45 + pa_cat + 
 ##     latinx + indigenous + black * fatty_liver, family = "binomial", 
 ##     data = data_working)
-## 
-## Deviance Residuals: 
-##     Min       1Q   Median       3Q      Max  
-## -0.6125  -0.4094  -0.2901  -0.2454   2.9794  
 ## 
 ## Coefficients:
 ##                            Estimate Std. Error z value Pr(>|z|)    
@@ -639,33 +686,24 @@ summary(model_interaction)
 ## Number of Fisher Scoring iterations: 11
 ```
 
-```r
+``` r
 interaction_table <- tbl_regression(model_interaction, exponentiate = TRUE) %>% as_kable()
 ```
 
 ```
 ## Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
-
 ## Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
-
 ## Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
-
 ## Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
-
 ## Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
-
 ## Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
-
 ## Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
-
 ## Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
-
 ## Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
-
 ## Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
 ```
 
-```r
+``` r
 table(data_working$black, data_working$fatty_liver)
 ```
 
@@ -687,24 +725,24 @@ In the saved model result `model_final` we have a bunch of nice information we c
 **Plot of Black predicted probabilities of diabetes
 
 
-```r
+``` r
 effect_plot(model_final, pred = black, interval = TRUE) ## Black 
 ```
 
-![](logistic_regression_R_files/figure-html/unnamed-chunk-13-1.png)<!-- -->
+![](logistic_regression_R_files/figure-html/unnamed-chunk-15-1.png)<!-- -->
 
-```r
+``` r
 effect_plot(model_final, pred = pa_cat, interval = TRUE) ## Physical Activity 
 ```
 
-![](logistic_regression_R_files/figure-html/unnamed-chunk-13-2.png)<!-- -->
+![](logistic_regression_R_files/figure-html/unnamed-chunk-15-2.png)<!-- -->
 
 Our plots show us that there is likely a different between the three levels of PA but we don't a statistical test to examine that difference. They look different visually but the confidence intervals overlap. 
 
 We can use marginal means to test the difference between the groups within a variable after we have done a regression analysis. Here we have the difference between the means of physical activity levels using the models, meaning over the levels of the other covariates in our model. Here we are using this tutorial [https://cran.r-project.org/web/packages/emmeans/vignettes/comparisons.html](https://cran.r-project.org/web/packages/emmeans/vignettes/comparisons.html)
 
 
-```r
+``` r
 pa_cat_emm <- emmeans(model_final, "pa_cat")
 pairs(pa_cat_emm)
 ```
@@ -712,7 +750,7 @@ pairs(pa_cat_emm)
 ```
 ##  contrast                              estimate     SE  df z.ratio p.value
 ##  1_Low Activity - 2_Moderate Activity     0.130 0.0708 Inf   1.839  0.1569
-##  1_Low Activity - 3_High Activity         0.359 0.0711 Inf   5.042  <.0001
+##  1_Low Activity - 3_High Activity         0.359 0.0711 Inf   5.042 <0.0001
 ##  2_Moderate Activity - 3_High Activity    0.228 0.0704 Inf   3.245  0.0034
 ## 
 ## Results are averaged over the levels of: bmi_overweight, age_45, latinx, indigenous, black, fatty_liver 
@@ -723,11 +761,11 @@ pairs(pa_cat_emm)
 From the regression result we know there is a difference between low activity and high activity, and no difference between low activity and moderate activity. What we don't know is if there is a difference between moderate activity and high activity. Here we can see that there is a difference between moderate and high activity. 
 
 
-```r
+``` r
 plot(pa_cat_emm, comparisons = TRUE)
 ```
 
-![](logistic_regression_R_files/figure-html/unnamed-chunk-15-1.png)<!-- -->
+![](logistic_regression_R_files/figure-html/unnamed-chunk-17-1.png)<!-- -->
 
 
 
